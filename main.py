@@ -22,7 +22,7 @@ class GUI:
         ## EXPERIMENT
 
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
-                             self.settings.width*0.95, self.settings.height*0.95, outline = '#fff176', width = 2, activewidth = 4)
+                             self.settings.width*0.95, self.settings.height*0.98, outline = '#fff176', width = 2, activewidth = 4)
         
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
                              self.settings.width*0.95, self.settings.height*0.12, outline = '#fff176', width = 2, fill = '#fff176')
@@ -35,12 +35,23 @@ class GUI:
         
         
         #Enable button
-        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.47, self.settings.width*0.90, self.settings.height*0.60, outline = '#00ff66', width = 2, fill = 'black')    
+        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.53, self.settings.width*0.90, self.settings.height*0.64, outline = '#00ff66', width = 2, fill = 'black')    
         
-        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.62, self.settings.width*0.90, self.settings.height*0.75, outline = '#0066ff', width = 2, fill = 'black') 
+        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.66, self.settings.width*0.90, self.settings.height*0.79, outline = '#0066ff', width = 2, fill = 'black') 
         
-        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.77, self.settings.width*0.90, self.settings.height*0.90, outline = '#ff3300', width = 2, fill = 'black') 
-    
+        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.81, self.settings.width*0.90, self.settings.height*0.94, outline = '#ff3300', width = 2, fill = 'black') 
+
+        self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.955, 
+                             self.settings.width*0.90, self.settings.height*0.955, outline = '', fill = '#fff176')
+        
+        self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.955, 
+                             self.settings.width*0.1, self.settings.height*0.96, outline = '', fill = '#fff176')
+        
+        self.canvas.create_rectangle(self.settings.width*0.90, self.settings.height*0.955, 
+                             self.settings.width*0.90, self.settings.height*0.96, outline = '', fill = '#fff176')
+        
+        self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.96, 
+                             self.settings.width*0.90, self.settings.height*0.96, outline = '', fill = '#fff176')
     
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):    
         points = (x1+r, y1, x1+r, y1, x2-r, y1, x2-r, y1, x2, y1, x2, y1+r,
