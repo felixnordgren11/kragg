@@ -35,7 +35,7 @@ class GUI:
         
         
         #Enable button
-        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.53, self.settings.width*0.90, self.settings.height*0.64, outline = '#00ff66', width = 2, fill = 'black')    
+        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.51, self.settings.width*0.90, self.settings.height*0.64, outline = '#00ff66', width = 2, fill = 'black')    
         
         self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.66, self.settings.width*0.90, self.settings.height*0.79, outline = '#0066ff', width = 2, fill = 'black') 
         
