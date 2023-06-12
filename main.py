@@ -29,23 +29,8 @@ class GUI:
 
         self.root.bind_all("<Key>", self.key)
         self.root.bind_all("<Button-1>", self.callback)
-        self.canvas.focus_set()
-        
-
-        # EXPERIMENT
-
-        self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
-                             self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4)
-        
-        self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
-                             self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
-        
-        self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
-                             self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)
-        
-        ##
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Ett järn, två jamare', font = ('Small Fonts', 20), fill = 'black')   
-        
+        self.canvas.focus_set() 
+        self.draw_border()
         
         #Enable buttons
         self.btns = {}
@@ -59,19 +44,19 @@ class GUI:
             
             
 
-
-        self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.955, 
-                             self.settings.width*0.90, self.settings.height*0.955, outline = '', fill = self.settings.border_color)
+    def draw_border(self):
         
-        self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.955, 
-                             self.settings.width*0.1, self.settings.height*0.96, outline = '', fill = self.settings.border_color)
-        
-        self.canvas.create_rectangle(self.settings.width*0.90, self.settings.height*0.955, 
-                             self.settings.width*0.90, self.settings.height*0.96, outline = '', fill = self.settings.border_color)
-        
-        self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.96, 
-                             self.settings.width*0.90, self.settings.height*0.96, outline = '', fill = self.settings.border_color)
+        self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
+                             self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4)
+        self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
+                             self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
+        self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
+                             self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
+        ##
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Ett järn, två jamare', font = ('Small Fonts', 20), fill = 'black')  
     
+
+
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):    
         points = (x1+r, y1, x1+r, y1, x2-r, y1, x2-r, y1, x2, y1, x2, y1+r,
                 x2, y1+r, x2, y2-r, x2, y2-r, x2, y2, x2-r, y2, x2-r, y2,
