@@ -38,8 +38,8 @@ class GUI:
         
         
         #Enable button
-        for btn in self.settings.buttonsettings.values():
-            a = Button(self.canvas, **btn)
+        for label, btn in self.settings.buttonsettings.items():
+            a = Button(self.canvas, label, **btn)
             a.draw()
 
 
