@@ -3,6 +3,9 @@ NAWRAHL CABON BRAINWOW
 '''
 import tkinter as tk
 from settings import Settings
+from settings import Fact, Lie
+from button import Button
+
 
 class GUI:
     '''
@@ -31,16 +34,14 @@ class GUI:
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = '#fff176')
         
         ##
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Bacon narwhal', font = ('MS UI Gothic', 20), fill = 'black')   
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Bacon narwhal', font = ('Comic Sans MS', 20), fill = 'black')   
         
         
-        ## BUTTONS
-        
-        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.51, self.settings.width*0.90, self.settings.height*0.64, outline = '#00ff66', width = 2, fill = 'black')    
-        
-        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.66, self.settings.width*0.90, self.settings.height*0.79, outline = '#0066ff', width = 2, fill = 'black') 
-        
-        self.round_rectangle(self.canvas, self.settings.width*0.1, self.settings.height*0.81, self.settings.width*0.90, self.settings.height*0.94, outline = '#ff3300', width = 2, fill = 'black') 
+        #Enable button
+        for btn in self.settings.buttonsettings.values():
+            a = Button(self.canvas, **btn)
+            a.draw()
+
 
         self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.955, 
                              self.settings.width*0.90, self.settings.height*0.955, outline = '', fill = '#fff176')
@@ -53,8 +54,6 @@ class GUI:
         
         self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.96, 
                              self.settings.width*0.90, self.settings.height*0.96, outline = '', fill = '#fff176')
-        ##
-        
     
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):    
         points = (x1+r, y1, x1+r, y1, x2-r, y1, x2-r, y1, x2, y1, x2, y1+r,
