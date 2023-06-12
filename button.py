@@ -1,10 +1,12 @@
+import tkinter as tk
 
 class Button:
 
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, label, **kwargs):
         '''Instantiates the button according to the given data
         '''
         self.master = master
+        self.labeltext = tk.text
         self.kwargs = kwargs
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):    
@@ -17,4 +19,8 @@ class Button:
     def draw(self):
         '''Draw button on screen. 
         '''
-        return self.round_rectangle(self.master, **self.kwargs) 
+        self.label = tk.Label(self.master, textvariable=self.labeltext)
+        self.label.place(x = (self.kwargs['x1'] + self.kwargs['x2'])/2, y= (self.kwargs['y1'] + self.kwargs['y2'])/2, anchor='center')
+        return self.round_rectangle(self.master, **self.kwargs)
+
+    
