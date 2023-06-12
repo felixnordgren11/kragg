@@ -1,4 +1,5 @@
 import tkinter as tk
+from settings import *
 
 class Button:
 
@@ -6,8 +7,9 @@ class Button:
         '''Instantiates the button according to the given data
         '''
         self.master = master
-        self.labeltext = tk.text
         self.kwargs = kwargs
+        self.labeltext = tk.StringVar(value = label)
+        self.settings = Settings()
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):    
         points = (x1+r, y1, x1+r, y1, x2-r, y1, x2-r, y1, x2, y1, x2, y1+r,

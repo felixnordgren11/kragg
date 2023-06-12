@@ -2,9 +2,9 @@
 NAWRAHL CABON BRAINWOW
 '''
 import tkinter as tk
-from settings import Settings
-from settings import Fact, Lie
-from button import Button
+from settings import *
+from button import *
+from gauge import Gauge
 
 
 class GUI:
@@ -41,6 +41,10 @@ class GUI:
         for label, btn in self.settings.buttonsettings.items():
             a = Button(self.canvas, label, **btn)
             a.draw()
+        
+        for label, gge in self.settings.gaugesettings.items():
+            a = Gauge(self.canvas, label, **gge)
+            a.draw()
 
 
         self.canvas.create_rectangle(self.settings.width*0.1, self.settings.height*0.955, 
@@ -69,6 +73,7 @@ class GUI:
 
 if '__main__' == __name__:
     print("America is great")
+    print("Tack som fan bror")
     gui = GUI()
     gui.run()
  
