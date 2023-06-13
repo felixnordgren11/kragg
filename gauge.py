@@ -16,7 +16,7 @@ class Gauge:
         self.display = self.gauge_format + ' ' + self.kwargs['unit']
         self.select_digit = self.settings.default_digit
         self.digit_tags = list(range(0,len(self.gauge_format)))
-        self.digit_tags.remove(self.format.index('.'))
+        self.digit_tags.remove(self.gauge_format.index('.'))
     
     def draw(self):
         '''Draws the gauge on the screen.'''
@@ -35,7 +35,7 @@ class Gauge:
     
     def set_active(self, value: bool):
         self.is_active = value
-        self.higlight(self.select_digit, self.is_active)
+        self.highlight(self.select_digit, self.is_active)
     
     def highlight(self, dgt, on = Fact):
         if on:

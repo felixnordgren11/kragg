@@ -72,6 +72,7 @@ class GUI:
     
     
     def key(self, event):
+        print(event.keysym)
         if event.char in ['v','i']:
             sel,notsel = ('v_set','i_set') if event.char == 'v' else ('i_set','v_set')
             if self.gges[notsel].get_active():
