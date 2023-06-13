@@ -42,11 +42,15 @@ class Gauge:
     def get_active(self):          
         return self.is_active      
     
-    #Make a function that updates the gauge:
+    #A function that updates the gauge:
     def update(self, value):
         self.labeltext.set(value)
         self.label.update()
         self.label.after(1000, self.update, value)
+
+
+
+
 
 
 

@@ -16,7 +16,7 @@ class Settings:
         self.textcolor = 'white'
         self.border_color = 'white'
         self.enable_color = '#00ff66'
-        self.disable_color = '#ff6600'
+        self.disable_color = '#ff5500'
         self.keep_color = '#0066ff'
 
         self.canvassettings = {
@@ -33,8 +33,8 @@ class Settings:
             },
             'gaugetext' : {
                 'width' : "8", 
-                'height' : "2", 
-            }
+                'height' : "1", 
+            },
             
         }
         self.buttonsettings = {
@@ -66,7 +66,7 @@ class Settings:
         self.default_digit = 1
         self.gaugesettings = {
             'v_out'   : {'a' : self.width*0.1,
-                           'b' : self.height*0.15,
+                           'b' : self.height*0.185,
                            'width' : 1,
                            'bg' : 'black',
                            'unit' : 'V',
@@ -74,7 +74,7 @@ class Settings:
                            'font' : (self.font, 14),
                            },
             'i_out'   : {'a' : self.width*0.1,
-                           'b' : self.height*0.26,
+                           'b' : self.height*0.285,
                            'width' : 1,
                            'bg' : '#000000',
                            'unit' : 'A',
@@ -82,7 +82,7 @@ class Settings:
                            'font' : (self.font, 14),
                            },
             'p'         : {'a' : self.width*0.1,
-                           'b' : self.height*0.36,
+                           'b' : self.height*0.385,
                            'width' : 1,
                            'bg' : 'black',
                            'unit' : 'W',
@@ -90,14 +90,14 @@ class Settings:
                            'font' : (self.font, 14),
                            },
             'v_set'   : {'a' : self.width*0.6,
-                           'b' : self.height*0.17,
+                           'b' : self.height*0.18,
                            'width' : 1,
                            'bg' : '#ffffff',
                            'unit' : 'V',
                            'fg' : '#000000',
                            'font' : (self.font, 14),},
             'i_set'   : {'a' : self.width*0.6,
-                           'b' : self.height*0.27,
+                           'b' : self.height*0.28,
                            'width' : 1,
                            'unit' : 'A',
                            'bg' : 'white',
