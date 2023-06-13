@@ -45,7 +45,7 @@ class GUI:
             
 
     def draw_border(self):
-        
+
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
                              self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4)
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
@@ -53,7 +53,7 @@ class GUI:
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         ##
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Ett järn, två jamare', font = ('Small Fonts', 20), fill = 'black')  
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Bacon narwhal', font = ('Small Fonts', 20), fill = 'black')  
     
 
 

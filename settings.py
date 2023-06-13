@@ -32,7 +32,7 @@ class Settings:
                 'font' : ("Small Fonts", 15),
             },
             'gaugetext' : {
-                'width' : "10", 
+                'width' : "8", 
                 'height' : "2", 
             }
             
@@ -90,14 +90,13 @@ class Settings:
                            'width' : 1,
                            'bg' : 'white',
                            'fg' : 'black',
-                           'font' : (self.font, 12),
-                           },
+                           'font' : (self.font, 14),},
             'i_set'   : {'a' : self.width*0.6,
                            'b' : self.height*0.27,
                            'width' : 1,
                            'bg' : 'white',
                            'fg' : 'black',
-                           'font' : (self.font, 12),
+                           'font' : (self.font, 14),
                            },
             
         }
