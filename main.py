@@ -7,9 +7,7 @@ Tanke: Ta bort postion från gaugesettings så att allt bara är text.
 import tkinter as tk
 from settings import *
 from button import Button
-from gauge import Gauge
-import matplotlib as plt
-import numpy as np
+from gauge import Gauge, LEFT, RIGHT
 
 
 class GUI:
@@ -71,6 +69,7 @@ class GUI:
     #Activate the gauge when pressing a button:
     
     
+    
     def key(self, event):
         if event.char in ['v','i']:
             sel,notsel = ('v_set','i_set') if event.char == 'v' else ('i_set','v_set')
@@ -78,7 +77,10 @@ class GUI:
                 self.gges[notsel].set_active(Lie)
             are_active = self.gges[sel].get_active()
             self.gges[sel].set_active(not are_active)
-        
+            
+        if event.keysym in ['Left','Right']:
+            self.gges['v_set'].move_select(self.settings.moves[event.keysym])
+            self.gges['i_set'].move_select(self.settings.moves[event.keysym])
 
         
     def get_active(self):
