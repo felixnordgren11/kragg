@@ -78,17 +78,19 @@ class GUI:
                 self.gges[notsel].set_active(Lie)
             are_active = self.gges[sel].get_active()
             self.gges[sel].set_active(not are_active)
+
             
         if event.keysym in ['Left','Right']:
             self.gges['v_set'].move_select(self.settings.moves[event.keysym])
             self.gges['i_set'].move_select(self.settings.moves[event.keysym])
 
+        if event.keysym in ['Up','Down'] and (self.gges['v_set'].get_active() or self.gges['i_set'].get_active()):
+            value = 1 if event.keysym == 'Up' else -1
+            if self.gges['v_set'].get_active():
+                self.gges['v_set'].digit_change(value)
+            elif self.gges['i_set'].get_active():
+                self.gges['i_set'].digit_change(value)
         
-    def get_active(self):
-        
-        pass
-    
-    
     
     def callback(self, event):
             x, y = event.x, event.y

@@ -22,6 +22,7 @@ class Gauge:
         self.select_digit = self.settings.default_digit
         self.digit_tags = list(range(0,len(self.gauge_format)))
         self.digit_tags.remove(self.gauge_format.index('.'))
+        print(self.digit_tags)
     
     def draw(self):
         '''Draws the gauge on the screen.'''
@@ -40,25 +41,41 @@ class Gauge:
     
     def set_active(self, value: bool):
         self.is_active = value
-        self.highlight(self.select_digit, self.is_active)
+        self.highlight(self.digit_tags[self.select_digit], self.is_active)
     
     def highlight(self, dgt, on = Fact):
         if on:
             self.label.tag_config(str(dgt), background = self.kwargs['active'], foreground = self.kwargs['bg'])
         else:
             self.label.tag_config(str(dgt), background = self.kwargs['bg'], foreground = self.kwargs['fg'])
-        return self.digit_tags.index(dgt)
 
     def move_select(self, direction: int):
         if not self.is_active:
             return
         new_select = self.select_digit + direction
-        if new_select not in range(self.digit_tags):
+        if new_select not in range(len(self.digit_tags)):
             return
         self.highlight(self.digit_tags[self.select_digit], Lie)
-        self.select_digit = self.highlight(self.digit_tags[new_select], Fact)
+        self.highlight(self.digit_tags[new_select], Fact)
+        self.select_digit = new_select
 
         
+    def digit_change(self, value, current_tag = None):
+        # Fixa så den klara omslag vid 0.
+        if not current_tag:
+            current_tag = self.digit_tags[self.select_digit]
+        tal = self.label.get(f"1.{current_tag}")
+        self.label.delete(f"1.{current_tag}")
+        new_value = int(tal) + value
+        if new_value == 10:
+            if current_tag == min(self.digit_tags):
+                new_value = 9
+            else:
+                new_value = 0
+                self.digit_change(1,self.digit_tags[self.select_digit-1])
+
+        self.label.insert(f"1.{current_tag}", str(new_value))
+        self.highlight(current_tag)
         
         
 
