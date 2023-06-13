@@ -1,9 +1,14 @@
 import tkinter as tk
-from settings import *
+from settings import Settings
+LEFT = -1
+RIGHT = 1
+Fact = True
+Lie = False
+
+
 
 class Gauge:
-    LEFT = -1
-    RIGHT = 1
+    
     def __init__(self, master, label, **kwargs):
         '''Initializes a gauge to be placed in the gui.
         '''

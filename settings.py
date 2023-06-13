@@ -1,6 +1,8 @@
 
 Fact = True
 Lie = False
+LEFT = -1
+RIGHT = 1
 
 class Settings:
 
@@ -107,6 +109,11 @@ class Settings:
                            'font' : (self.font, 15),
                            },
             
+        }
+        
+        self.moves = {
+        'Left': LEFT,
+        'Right': RIGHT
         }
         
         
