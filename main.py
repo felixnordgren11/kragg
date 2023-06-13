@@ -24,6 +24,7 @@ class GUI:
         self.canvas.pack()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
+        
 
         # Bind click event
 
@@ -38,11 +39,10 @@ class GUI:
             self.btns[label] = Button(self.canvas, label, **btn)
             self.btns[label].draw()
         
+        self.gges = {}
         for label, gge in self.settings.gaugesettings.items():
-            a = Gauge(self.canvas, label, **gge)
-            a.draw()
-            
-            
+            self.gges[label] = Gauge(self.canvas, label, **gge)
+            self.gges[label].draw()
 
     def draw_border(self):
 
@@ -53,7 +53,7 @@ class GUI:
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         ##
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Bacon narwhal', font = ('Small Fonts', 20), fill = 'black')  
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'TrumpSoft', font = ('Small Fonts', 20), fill = 'black')  
     
 
 
@@ -66,7 +66,8 @@ class GUI:
     
 
     def key(self, event):
-            print(event.char)
+            pass
+                 
             
     def callback(self, event):
             x, y = event.x, event.y
