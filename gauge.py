@@ -42,16 +42,16 @@ class Gauge:
             self.label.tag_config(str(dgt), background = self.kwargs['active'], foreground = self.kwargs['bg'])
         else:
             self.label.tag_config(str(dgt), background = self.kwargs['bg'], foreground = self.kwargs['fg'])
-        return dgt
+        return self.digit_tags.index(dgt)
 
     def move_select(self, direction: int):
         if not self.is_active:
             return
         new_select = self.select_digit + direction
-        if new_select not in self.digit_tags:
+        if new_select not in range(self.digit_tags):
             return
-        self.highlight(self.select_digit, Lie)
-        self.select_digit = self.highlight(new_select, Fact)
+        self.highlight(self.digit_tags[self.select_digit], Lie)
+        self.select_digit = self.highlight(self.digit_tags[new_select], Fact)
 
         
         
