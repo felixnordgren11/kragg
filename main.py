@@ -56,7 +56,7 @@ class GUI:
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         ##
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'pINK EYE', font = ('Small Fonts', 20), fill = 'black')  
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Neanderball', font = ('Small Fonts', 20), fill = 'black')  
     
 
 
@@ -78,9 +78,9 @@ class GUI:
                 self.gges[notsel].set_active(Lie)
             are_active = self.gges[sel].get_active()
             self.gges[sel].set_active(not are_active)
+        
 
-            
-            
+        
     def get_active(self):
         
         pass

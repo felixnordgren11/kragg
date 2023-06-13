@@ -2,7 +2,8 @@ import tkinter as tk
 from settings import *
 
 class Gauge:
-
+    LEFT = -1
+    RIGHT = 1
     def __init__(self, master, label, **kwargs):
         '''Initializes a gauge to be placed in the gui.
         '''
@@ -13,8 +14,9 @@ class Gauge:
         self.settings = Settings()
         self.gauge_format = self.settings.gauge_format
         self.display = self.gauge_format + ' ' + self.kwargs['unit']
-        self.default_digit = self.settings.default_digit
+        self.select_digit = self.settings.default_digit
         self.digit_tags = list(range(0,len(self.gauge_format)))
+        self.digit_tags.remove(self.format.index('.'))
     
     def draw(self):
         '''Draws the gauge on the screen.'''
@@ -33,11 +35,27 @@ class Gauge:
     
     def set_active(self, value: bool):
         self.is_active = value
-        if self.is_active:
-            self.label.tag_config(str(self.default_digit), background = self.kwargs['fg'], foreground = self.kwargs['bg'])
+        self.higlight(self.select_digit, self.is_active)
+    
+    def highlight(self, dgt, on = Fact):
+        if on:
+            self.label.tag_config(str(dgt), background = self.kwargs['active'], foreground = self.kwargs['bg'])
         else:
-            self.label.tag_config(str(self.default_digit), background = self.kwargs['bg'], foreground = self.kwargs['fg'])
+            self.label.tag_config(str(dgt), background = self.kwargs['bg'], foreground = self.kwargs['fg'])
+        return dgt
 
+    def move_select(self, direction: int):
+        if not self.is_active:
+            return
+        new_select = self.select_digit + direction
+        if new_select not in self.digit_tags:
+            return
+        self.highlight(self.select_digit, Lie)
+        self.select_digit = self.highlight(new_select, Fact)
+
+        
+        
+        
 
     def get_active(self):          
         return self.is_active      
