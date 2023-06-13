@@ -6,8 +6,10 @@ Tanke: Ta bort postion från gaugesettings så att allt bara är text.
 '''
 import tkinter as tk
 from settings import *
-from button import *
+from button import Button
 from gauge import Gauge
+import matplotlib as plt
+import numpy as np
 
 
 class GUI:
@@ -29,6 +31,7 @@ class GUI:
 
         self.root.bind_all("<Key>", self.key)
         self.root.bind_all("<Button-1>", self.callback)
+        self.is_active = Lie
         self.canvas.focus_set() 
         self.draw_border()
         
@@ -53,7 +56,7 @@ class GUI:
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         ##
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Ett järn, två jamare', font = ('Small Fonts', 20), fill = 'black')  
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'pINK EYE', font = ('Small Fonts', 20), fill = 'black')  
     
 
 
@@ -64,10 +67,26 @@ class GUI:
                 x1, y1+r, x1, y1)
         return master.create_polygon(points, **kwargs, smooth=True)
     
-
+    
+    #Activate the gauge when pressing a button:
+    
+    
     def key(self, event):
-            print(event.char)
+        if event.char == 'v':
+            are_active = self.gges['vset'].get_active()
+            self.gges['vset'].set_active(not are_active)
+        elif event.char == 'i':
+            are_active = self.gges['iset'].get_active()
+            self.gges['iset'].set_active(not are_active)
             
+            
+            
+    def get_active(self):
+        
+        pass
+    
+    
+    
     def callback(self, event):
             x, y = event.x, event.y
             print(x,y)
