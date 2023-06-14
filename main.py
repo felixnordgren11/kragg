@@ -122,7 +122,6 @@ class GUI:
     def run(self):
         self.root.after(200, self.power_value)
         self.root.mainloop()
-        
         pass
     
     
