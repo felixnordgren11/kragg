@@ -24,6 +24,7 @@ class Gauge:
         self.select_digit = self.settings.default_digit
         self.digit_tags = list(range(0,len(self.gauge_format)))
         self.digit_tags.remove(self.gauge_format.index('.'))
+        self.num_dec = len(self.gauge_format.split('.')[-1])
         print(self.digit_tags)
     
     def draw(self):
@@ -82,7 +83,10 @@ class Gauge:
         if hglt:
             self.highlight(current_tag)
         
-        
+    def set_gauge(self, value):
+        value = round(value, self.num_dec)
+        self.label.delete('1.0', f'1.{len(self.gauge_format)}')
+        self.label.insert('1.0', str(value))
 
     def get_active(self):          
         return self.is_active      

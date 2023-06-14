@@ -45,6 +45,8 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
 
+
+
     def draw_border(self):
 
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
