@@ -34,7 +34,7 @@ class GUI:
         self.canvas.focus_set() 
         self.draw_border()
         
-        #Enable buttons
+        #Enable buttonss
         self.btns = {}
         for label, btn in self.settings.buttonsettings.items():
             self.btns[label] = Button(self.canvas, label, **btn)
@@ -44,8 +44,10 @@ class GUI:
         for label, gge in self.settings.gaugesettings.items():
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
-        self.gges['v_out'].set_gauge(2)
-        self.gges['i_out'].set_gauge(3)
+            
+        self.gges['v_out'].set_gauge(5.00)
+        self.gges['i_out'].set_gauge(3.00)
+
 
 
     def draw_border(self):
@@ -71,6 +73,11 @@ class GUI:
     
     #Activate the gauge when pressing a button:
     
+    def power_value(self):
+            v = self.gges['v_out'].get_value()
+            i = self.gges['i_out'].get_value()
+            self.gges['p'].set_gauge(i*v)
+
     
     def key(self, event):
         print(event.keysym)
@@ -110,10 +117,17 @@ class GUI:
                 else:
                      btn.selected(Lie)
 
+    # Add a line that runs the power function every 200 ms:
 
     def run(self):
+        self.root.after(200, self.power_value)
         self.root.mainloop()
+        
         pass
+    
+    
+    
+        
 
 
 if '__main__' == __name__:
