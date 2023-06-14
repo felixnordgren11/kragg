@@ -62,7 +62,7 @@ class Settings:
                          'width' : 2,
                          'fill' : 'black'}
         }
-        
+        #
         
         self.gauge_format = '00.00'
         self.default_digit = 1

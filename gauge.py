@@ -82,7 +82,15 @@ class Gauge:
         self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
         if hglt:
             self.highlight(current_tag)
+            
         
+    def get_value(self):
+        output = float(self.label.get('1.0', 'end-1c').split()[0])
+        return output
+        
+    
+    
+    
     def set_gauge(self, value):
         value = round(value, self.num_dec)
         self.label.delete('1.0', f'1.{len(self.gauge_format)}')
@@ -91,11 +99,7 @@ class Gauge:
     def get_active(self):          
         return self.is_active      
     
-    #A function that updates the gauge:
-    def update(self, value):
-        self.labeltext.set(value)
-        self.label.update()
-        self.label.after(1000, self.update, value)
+    
 
 
 
