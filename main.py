@@ -73,7 +73,7 @@ class GUI:
     
     #Activate the gauge when pressing a button:
     
-    def power(self):
+    def power_value(self):
             v = self.gges['v_out'].get_value()
             i = self.gges['i_out'].get_value()
             self.gges['p'].set_gauge(i*v)
@@ -120,7 +120,7 @@ class GUI:
     # Add a line that runs the power function every 200 ms:
 
     def run(self):
-        self.root.after(200, self.power)
+        self.root.after(200, self.power_value)
         self.root.mainloop()
         
         pass
