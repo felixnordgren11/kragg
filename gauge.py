@@ -5,7 +5,9 @@ RIGHT = 1
 Fact = True
 Lie = False
 
-
+# To do:
+# Se till att digits behåller sin färg när man ändrar
+# Lägg också till att den klarar att slå om från 0 till 9
 
 class Gauge:
     
@@ -60,22 +62,25 @@ class Gauge:
         self.select_digit = new_select
 
         
-    def digit_change(self, value, current_tag = None):
+    def digit_change(self, value, dgt = None, hglt = Fact):
         # Fixa så den klara omslag vid 0.
-        if not current_tag:
-            current_tag = self.digit_tags[self.select_digit]
-        tal = self.label.get(f"1.{current_tag}")
-        self.label.delete(f"1.{current_tag}")
-        new_value = int(tal) + value
-        if new_value == 10:
+        if dgt is None:
+            dgt = self.select_digit
+        current_tag = self.digit_tags[dgt]
+        current_value = int(self.label.get(f"1.{current_tag}"))
+        new_value = int(current_value) + value
+        if current_value == 9:
             if current_tag == min(self.digit_tags):
                 new_value = 9
             else:
                 new_value = 0
-                self.digit_change(1,self.digit_tags[self.select_digit-1])
+                self.digit_change(value, dgt-1, hglt = Lie)
 
+        self.label.delete(f"1.{current_tag}")
         self.label.insert(f"1.{current_tag}", str(new_value))
-        self.highlight(current_tag)
+        self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
+        if hglt:
+            self.highlight(current_tag)
         
         
 
