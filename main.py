@@ -131,8 +131,7 @@ class GUI:
 
 
 if '__main__' == __name__:
-    print("America is great")
-    print("Tack som fan bror")
+
     gui = GUI()
     gui.run()
  
