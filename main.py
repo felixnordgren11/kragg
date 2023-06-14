@@ -44,7 +44,8 @@ class GUI:
         for label, gge in self.settings.gaugesettings.items():
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
-
+        self.gges['v_out'].set_gauge(2)
+        self.gges['i_out'].set_gauge(3)
 
 
     def draw_border(self):
@@ -69,7 +70,6 @@ class GUI:
     
     
     #Activate the gauge when pressing a button:
-    
     
     
     def key(self, event):
@@ -113,7 +113,6 @@ class GUI:
 
     def run(self):
         self.root.mainloop()
-
         pass
 
 

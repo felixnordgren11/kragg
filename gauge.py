@@ -21,6 +21,10 @@ class Gauge:
         self.settings = Settings()
         self.gauge_format = self.settings.gauge_format
         self.display = self.gauge_format + ' ' + self.kwargs['unit']
+        if 'max' in self.kwargs:
+            self.max = self.kwargs['max']
+        else:
+            self.max = None
         self.select_digit = self.settings.default_digit
         self.digit_tags = list(range(0,len(self.gauge_format)))
         self.digit_tags.remove(self.gauge_format.index('.'))
@@ -70,12 +74,19 @@ class Gauge:
         current_tag = self.digit_tags[dgt]
         current_value = int(self.label.get(f"1.{current_tag}"))
         new_value = int(current_value) + value
-        if current_value == 9:
-            if current_tag == min(self.digit_tags):
-                new_value = 9
+        if new_value == 10:
+            if all([self.label.get(f'1.{d}')=='9' for i, d in enumerate(self.digit_tags) if i < dgt]) or self.get_value() == self.max:
+                new_value = 9 
             else:
+                new_value = 0 
+                self.digit_change(value, dgt - 1, hglt = Lie)
+        elif new_value == -1:
+            if all([self.label.get(f'1.{d}')=='0' for i, d in enumerate(self.digit_tags) if i < dgt]):
                 new_value = 0
-                self.digit_change(value, dgt-1, hglt = Lie)
+            else:
+                new_value = 9
+                self.digit_change(value, dgt - 1, hglt = Lie)
+        
 
         self.label.delete(f"1.{current_tag}")
         self.label.insert(f"1.{current_tag}", str(new_value))
