@@ -10,7 +10,7 @@ class Settings:
 
     def __init__(self):
         self.title = 'GUI'
-        self.geometry = "320x480"
+        self.geometry = "480x800"
         self.width, self.height = map(int, self.geometry.split('x'))
         self.bg = 'black'
         self.textcolor = 'white'
