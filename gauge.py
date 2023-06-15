@@ -134,14 +134,3 @@ class Gauge:
 
     def get_active(self):          
         return self.is_active      
-    
-    
-
-
-
-
-
-
-
-    
-        

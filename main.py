@@ -122,16 +122,8 @@ class GUI:
     def run(self):
         self.root.after(200, self.power_value)
         self.root.mainloop()
-        
-        pass
-    
-    
-    
-        
-
 
 if '__main__' == __name__:
 
     gui = GUI()
     gui.run()
- 
