@@ -6,6 +6,7 @@ Lie = False
 LEFT = -1
 RIGHT = 1
 
+
 class Settings:
 
     def __init__(self):

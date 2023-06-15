@@ -9,6 +9,8 @@ Lie = False
 # Se till att digits behåller sin färg när man ändrar
 # Lägg också till att den klarar att slå om från 0 till 9
 
+
+
 def enable(func):
     def wrapper(self, *args, **kwargs):
         self.label['state'] = tk.NORMAL
@@ -38,7 +40,7 @@ class Gauge:
         self.digit_tags = list(range(0,len(self.gauge_format)))
         self.digit_tags.remove(self.gauge_format.index('.'))
         self.num_dec = len(self.gauge_format.split('.')[-1])
-        print(self.digit_tags)
+        #print(self.digit_tags)
 
     def draw(self):
         '''Draws the gauge on the screen.'''
@@ -57,20 +59,31 @@ class Gauge:
             self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
         return self.label
     
+    
+    
+    
     @enable
     def set_active(self, value: bool):
+        '''Function that activates gauges'''
         self.is_active = value
         self.highlight(self.digit_tags[self.select_digit], self.is_active)
 
+    
+    
     @enable
     def highlight(self, dgt, on = Fact):
+        '''Highlights the digit currently active.
+        colours defined in settings file'''
         if on:
             self.label.tag_config(str(dgt), background = self.kwargs['active'], foreground = self.kwargs['bg'])
         else:
             self.label.tag_config(str(dgt), background = self.kwargs['bg'], foreground = self.kwargs['fg'])
-
+            
+    
+    
     @enable
     def move_select(self, direction: int):
+        '''Function that moves highlight of the digits in the active gauge'''
         if not self.is_active:
             return
         new_select = self.select_digit + direction
@@ -81,8 +94,8 @@ class Gauge:
         self.select_digit = new_select
 
     @enable
-    def digit_change(self, value, dgt = None, hglt = Fact):
-        # Fixa så den klara omslag vid 0.
+    def digit_change(self, value, dgt = None, hglt = Fact, max = None):
+        '''Fix so that it can handle crossing over at 0'''
         if dgt is None:
             dgt = self.select_digit
         current_tag = self.digit_tags[dgt]
@@ -107,8 +120,10 @@ class Gauge:
         self.label.delete(f"1.{current_tag}")
         self.label.insert(f"1.{current_tag}", str(new_value))
         
-        if (self.get_value() >= self.max):
-            self.set_gauge(self.max)
+        
+
+        if (self.get_value() >= max):
+            self.set_gauge(max)
             for dgt in self.digit_tags:
                 self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
         
