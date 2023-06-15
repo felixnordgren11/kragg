@@ -122,6 +122,7 @@ class GUI:
     def run(self):
         self.root.after(200, self.power_value)
         self.root.mainloop()
+        
         pass
     
     
@@ -130,8 +131,7 @@ class GUI:
 
 
 if '__main__' == __name__:
-    print("America is great")
-    print("Tack som fan bror")
+
     gui = GUI()
     gui.run()
  

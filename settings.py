@@ -1,3 +1,5 @@
+# Add list of model numbers of possible units for
+# interchangability.
 
 Fact = True
 Lie = False
@@ -16,16 +18,24 @@ class Settings:
         # Canvas config
         self.bg = 'black'
         self.textcolor = 'white'
+        self.model_nr = 'SMP485'
         self.border_color = 'white'
         self.enable_color = '#00ff66'
         self.disable_color = '#ff5500'
         self.keep_color = '#0066ff'
-
         self.canvassettings = {
             'bg' : self.bg,
             'height' : self.height,
             'width' : self.width}
          
+         # Voltage first, current second.
+        self.maximums = {
+            'SMP485' : [30, 25],
+            'SMP358' : [69, 420]
+         }
+
+        self.max_v, self.max_i = self.maximums[self.model_nr]
+
         # For different types of text
         self.textsettings = {
             # create_canvas is used for this object.
@@ -71,7 +81,6 @@ class Settings:
                            'b' : self.height*0.185,
                            'width' : 1,
                            'bg' : 'black',
-                           'max' : 30,
                            'unit' : 'V',
                            'fg' : 'white',
                            'font' : (self.font, 14),
@@ -80,7 +89,6 @@ class Settings:
                            'b' : self.height*0.285,
                            'width' : 1,
                            'bg' : '#000000',
-                           'max' : 25,
                            'unit' : 'A',
                            'fg' : '#ffffff',
                            'font' : (self.font, 14),
@@ -96,6 +104,7 @@ class Settings:
             'v_set'   : {'a' : self.width*0.6,
                            'b' : self.height*0.18,
                            'width' : 1,
+                           'max' : self.max_v,
                            'bg' : '#ffffff',
                            'active' : '#991100',
                            'unit' : 'V',
@@ -106,6 +115,7 @@ class Settings:
                            'width' : 1,
                            'unit' : 'A',
                            'active' : '#991100',
+                           'max' : self.max_i,
                            'bg' : 'white',
                            'fg' : 'black',
                            'font' : (self.font, 15),
