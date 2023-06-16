@@ -112,6 +112,7 @@ class Gauge:
         elif new_value == -1:
             if all([self.label.get(f'1.{d}')=='0' for i, d in enumerate(self.digit_tags) if i < dgt]):
                 new_value = 0
+                self.set_gauge(0)
             else:
                 new_value = 9
                 self.digit_change(value, dgt - 1, hglt = Lie)
@@ -122,8 +123,11 @@ class Gauge:
         
         
 
-        if (self.get_value() >= max):
-            self.set_gauge(max)
+        if (self.get_value() >= self.max):
+            self.set_gauge(self.max)
+            for dgt in self.digit_tags:
+                self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
+        elif self.get_value() == 0:
             for dgt in self.digit_tags:
                 self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
         
@@ -141,6 +145,9 @@ class Gauge:
     def set_gauge(self, value):
         value = round(value, self.num_dec)
         self.label.delete('1.0', f'1.{len(self.gauge_format)}')
+        if not value:
+            self.label.insert('1.0', self.gauge_format)
+            return
         s = str(value).split('.')
         s[0] = '0'*(2 - len(s[0])) + s[0] 
         s[1] = s[1] + '0'*(2 - len(s[1]))  

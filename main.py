@@ -99,7 +99,10 @@ class GUI:
     
     def key(self, event:tk.Event):
         #When either v or i is pressed, switch the active gauge to that and deactivate the other one
-        if event.char in ['v','i']:
+        if event.char == 'q':
+             quit()
+
+        elif event.char in ['v','i']:
             sel,notsel = ('v_set','i_set') if event.char == 'v' else ('i_set','v_set')
             if not isinstance(self.gges[notsel], Gauge):
                 raise TypeError("Expected type Gauge for %s, but got %s instead."%(notsel,type(self.gges[notsel])))
