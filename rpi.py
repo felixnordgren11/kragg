@@ -5,6 +5,7 @@ ROTARY_RIGHT = 2
 BUTTON_LEFT = 23
 BUTTON_RIGHT = 24
 BUTTON_V = 4
+BUTTON_I = 25
 
 class RPI:
 
@@ -16,12 +17,14 @@ class RPI:
         self.pin_c  = io.Button(BUTTON_V)
         self.pin_d  = io.Button(BUTTON_LEFT)
         self.pin_e  = io.Button(BUTTON_RIGHT)
+        self.pin_f  = io.Button(BUTTON_I)
 
         self.pin_a.when_pressed = self.pin_a_rising
         self.pin_b.when_pressed = self.pin_b_rising
         self.pin_c.when_pressed = lambda x: self.GUI.select_gauge('v')
         self.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
         self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
+        self.pin_f.when_pressed = lambda x: self.GUI.select_gauge('i')
     
     def pin_a_rising(self):   
         print(1)              # Pin A event handler

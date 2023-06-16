@@ -27,7 +27,7 @@ class GUI:
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
-
+        self.mode = 'disable'
         # Bind click events
 
         self.root.bind_all("<Key>", self.key)
@@ -42,7 +42,8 @@ class GUI:
         for label, btn in self.settings.buttonsettings.items():
             self.btns[label] = Button(self.canvas, label, **btn)
             self.btns[label].draw()
-            
+        self.btns[self.mode].mode(Fact)
+        
         # Loop through the gauge settings dictionary we created in the settings.py file.
         # For each gauge, we create a Gauge object and store it in the gges dictionary.
         # Call the draw() method to draw the gauge.
@@ -150,6 +151,7 @@ class GUI:
             for btn in self.btns.values():
                 if inside_btn(x, y, btn):
                      btn.selected(Fact)
+
                 else:
                      btn.selected(Lie)
 
