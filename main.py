@@ -95,7 +95,16 @@ class GUI:
             i = self.gges['i_out'].get_value()
             self.gges['p'].set_gauge(i*v)
             
-    
+    def select_gauge(self, m):
+        sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
+        if self.gges[notsel].get_active():
+            self.gges[notsel].set_active(Lie)
+        are_active = self.gges[sel].get_active()
+        self.gges[sel].set_active(not are_active)
+
+    def move_pointer(self, m):
+        self.gges['v_set'].move_select(self.settings.moves[m])
+        self.gges['i_set'].move_select(self.settings.moves[m])
 
     
     def key(self, event:tk.Event):

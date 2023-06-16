@@ -19,9 +19,9 @@ class RPI:
 
         self.pin_a.when_pressed = self.pin_a_rising
         self.pin_b.when_pressed = self.pin_b_rising
-        self.pin_c.when_pressed = lambda x: self.keypress('char', 'v')
-        self.pin_d.when_pressed = lambda x: self.keypress('keysym', 'Left')
-        self.pin_e.when_pressed = lambda x: self.keypress('keysym', 'Right')
+        self.pin_c.when_pressed = lambda x: self.GUI.select_gauge('v')
+        self.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
+        self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
     
     def pin_a_rising(self):   
         print(1)              # Pin A event handler
@@ -41,7 +41,3 @@ class RPI:
         elif self.GUI.gges['i_set'].get_active():
             self.GUI.gges['i_set'].digit_change(value) 
 
-    def keypress(self, attr, value):
-        event = tk.Event()
-        setattr(event, attr, value)
-        self.GUI.key(event)
