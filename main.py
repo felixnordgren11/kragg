@@ -8,7 +8,7 @@ import tkinter as tk
 from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
-
+from rpi import RPI
 
 class GUI:
     '''
@@ -26,7 +26,6 @@ class GUI:
         self.canvas.pack()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
-        
 
         # Bind click events
 
@@ -57,6 +56,7 @@ class GUI:
         self.gges['v_out'].set_gauge(5.00)
         self.gges['i_out'].set_gauge(3.00)
 
+        self.rpi = RPI(self)
 
     #Function that draws the border of the screen.
     #Rounded rectangle for the border. 
