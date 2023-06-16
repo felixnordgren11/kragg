@@ -12,6 +12,10 @@ Lie = False
 
 
 def enable(func):
+    '''Decorator that returns the same function
+    only that the label of a Gauge object is activated
+    before execution and deactivated after.
+    '''
     def wrapper(self, *args, **kwargs):
         self.label['state'] = tk.NORMAL
         var = func(self, *args, **kwargs)
@@ -71,7 +75,7 @@ class Gauge:
     
     
     @enable
-    def highlight(self, dgt, on = Fact):
+    def highlight(self, dgt: int, on = Fact):
         '''Highlights the digit currently active.
         colours defined in settings file'''
         if on:
@@ -94,8 +98,10 @@ class Gauge:
         self.select_digit = new_select
 
     @enable
-    def digit_change(self, value, dgt = None, hglt = Fact, max = None):
-        '''Fix so that it can handle crossing over at 0'''
+    def digit_change(self, value: int, dgt = None, hglt = Fact, max = None):
+        '''Changes the value of the digit at tag with index dgt.
+        It also handles changing the digits in the rest of the 
+        gauge through recursive calls to itself.'''
         if dgt is None:
             dgt = self.select_digit
         current_tag = self.digit_tags[dgt]
@@ -120,9 +126,17 @@ class Gauge:
         self.label['state'] = tk.NORMAL
         self.label.delete(f"1.{current_tag}")
         self.label.insert(f"1.{current_tag}", str(new_value))
+        # Reset gauge if maximum or minimum is exceeded.
+        self.check_limits()
         
-        
-
+        self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
+        if hglt:
+            self.highlight(current_tag)
+    
+    def check_limits(self):
+        '''This method checks if the gauge has passed its maximum
+        values. If that is the case, it resets the gauge to the limits. 
+        '''
         if (self.get_value() >= self.max):
             self.set_gauge(self.max)
             for dgt in self.digit_tags:
@@ -130,19 +144,18 @@ class Gauge:
         elif self.get_value() == 0:
             for dgt in self.digit_tags:
                 self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
-        
-        self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
-        if hglt:
-            self.highlight(current_tag)
-    
     
     @enable
-    def get_value(self):
+    def get_value(self) -> float:
+        '''Returns the displayed value of the gauge
+        '''
         output = float(self.label.get('1.0', 'end-1c').split()[0])
         return output
         
     @enable
-    def set_gauge(self, value):
+    def set_gauge(self, value: float):
+        '''Sets the given gauge to value.
+        '''
         value = round(value, self.num_dec)
         self.label.delete('1.0', f'1.{len(self.gauge_format)}')
         if not value:
@@ -154,5 +167,8 @@ class Gauge:
         s = '.'.join(s)
         self.label.insert('1.0', s)
 
-    def get_active(self):          
+    def get_active(self) -> bool:    
+        '''Returns True if the gauge is in active mode and
+        is being edited by the user.
+        '''      
         return self.is_active      

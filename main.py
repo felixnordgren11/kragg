@@ -8,7 +8,7 @@ import tkinter as tk
 from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
-from rpi import RPI
+from rpi import RPI, WRITE, READ
 
 class GUI:
     '''
@@ -19,24 +19,31 @@ class GUI:
     
     def __init__(self):
         '''Initializes variables'''
-
+        # This is our window.
         self.root = tk.Tk()
+
+        # In here all settings are stored and defined.
         self.settings = Settings()
+
+        # Here all graphical objects will be drawn.
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
-        self.mode = 'disable'
-        # Bind click events
 
+        # Initialize as disabled. Otherwise it will start with an output voltage neq 0.
+        self.mode = 'disable'
+
+        # Bind click events
         self.root.bind_all("<Key>", self.key)
         self.root.bind_all("<Button-1>", self.callback)
         self.is_active = Lie
         self.canvas.focus_set() 
         self.draw_border()
         
-        #Enable buttons
+        # Loop through the button settings dictionary and create the specified
+        # buttons. After that they are drawn using the draw() method.
         
         self.btns = {}
         for label, btn in self.settings.buttonsettings.items():
@@ -52,64 +59,72 @@ class GUI:
         for label, gge in self.settings.gaugesettings.items():
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
-            
-
-        #Mock output values    
-        self.gges['v_out'].set_gauge(5.00)
-        self.gges['i_out'].set_gauge(3.00)
 
         self.rpi = RPI(self)
 
-    #Function that draws the border of the screen.
-    #Rounded rectangle for the border. 
-    #Create rectangle for the title box. 
-    #Create text for the title
-    def draw_border(self):
 
+    def draw_border(self):
+        '''Function that draws the border around the GUI,
+        Some values could possibly be given as arguments.
+        '''
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
                              self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4)
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
                              self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
-        ##
         self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Neanderball', font = ('Small Fonts', 20), fill = 'black')  
+
     
 
     
-    #Define the round rectangle function
-    
-    def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):    
+    def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
+        '''Helper function that can draw rounded objects.
+        '''  
         points = (x1+r, y1, x1+r, y1, x2-r, y1, x2-r, y1, x2, y1, x2, y1+r,
                 x2, y1+r, x2, y2-r, x2, y2-r, x2, y2, x2-r, y2, x2-r, y2,
                 x1+r, y2, x1+r, y2, x1, y2, x1, y2-r, x1, y2-r, x1, y1+r, 
                 x1, y1+r, x1, y1)
         return master.create_polygon(points, **kwargs, smooth=True)
-    
-    
-    
-    
-    #Activate the gauge when pressing a button:
-    
+
     def power_value(self):
+            '''Helper function that computes the measured output power.
+            '''
             v = self.gges['v_out'].get_value()
             i = self.gges['i_out'].get_value()
             self.gges['p'].set_gauge(i*v)
             
-    def select_gauge(self, m):
+    def select_gauge(self, m: str):
+        '''Selects a gauge so that it can be configured
+        and thereby changing output reference values for the
+        PSU.
+        '''
+        # Which is the gauge we have selected. The other one is to be deactivated.
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
+
         if self.gges[notsel].get_active():
+            # Means value was confirmed.
             self.gges[notsel].set_active(Lie)
+            # Send the selected value.
+            self.rpi.send_msg(WRITE, self.gges[notsel].get_value(), notsel)
+        # If the selected gauge is active, the press meant to confirm the configuration
         are_active = self.gges[sel].get_active()
+        if are_active:
+            # Means we are confirming.
+            self.rpi.send_msg(WRITE, self.gges[sel].get_value(), sel)
         self.gges[sel].set_active(not are_active)
 
-    def move_pointer(self, m):
+    def move_pointer(self, m: str) -> None:
+        '''Updates the position of the pointer/cursor in the 
+        selected gauge. Goes in the direction dictated by
+        the values set in the settings file.
+        '''
         self.gges['v_set'].move_select(self.settings.moves[m])
         self.gges['i_set'].move_select(self.settings.moves[m])
 
-    
     def key(self, event:tk.Event):
-        #When either v or i is pressed, switch the active gauge to that and deactivate the other one
+        '''This function is used to operate the GUI from a PC
+        '''
         print(event)
         if event.char == 'q':
              quit()

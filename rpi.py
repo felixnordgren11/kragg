@@ -1,11 +1,15 @@
 import gpiozero as io
 import tkinter as tk
+import serial
+
 ROTARY_LEFT = 3
 ROTARY_RIGHT = 2
 BUTTON_LEFT = 23
 BUTTON_RIGHT = 24
 BUTTON_V = 4
 BUTTON_I = 25
+WRITE = 'w'
+READ = 'r'
 
 class RPI:
 
@@ -26,16 +30,20 @@ class RPI:
         self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
         self.pin_f.when_pressed = lambda x: self.GUI.select_gauge('i')
     
-    def pin_a_rising(self):   
-        print(1)              # Pin A event handler
+    def pin_a_rising(self):                # Pin A event handler
         if self.pin_b.is_pressed:
             self.add_value(1)
+            if self.GUI.mode == 'enable':
+                # Update voltage and send.
+                pass
             
 
-    def pin_b_rising(self):   
-        print(2)                 # Pin B event handler
+    def pin_b_rising(self):                   # Pin B event handler
         if self.pin_a.is_pressed:
              self.add_value(-1) 
+             if self.GUI.mode == 'enable':
+                # Update voltage and send.
+                pass
 
 
     def add_value(self, value):
@@ -44,3 +52,5 @@ class RPI:
         elif self.GUI.gges['i_set'].get_active():
             self.GUI.gges['i_set'].digit_change(value) 
 
+    def send_msg(self, type, value, unit):
+        pass
