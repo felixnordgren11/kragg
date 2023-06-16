@@ -8,11 +8,12 @@ pin_d  = Button(23, pull_up=False)
 pin_e  = Button(24, pull_up=False)
 
 
-def pin_a_rising():                    # Pin A event handler
-    if pin_a.is_pressed: print("-1")   # Pin A rising while A is active is an anti-clockwise turn
+def pin_a_rising():   
+    print("hello")                 # Pin A event handler
+    if pin_b.is_pressed: print("-1")   # Pin A rising while A is active is an anti-clockwise turn
 
 def pin_b_rising():                    # Pin B event handler
-    if pin_b.is_pressed: print("1")    # Pin B rising while A is active is a clockwise turn
+    if pin_a.is_pressed: print("1")    # Pin B rising while A is active is a clockwise turn
 
 def pin_c_rising():                    # Pin A event handler
     if pin_c.is_pressed: print("Spänning")  # Pin A rising while A is active is an anti-clockwise turn
