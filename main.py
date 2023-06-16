@@ -42,7 +42,7 @@ class GUI:
         for label, btn in self.settings.buttonsettings.items():
             self.btns[label] = Button(self.canvas, label, **btn)
             self.btns[label].draw()
-        self.btns[self.mode].mode(Fact)
+        self.btns[self.mode].selected(Fact)
         
         # Loop through the gauge settings dictionary we created in the settings.py file.
         # For each gauge, we create a Gauge object and store it in the gges dictionary.
