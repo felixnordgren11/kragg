@@ -26,6 +26,7 @@ class GUI:
         self.canvas.pack()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
+        self.root.attributes('-fullscreen', True)
 
         # Bind click events
 
