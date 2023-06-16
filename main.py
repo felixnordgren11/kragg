@@ -100,6 +100,7 @@ class GUI:
     
     def key(self, event:tk.Event):
         #When either v or i is pressed, switch the active gauge to that and deactivate the other one
+        print(event)
         if event.char == 'q':
              quit()
 
