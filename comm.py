@@ -19,10 +19,10 @@ def pin_c_rising():                    # Pin A event handler
     print("Spänning")  # Pin A rising while A is active is an anti-clockwise turn
 
 def pin_d_rising():                    # Pin B event handler
-    if pin_e.is_pressed: print("Vänster")    # Pin B rising while A is active is a clockwise turn
+    if pin_d.is_pressed: print("Vänster")    # Pin B rising while A is active is a clockwise turn
 
 def pin_e_rising():                    # Pin A event handler
-    if pin_d.is_pressed:
+    if pin_e.is_pressed:
         print("Höger")   # Pin A rising while A is active is an anti-clockwise turn
 
 
