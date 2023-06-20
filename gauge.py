@@ -11,7 +11,7 @@ Lie = False
 
 
 
-def enable(func) -> function:
+def enable(func):
     '''Decorator that returns the same function
     only that the label of a Gauge object is activated
     before execution and deactivated after.
