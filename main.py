@@ -9,6 +9,10 @@ from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
+import ctypes
+
+myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 class GUI:
     '''
@@ -31,6 +35,8 @@ class GUI:
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
+        photo = tk.PhotoImage(file = "iconphoto.png")
+        self.root.iconphoto(False, photo)
 
         # Initialize as disabled. Otherwise it will start with an output voltage neq 0.
         self.mode = 'disable'
@@ -54,7 +60,6 @@ class GUI:
         # Loop through the gauge settings dictionary we created in the settings.py file.
         # For each gauge, we create a Gauge object and store it in the gges dictionary.
         # Call the draw() method to draw the gauge.
-        
         self.gges = {}
         for label, gge in self.settings.gaugesettings.items():
             self.gges[label] = Gauge(self.canvas, label, **gge)
@@ -68,13 +73,15 @@ class GUI:
         Some values could possibly be given as arguments.
         '''
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
-                             self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4)
+                             self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
         self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
                              self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Neanderball', font = ('Small Fonts', 20), fill = 'black')  
 
+       
+        #self.round_rectangle(self.canvas, x1, y1,x1 + 100, y1 + 50, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
     
 
     

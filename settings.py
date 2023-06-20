@@ -76,7 +76,10 @@ class Settings:
         #
         
         self.gauge_format = '00.00'
+        # Change this to select what the default precision is when setting the gauges
         self.default_digit = 1
+        # Change these to configure gauges.
+        self.output_font_size = 20
         self.gaugesettings = {
             'v_out'   : {'a' : self.width*0.1,
                            'b' : self.height*0.185,
@@ -84,7 +87,7 @@ class Settings:
                            'bg' : 'black',
                            'unit' : 'V',
                            'fg' : 'white',
-                           'font' : (self.font, 14),
+                           'font' : (self.font, self.output_font_size),
                            },
             'i_out'   : {'a' : self.width*0.1,
                            'b' : self.height*0.285,
@@ -92,7 +95,7 @@ class Settings:
                            'bg' : '#000000',
                            'unit' : 'A',
                            'fg' : '#ffffff',
-                           'font' : (self.font, 14),
+                           'font' : (self.font, self.output_font_size),
                            },
             'p'         : {'a' : self.width*0.1,
                            'b' : self.height*0.385,
@@ -100,7 +103,7 @@ class Settings:
                            'bg' : 'black',
                            'unit' : 'W',
                            'fg' : 'white',
-                           'font' : (self.font, 14),
+                           'font' : (self.font, self.output_font_size),
                            },
             'v_set'   : {'a' : self.width*0.6,
                            'b' : self.height*0.18,
@@ -127,6 +130,13 @@ class Settings:
         self.moves = {
         'Left': LEFT,
         'Right': RIGHT
+        }
+        # Format [ID#MESSAGE]
+        id = '61B'
+        self.command_lib = {
+            'init' : f'{id}#2F1020FF10',
+            'v_read' : f'{id}#4010202100',
+            'i_read' : f'{id}#4010202100' 
         }
         
         
