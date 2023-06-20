@@ -11,7 +11,7 @@ Lie = False
 
 
 
-def enable(func):
+def enable(func) -> function:
     '''Decorator that returns the same function
     only that the label of a Gauge object is activated
     before execution and deactivated after.
@@ -58,6 +58,7 @@ class Gauge:
         self.label.place(x = (self.kwargs['a']), 
                          y = (self.kwargs['b']), 
                          anchor='nw')
+
         # Add labels
         for dgt in self.digit_tags:
             self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
@@ -107,7 +108,7 @@ class Gauge:
         current_tag = self.digit_tags[dgt]
         current_value = int(self.label.get(f"1.{current_tag}"))
         new_value = int(current_value) + value
-           
+        # Logic handling the potential crossover at 9 and 0.
         if new_value == 10:
             if all([self.label.get(f'1.{d}') == '9' for i, d in enumerate(self.digit_tags) if i < dgt]):
                 new_value = 9 
