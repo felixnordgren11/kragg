@@ -9,10 +9,13 @@ from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
-import ctypes
+#import ctypes
 
-myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+Fact = True
+Lie  = False
+
+#myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
+#ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 class GUI:
     '''
@@ -35,8 +38,8 @@ class GUI:
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
-        photo = tk.PhotoImage(file = "iconphoto.png")
-        self.root.iconphoto(False, photo)
+        '''photo = tk.PhotoImage(file = "iconphoto.png")
+        self.root.iconphoto(False, photo)'''
 
         # Initialize as disabled. Otherwise it will start with an output voltage neq 0.
         self.mode = 'disable'
