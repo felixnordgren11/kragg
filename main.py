@@ -68,7 +68,7 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
 
-        self.rpi = RPI(self)
+        #self.rpi = RPI(self)
 
 
     def draw_border(self):
