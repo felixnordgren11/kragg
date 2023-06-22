@@ -2,6 +2,8 @@ import gpiozero as io
 from settings import Settings
 import tkinter as tk
 import serial
+import spidev
+import can
 
 ROTARY_LEFT = 3
 ROTARY_RIGHT = 2
@@ -11,6 +13,18 @@ BUTTON_V = 4
 BUTTON_I = 25
 WRITE = 'write'
 READ = 'read'
+
+def spi_en(func):
+    '''Decorator that returns the same function
+    only that the label of a Gauge object is activated
+    before execution and deactivated after.
+    '''
+    def wrapper(self, *args, **kwargs):
+        self.spi.open(0,1)
+        var = func(self, *args, **kwargs)
+        self.spi.open(0,0)
+        return var
+    return wrapper
 
 class RPI:
 
@@ -30,7 +44,15 @@ class RPI:
         self.pin_e  = io.Button(BUTTON_RIGHT)
         # Used to select the i_set gauge.
         self.pin_f  = io.Button(BUTTON_I)
-
+        # Can details:
+        bustype = 'socketcan'
+        channel = 'can0'
+        # Spi stuff for the raspberry
+        self.spi = spidev.SpiDev()
+        try:
+            self.bus = can.Bus(channel = channel, interface = bustype)
+        except Exception as e:
+            print('Can initialization failed with following exception:', e)
         # Binding the pins to functions.
         self.pin_a.when_pressed = self.pin_a_rising
         self.pin_b.when_pressed = self.pin_b_rising
@@ -65,10 +87,26 @@ class RPI:
             if gauge.get_active():
                 self.GUI.gges['v_set'].digit_change(value)
         
-
+    @spi_en
     def send_msg(self, tpe: str, value: int, unit: str) -> str:
         # Construct the key with which the message is obtained.
         # Will return answers. If tpe is not READ then '' will be returned.
         key = '_'.join([unit, tpe])
-        return self.settings.command_lib[key]
+        # Getting the message from library written in settings 
+        id, msg_data = self.settings.command_lib[key]
+        
+        if tpe == WRITE:
+            MSB = value >> 4
+            LSB = value - MSB
+            msg_data = [*msg_data, LSB, MSB]
+
+        msg = can.Message(arbitration_id = id, data = msg_data)
+        self.bus.send(msg)
+
+        if tpe == WRITE:
+            return str(self.bus.recv())
+        return ''
+        
+        
+
 
