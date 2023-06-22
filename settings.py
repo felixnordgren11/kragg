@@ -131,12 +131,16 @@ class Settings:
         'Left': LEFT,
         'Right': RIGHT
         }
+        
+        
         # Format [ID#MESSAGE]
         id = '61B'
         self.command_lib = {
-            'init' : f'{id}#2F1020FF10',
-            'v_read' : f'{id}#4010202100',
-            'i_read' : f'{id}#4010202100' 
+            'init'   : (id, [0x2F, 0x10, 0x20, 0xFF]),
+            'v_read' : (id, [0x40, 0x10, 0x20, 0x21]),
+            'i_read' : (id, [0x40, 0x10, 0x20, 0x22]),
+            'v_set'  : (id, [0x2F, 0x10, 0x20, 0x10]),
+            'i_set'  : (id, [0x2F, 0x10, 0x20, 0x11])
         }
         
         
