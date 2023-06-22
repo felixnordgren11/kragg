@@ -134,7 +134,7 @@ class Settings:
         
         
         # Format [ID#MESSAGE]
-        id = '61B'
+        id = 0x61B
         self.command_lib = {
             'init'   : (id, [0x2F, 0x10, 0x20, 0xFF]),
             'v_read' : (id, [0x40, 0x10, 0x20, 0x21]),
