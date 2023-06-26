@@ -14,17 +14,6 @@ BUTTON_I = 25
 WRITE = 'write'
 READ = 'read'
 
-def spi_en(func):
-    '''Decorator that returns the same function
-    only that the label of a Gauge object is activated
-    before execution and deactivated after.
-    '''
-    def wrapper(self, *args, **kwargs):
-        self.spi.open(0,1)
-        var = func(self, *args, **kwargs)
-        self.spi.open(0,0)
-        return var
-    return wrapper
 
 class RPI:
 
@@ -87,7 +76,7 @@ class RPI:
             if gauge.get_active():
                 self.GUI.gges['v_set'].digit_change(value)
         
-    @spi_en
+
     def send_msg(self, tpe: str, value: int, unit: str) -> str:
         # Construct the key with which the message is obtained.
         # Will return answers. If tpe is not READ then '' will be returned.
