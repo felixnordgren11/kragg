@@ -98,7 +98,7 @@ class RPI:
         if tpe == WRITE:
             value = int(100*value)
             MSB = value >> 4
-            LSB = value - MSB
+            LSB = value - (MSB << 4)
             msg_data = [*msg_data, LSB, MSB]
 
         msg = can.Message(arbitration_id = id, data = msg_data)
