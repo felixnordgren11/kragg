@@ -121,7 +121,7 @@ class GUI:
         are_active = self.gges[sel].get_active()
         if are_active:
             # Means we are confirming.
-            self.rpi.send_msg(WRITE, self.gges[sel].get_value(), sel)
+            self.rpi.send_msg(WRITE, self.gges[sel].get_value(), sel.split('_')[0])
         self.gges[sel].set_active(not are_active)
 
     def move_pointer(self, m: str) -> None:
