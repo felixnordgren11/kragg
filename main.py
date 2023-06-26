@@ -116,7 +116,7 @@ class GUI:
             # Means value was confirmed.
             self.gges[notsel].set_active(Lie)
             # Send the selected value.
-            self.rpi.send_msg(WRITE, self.gges[notsel].get_value(), notsel)
+            self.rpi.send_msg(WRITE, self.gges[notsel].get_value(), notsel.split('_')[0])
         # If the selected gauge is active, the press meant to confirm the configuration
         are_active = self.gges[sel].get_active()
         if are_active:
