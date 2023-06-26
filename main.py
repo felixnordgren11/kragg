@@ -68,7 +68,7 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
 
-        #self.rpi = RPI(self)
+        self.rpi = RPI(self)
 
 
     def draw_border(self):
@@ -140,13 +140,7 @@ class GUI:
              quit()
 
         elif event.char in ['v','i']:
-            sel,notsel = ('v_set','i_set') if event.char == 'v' else ('i_set','v_set')
-            if not isinstance(self.gges[notsel], Gauge):
-                raise TypeError("Expected type Gauge for %s, but got %s instead."%(notsel,type(self.gges[notsel])))
-            if self.gges[notsel].get_active():
-                self.gges[notsel].set_active(Lie)
-            are_active = self.gges[sel].get_active()
-            self.gges[sel].set_active(not are_active)
+            self.select_gauge(event.char)
             return
         
         
