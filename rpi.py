@@ -94,8 +94,9 @@ class RPI:
         key = '_'.join([unit, tpe])
         # Getting the message from library written in settings 
         id, msg_data = self.settings.command_lib[key]
-        
+        # Make value to centiunits.
         if tpe == WRITE:
+            value = round(100*value)
             MSB = value >> 4
             LSB = value - MSB
             msg_data = [*msg_data, LSB, MSB]
