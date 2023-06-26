@@ -104,7 +104,7 @@ class RPI:
         msg = can.Message(arbitration_id = id, data = msg_data)
         self.bus.send(msg)
 
-        if tpe == WRITE:
+        if tpe == READ:
             return str(self.bus.recv())
         return ''
         
