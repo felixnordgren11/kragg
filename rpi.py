@@ -5,12 +5,12 @@ import serial
 import spidev
 import can
 
-ROTARY_LEFT = 3
-ROTARY_RIGHT = 2
-BUTTON_LEFT = 23
-BUTTON_RIGHT = 24
-BUTTON_V = 4
-BUTTON_I = 25
+ROTARY_LEFT = 0
+ROTARY_RIGHT = 1
+BUTTON_LEFT = 5
+BUTTON_RIGHT = 6
+BUTTON_V = 13
+BUTTON_I = 12
 WRITE = 'write'
 READ = 'read'
 
