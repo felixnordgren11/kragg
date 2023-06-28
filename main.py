@@ -107,7 +107,10 @@ class GUI:
             if msg is not None:
                 value = self.rpi._decode(msg)
                 value = value/100
-                self.gges['v_out'].set_gauge(value)
+                if msg.data[0] == 0x01:
+                    self.gges['v_out'].set_gauge(value)
+                elif msg.data[0] == 0x02: 
+                    self.gges['i_out'].set_gauge(value)
             
             # Update power gauge
             v = self.gges['v_out'].get_value()
