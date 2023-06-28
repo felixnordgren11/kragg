@@ -106,8 +106,8 @@ class RPI:
         # The relevant data lies in bytes 4 - 8
         data = data[4:]
         # Now, convert from this array which is little endian
-        data = sum([d << i*4 for i, d in enumerate(data)])
+        data = sum([d << i*8 for i, d in enumerate(data)])
         return data
     
 if __name__ == '__main__':
-    print(RPI._decode(can.Message(data=[0x10,0x20,0x22,0x01,0x01,0x00])))
+    print(RPI._decode(can.Message(data=[0x10,0x20,0x22,0x01,0x00,0x01])))
