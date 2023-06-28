@@ -102,9 +102,11 @@ class GUI:
             '''
             
             # Send v_read 
-            msg = self.rpi.bus.recv()
+            msg = self.rpi.bus.recv(timeout = 0.2)
             if msg is not None:
-                print(self.rpi._decode(msg))
+                value = self.rpi._decode(msg)
+                value = value/100
+                self.gges['v_out'].set_gauge(value)
             
             # Update power gauge
             v = self.gges['v_out'].get_value()
