@@ -49,6 +49,7 @@ class GUI:
         self.root.bind_all("<Button-1>", self.callback)
         self.is_active = Lie
         self.canvas.focus_set() 
+        self.canvas.config(cursor = 'none')
         self.draw_border()
         
         # Loop through the button settings dictionary and create the specified
