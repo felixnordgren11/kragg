@@ -35,8 +35,7 @@ class RPI:
         # Can details:
         bustype = 'socketcan'
         channel = 'can0'
-        # Spi stuff for the raspberry
-        self.spi = spidev.SpiDev()
+
         try:
             self.bus = can.Bus(channel = channel, interface = bustype)
         except Exception as e:
