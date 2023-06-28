@@ -2,7 +2,6 @@ import gpiozero as io
 from settings import Settings
 import tkinter as tk
 import serial
-import spidev
 import can
 
 ROTARY_LEFT = 0
@@ -77,12 +76,12 @@ class RPI:
                 self.GUI.gges['v_set'].digit_change(value)
         
 
-    def send_msg(self, tpe: str, value: int, unit: str) -> str:
+    def send_msg(self, tpe: str, value: int, unit: str) -> int:
         # Construct the key with which the message is obtained.
         # Will return answers. If tpe is not READ then '' will be returned.
         key = '_'.join([unit, tpe])
         # Getting the message from library written in settings 
-        id, msg_data = self.settings.command_lib[key]
+        arb_id, msg_data = self.settings.command_lib[key]
         # Make value to centiunits.
         if tpe == WRITE:
             value = int(100*value)
@@ -90,13 +89,26 @@ class RPI:
             LSB = value - (MSB << 4)
             msg_data = [*msg_data, LSB, MSB]
 
-        msg = can.Message(arbitration_id = id, data = msg_data)
+        msg = can.Message(arbitration_id = arb_id, data = msg_data)
         self.bus.send(msg)
 
         if tpe == READ:
-            return str(self.bus.recv())
-        return ''
-        
-        
-
-
+            msg = self.bus.recv()
+            if msg is not None:
+                return self._decode(msg)
+        return 0
+    @staticmethod
+    def _decode(msg: can.Message):
+        '''Returns the data contained in the
+        most recent 
+        '''
+        # msg.data is a byte array
+        data = list(msg.data) 
+        # The relevant data lies in bytes 4 - 8
+        data = data[4:]
+        # Now, convert from this array which is little endian
+        data = sum([d << i*4 for i, d in enumerate(data)])
+        return data
+    
+if __name__ == '__main__':
+    print(RPI._decode(can.Message(data=[0x10,0x20,0x22,0x01,0x01,0x00])))
