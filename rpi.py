@@ -121,7 +121,7 @@ if __name__ == '__main__':
         if cmnd[0] == 0x2F:
             value = float(input('Value: '))
             tpe = WRITE
-            rpi.send_msg(tpe, cmnd,  value= value)
+            rpi.send_msg(tpe, (id,cmnd),  value= value)
         else:
             tpe = READ
-            rpi.send_msg(tpe, cmnd)
+            rpi.send_msg(tpe, (id,cmnd))
