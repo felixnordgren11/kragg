@@ -97,7 +97,7 @@ class GUI:
         to set into configurable mode (test mode)
         '''
         # We want to set the power unit into test mode. 
-        command = self.settings.command_lib['test']
+        command = self.settings.command_lib['test_mode']
         reply = self.rpi.send_msg(WRITE, command, value = 1)
         print(reply)
     
