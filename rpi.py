@@ -75,7 +75,7 @@ class RPI:
         for gauge in self.GUI.gges.values():
             # We check all as only one will be active at any time.
             if gauge.get_active():
-                self.GUI.gges['v_set'].digit_change(value)
+                gauge.digit_change(value)
         
 
     def send_msg(self, tpe: str, command, value = 0.0) -> int:
