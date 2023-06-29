@@ -14,8 +14,12 @@ from rpi import RPI, WRITE, READ
 Fact = True
 Lie  = False
 
-#myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
-#ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+'''
+To do:
+Remove unused files and incorporate reading of the gauges at 
+timed intervals.
+Also, add a "485-init"-method or something like it. It will act as
+'''
 
 class GUI:
     '''
@@ -70,7 +74,7 @@ class GUI:
             self.gges[label].draw()
 
         self.rpi = RPI(self)
-
+        self.init_power_unit()
 
     def draw_border(self):
         '''Function that draws the border around the GUI,
@@ -88,7 +92,16 @@ class GUI:
         #self.round_rectangle(self.canvas, x1, y1,x1 + 100, y1 + 50, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
     
 
+    def init_power_unit(self):
+        '''Sends necessary commands to the power unit
+        to set into configurable mode (test mode)
+        '''
+        # We want to set the power unit into test mode. 
+        command = self.settings.command_lib['test']
+        reply = self.rpi.send_msg(WRITE, command, value = 1)
+        print(reply)
     
+
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''Helper function that can draw rounded objects.
         '''  
@@ -101,21 +114,17 @@ class GUI:
     def update_value(self):
             '''Helper function that computes the measured output power.
             '''
-            
             # Send v_read 
-            msg = self.rpi.bus.recv(timeout = 0.2)
-            if msg is not None:
-                value = self.rpi._decode(msg)
-                value = value/100
-                if msg.data[0] == 0x01:
-                    self.gges['v_out'].set_gauge(value)
-                elif msg.data[0] == 0x02: 
-                    self.gges['i_out'].set_gauge(value)
-            
+            v_value, i_value = self.rpi.send_msg(
+                READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
+            self.gges['v_out'].set_gauge(v_value)
+            self.gges['i_out'].set_gauge(i_value)
+
             # Update power gauge
             v = self.gges['v_out'].get_value()
             i = self.gges['i_out'].get_value()
             self.gges['p'].set_gauge(i*v)
+
             self.root.after(self.settings.update_speed, self.update_value)
             
     def select_gauge(self, m: str):
@@ -130,12 +139,12 @@ class GUI:
             # Means value was confirmed.
             self.gges[notsel].set_active(Lie)
             # Send the selected value.
-            self.rpi.send_msg(WRITE, self.gges[notsel].get_value(), notsel.split('_')[0])
+            self.rpi.send_msg(WRITE, self.settings.command_lib[notsel], self.gges[notsel].get_value())
         # If the selected gauge is active, the press meant to confirm the configuration
         are_active = self.gges[sel].get_active()
         if are_active:
             # Means we are confirming.
-            self.rpi.send_msg(WRITE, self.gges[sel].get_value(), sel.split('_')[0])
+            self.rpi.send_msg(WRITE, self.settings.command_lib[sel], self.gges[sel].get_value())
         self.gges[sel].set_active(not are_active)
 
     def move_pointer(self, m: str) -> None:

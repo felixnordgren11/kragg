@@ -16,10 +16,12 @@ READ = 'read'
 
 class RPI:
 
-    def __init__(self, GUI):
+    def __init__(self, GUI = None):
         '''Instantiates the RPI class
         '''
         # Store the GUI object that is running on the raspberry pi.
+        if GUI is None:
+            print("Test mode")
         self.GUI = GUI
         self.settings = Settings()
         # Following two pins are used for the rotary encoder
@@ -41,12 +43,13 @@ class RPI:
         except Exception as e:
             print('Can initialization failed with following exception:', e)
         # Binding the pins to functions.
-        self.pin_a.when_pressed = self.pin_a_rising
-        self.pin_b.when_pressed = self.pin_b_rising
-        self.pin_c.when_pressed = lambda x: self.GUI.select_gauge('v')
-        self.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
-        self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
-        self.pin_f.when_pressed = lambda x: self.GUI.select_gauge('i')
+        if GUI is not None:
+            self.pin_a.when_pressed = self.pin_a_rising
+            self.pin_b.when_pressed = self.pin_b_rising
+            self.pin_c.when_pressed = lambda x: self.GUI.select_gauge('v')
+            self.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
+            self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
+            self.pin_f.when_pressed = lambda x: self.GUI.select_gauge('i')
     
     def pin_a_rising(self):                # Pin A event handler
         '''Handler for when pin is set high
@@ -75,17 +78,16 @@ class RPI:
                 self.GUI.gges['v_set'].digit_change(value)
         
 
-    def send_msg(self, tpe: str, value: int, unit: str) -> int:
-        # Construct the key with which the message is obtained.
-        # Will return answers. If tpe is not READ then '' will be returned.
-        key = '_'.join([unit, tpe])
+    def send_msg(self, tpe: str, command, value = 0.0) -> int:
+   
         # Getting the message from library written in settings 
-        arb_id, msg_data = self.settings.command_lib[key]
+        arb_id, msg_data = command
         # Make value to centiunits.
         if tpe == WRITE:
             value = int(100*value)
-            MSB = value >> 4
-            LSB = value - (MSB << 4)
+            # Data is divided into bytes.
+            MSB = value >> 8
+            LSB = value - (MSB << 8)
             msg_data = [*msg_data, LSB, MSB]
 
         msg = can.Message(arbitration_id = arb_id, data = msg_data)
@@ -96,8 +98,10 @@ class RPI:
             if msg is not None:
                 return self._decode(msg)
         return 0
+    
+
     @staticmethod
-    def _decode(msg: can.Message):
+    def _decode(msg: can.Message) -> int:
         '''Returns the data contained in the
         most recent 
         '''
@@ -110,4 +114,14 @@ class RPI:
         return data
     
 if __name__ == '__main__':
-    print(RPI._decode(can.Message(data=[0x10,0x20,0x22,0x01,0x00,0x01])))
+
+    rpi = RPI()
+    while 1:
+        id, cmnd = rpi.settings.command_lib[input('Command: ')]
+        if cmnd[0] == 0x2F:
+            value = float(input('Value: '))
+            tpe = WRITE
+            rpi.send_msg(tpe, cmnd,  value= value)
+        else:
+            tpe = READ
+            rpi.send_msg(tpe, cmnd)
