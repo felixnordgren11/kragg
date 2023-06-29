@@ -113,6 +113,9 @@ class GUI:
                 x1, y1+r, x1, y1)
         return master.create_polygon(points, **kwargs, smooth=True)
 
+##################################################################################
+#                        RUNS CONTINUOUSLY
+
     def update_value(self):
             '''Helper function that computes the measured output power.
             '''
@@ -125,10 +128,13 @@ class GUI:
             # Update power gauge
             v = self.gges['v_out'].get_value()
             i = self.gges['i_out'].get_value()
-            self.gges['p'].set_gauge(i*v)
+            self.gges['p'].set_gauge(round(i*v,2))
 
             self.root.after(self.settings.update_speed, self.update_value)
             
+##################################################################################
+
+
     def select_gauge(self, m: str):
         '''Selects a gauge so that it can be configured
         and thereby changing output reference values for the
