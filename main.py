@@ -140,13 +140,15 @@ class GUI:
         if self.gges[notsel].get_active():
             # Means value was confirmed.
             self.gges[notsel].set_active(Lie)
-            # Send the selected value.
-            self.rpi.send_msg(WRITE, self.settings.command_lib[notsel], self.gges[notsel].get_value())
+            # Send the selected value if device is enabled.
+            if self.mode == 'enable':
+                self.rpi.send_msg(WRITE, self.settings.command_lib[notsel], self.gges[notsel].get_value())
         # If the selected gauge is active, the press meant to confirm the configuration
         are_active = self.gges[sel].get_active()
         if are_active:
             # Means we are confirming.
-            self.rpi.send_msg(WRITE, self.settings.command_lib[sel], self.gges[sel].get_value())
+            if self.mode == 'enable':
+                self.rpi.send_msg(WRITE, self.settings.command_lib[sel], self.gges[sel].get_value())
         self.gges[sel].set_active(not are_active)
 
     def move_pointer(self, m: str) -> None:
@@ -183,6 +185,14 @@ class GUI:
                 self.gges['i_set'].digit_change(value)
         
     
+    def set_current_out(self):
+        '''Sets the current output values.
+        '''
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], self.gges['v_out'].get_value())
+        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], self.gges['i_out'].get_value())
+
+
+
     def callback(self, event):
             x, y = event.x, event.y
             # Helper function
@@ -192,10 +202,12 @@ class GUI:
             if not any([inside_btn(x,y,btn) for btn in self.btns.values()]):
                  return 
             
-            for btn in self.btns.values():
+            for mode, btn in self.btns.items():
                 if inside_btn(x, y, btn):
+                     self.mode = mode
                      btn.selected(Fact)
-
+                     if mode == 'enable':
+                         self.set_current_out()
                 else:
                      btn.selected(Lie)
 
