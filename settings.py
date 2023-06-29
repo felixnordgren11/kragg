@@ -87,6 +87,7 @@ class Settings:
                            'b' : self.height*0.185,
                            'width' : 1,
                            'bg' : 'black',
+                           'max' : self.max_v
                            'unit' : 'V',
                            'fg' : 'white',
                            'font' : (self.font, self.output_font_size),
@@ -95,6 +96,7 @@ class Settings:
                            'b' : self.height*0.285,
                            'width' : 1,
                            'bg' : '#000000',
+                           'max': self.max_i
                            'unit' : 'A',
                            'fg' : '#ffffff',
                            'font' : (self.font, self.output_font_size),
