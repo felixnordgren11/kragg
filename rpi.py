@@ -118,7 +118,7 @@ class RPI:
         data = data[4:]
         # Check if negative
         MSB = data[-1]
-        is_negative = (0b10000000 | MSB) == 0b10000000
+        is_negative = (0b10000000 & MSB) == 0b10000000
         if is_negative:
             return 0
         # Now, convert from this array which is little endian
