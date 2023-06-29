@@ -101,6 +101,9 @@ class RPI:
             msg = self.bus.recv(timeout = 0.2)
             if msg is not None:
                 return self._decode(msg)
+        else:
+            #clear buffer
+            self.bus.recv(timeout=0.1)
         return 0
     
 
