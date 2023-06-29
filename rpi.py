@@ -94,7 +94,7 @@ class RPI:
                 value = int(value)
                 msg_data = [*msg_data, value]
 
-        msg = can.Message(arbitration_id = arb_id, data = msg_data)
+        msg = can.Message(arbitration_id = arb_id, data = msg_data, is_extended_id=False)
         self.bus.send(msg)
 
         if tpe == READ:
