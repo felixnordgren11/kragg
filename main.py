@@ -211,6 +211,7 @@ class GUI:
             for mode, btn in self.btns.items():
                 if inside_btn(x, y, btn):
                      self.mode = mode
+                     print(mode)
                      btn.selected(Fact)
                      if mode == 'enable':
                          self.set_current_out()
