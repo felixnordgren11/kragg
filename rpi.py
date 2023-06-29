@@ -84,7 +84,7 @@ class RPI:
         arb_id, msg_data = command
         # Make value to centiunits.
         if tpe == WRITE:
-            if msg_data[-1] != 0xFF:
+            if (msg_data[-1] >> 4) != 0xF:
                 value = int(100*value)
                 # Data is divided into bytes.
                 MSB = value >> 8
