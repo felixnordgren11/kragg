@@ -132,5 +132,5 @@ if __name__ == '__main__':
         else:
             tpe = READ
             ans = rpi.send_msg(tpe, (id,cmnd))
-            print(ans)
+            print(ans/100)
             
