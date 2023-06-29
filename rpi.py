@@ -116,6 +116,11 @@ class RPI:
         data = list(msg.data) 
         # The relevant data lies in bytes 4 - 8
         data = data[4:]
+        # Check if negative
+        MSB = data[-1]
+        is_negative = (0b10000000 | MSB) == 0b10000000
+        if is_negative:
+            return 0
         # Now, convert from this array which is little endian
         data = sum([d << i*8 for i, d in enumerate(data)])
         return data
