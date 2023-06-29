@@ -128,4 +128,6 @@ if __name__ == '__main__':
             rpi.send_msg(tpe, (id,cmnd),  value= value)
         else:
             tpe = READ
-            rpi.send_msg(tpe, (id,cmnd))
+            ans = rpi.send_msg(tpe, (id,cmnd))
+            print(ans)
+            
