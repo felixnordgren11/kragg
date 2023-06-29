@@ -98,7 +98,7 @@ class RPI:
         self.bus.send(msg)
 
         if tpe == READ:
-            msg = self.bus.recv()
+            msg = self.bus.recv(timeout = 0.2)
             if msg is not None:
                 return self._decode(msg)
         return 0
