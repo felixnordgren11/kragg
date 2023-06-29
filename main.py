@@ -194,6 +194,7 @@ class GUI:
     def set_current_out(self):
         '''Sets the current output values.
         '''
+        print(self.gges['v_out'].get_value())
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], self.gges['v_out'].get_value())
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], self.gges['i_out'].get_value())
 
