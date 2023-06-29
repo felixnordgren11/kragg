@@ -84,11 +84,15 @@ class RPI:
         arb_id, msg_data = command
         # Make value to centiunits.
         if tpe == WRITE:
-            value = int(100*value)
-            # Data is divided into bytes.
-            MSB = value >> 8
-            LSB = value - (MSB << 8)
-            msg_data = [*msg_data, LSB, MSB]
+            if msg_data[-1] != 0xFF:
+                value = int(100*value)
+                # Data is divided into bytes.
+                MSB = value >> 8
+                LSB = value - (MSB << 8)
+                msg_data = [*msg_data, LSB, MSB]
+            else:
+                value = int(value)
+                msg_data = [*msg_data, value]
 
         msg = can.Message(arbitration_id = arb_id, data = msg_data)
         self.bus.send(msg)
