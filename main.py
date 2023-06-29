@@ -9,6 +9,7 @@ from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
+from time import sleep
 #import ctypes
 
 Fact = True
@@ -99,6 +100,7 @@ class GUI:
         # We want to set the power unit into test mode. 
         command = self.settings.command_lib['test_mode']
         reply = self.rpi.send_msg(WRITE, command, value = 1)
+        sleep(1)
         print(reply)
     
 
@@ -117,8 +119,8 @@ class GUI:
             # Send v_read 
             v_value, i_value = self.rpi.send_msg(
                 READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
-            self.gges['v_out'].set_gauge(v_value)
-            self.gges['i_out'].set_gauge(i_value)
+            self.gges['v_out'].set_gauge(v_value/100)
+            self.gges['i_out'].set_gauge(i_value/100)
 
             # Update power gauge
             v = self.gges['v_out'].get_value()
