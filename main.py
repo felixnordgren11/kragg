@@ -82,7 +82,7 @@ class GUI:
 
         self.rpi = RPI(self)
         self.init_power_unit()
-        self.root.after(200, self.update_value)
+        
 
 
 
@@ -259,6 +259,7 @@ class GUI:
         
         loading_window.destroy()
         root.deiconify()
+        self.root.after(200, self.update_value)
 
 
 
