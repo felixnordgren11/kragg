@@ -35,6 +35,7 @@ class GUI:
         '''Initializes variables'''
         # This is our window.
         self.root = tk.Tk()
+        self.loaded = Lie
         self.settings = Settings()
 
     def init(self):
@@ -107,11 +108,13 @@ class GUI:
         to set into configurable mode (test mode)
         '''
         # We want to set the power unit into test mode. 
-        command = self.settings.command_lib['test_mode']
-        reply = self.rpi.send_msg(WRITE, command, value = 1)
-        sleep(1)
-        print(reply)
-    
+        if self.loaded:
+            command = self.settings.command_lib['test_mode']
+            reply = self.rpi.send_msg(WRITE, command, value = 1)
+            sleep(1)
+            print(reply)
+            self.root.after(200, self.update_value)
+        
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''Helper function that can draw rounded objects.
@@ -259,7 +262,7 @@ class GUI:
         
         loading_window.destroy()
         root.deiconify()
-        self.root.after(200, self.update_value)
+        self.loaded = Fact
 
 
 
