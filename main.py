@@ -5,6 +5,8 @@ Tanke: Ta bort postion från gaugesettings så att allt bara är text.
 
 '''
 import tkinter as tk
+from tkinter import ttk
+
 from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
@@ -33,9 +35,10 @@ class GUI:
         '''Initializes variables'''
         # This is our window.
         self.root = tk.Tk()
-
-        # In here all settings are stored and defined.
         self.settings = Settings()
+
+    def init(self):
+        
 
         # Here all graphical objects will be drawn.
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
@@ -48,6 +51,9 @@ class GUI:
 
         # Initialize as disabled. Otherwise it will start with an output voltage neq 0.
         self.mode = 'disable'
+
+        # For loading screen
+        
 
         # Bind click events
         self.root.bind_all("<Key>", self.key)
@@ -74,8 +80,11 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
 
-        self.rpi = RPI(self)
-        self.init_power_unit()
+        #self.rpi = RPI(self)
+        #self.init_power_unit()
+        self.root.after(200, self.update_value)
+
+
 
     def draw_border(self):
         '''Function that draws the border around the GUI,
@@ -116,10 +125,11 @@ class GUI:
 ##################################################################################
 #                        RUNS CONTINUOUSLY
 
+
     def update_value(self):
             '''Helper function that computes the measured output power.
             '''
-            # Send v_read 
+            # Send v_read a
             v_value, i_value = self.rpi.send_msg(
                 READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
             self.gges['v_out'].set_gauge(v_value/100)
@@ -220,8 +230,39 @@ class GUI:
 
     # Add a line that runs the power function every 200 ms:
 
+    def show_loading_screen(self, root):
+
+        loading_window = tk.Toplevel()
+        loading_window.title("Loading...")
+        loading_window.geometry(f"250x250+{'+'.join(map(lambda x: str(int(0.25*int(x))), self.settings.geometry.split('x')))}")
+        
+        label = tk.Label(loading_window, text="Loading...", font=("Arial", 12))
+        label.pack(pady=20)
+        
+        progressbar = ttk.Progressbar(loading_window, length=150, mode="determinate")
+        progressbar.pack(pady=10)
+        
+        loading_window.transient(root)
+        loading_window.grab_set()
+        root.update()
+        
+        # Simulate some loading process and update the progress bar
+        # Replace this with your actual loading process
+        import time
+        total_progress = 100  # Total progress steps
+        for progress in range(total_progress):
+            time.sleep(0.05)  # Simulating a small delay between updates
+            progressbar['value'] = (progress / total_progress) * 100
+            loading_window.update_idletasks()  # Update the loading window
+        
+        loading_window.destroy()
+        root.deiconify()
+
+
+
     def run(self):
-        self.root.after(200, self.update_value)
+        self.root.after(200, lambda: self.show_loading_screen(self.root))
+        self.root.after(200, self.init)
         self.root.mainloop()
 
 if '__main__' == __name__:
