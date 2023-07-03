@@ -1,7 +1,6 @@
 import gpiozero as io
 from settings import Settings
 import tkinter as tk
-import serial
 import can
 
 ROTARY_LEFT = 0
