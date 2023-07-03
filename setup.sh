@@ -9,7 +9,7 @@ sudo update-rc.d innit.sh defaults
 
 #install requirements
 
-xargs sudo apt-get install /kragg/requirements.txt/
+pip install -r requirements.txt
 
 #replace the config file
 
