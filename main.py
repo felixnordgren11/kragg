@@ -80,8 +80,8 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
 
-        #self.rpi = RPI(self)
-        #self.init_power_unit()
+        self.rpi = RPI(self)
+        self.init_power_unit()
         self.root.after(200, self.update_value)
 
 
@@ -252,6 +252,8 @@ class GUI:
         total_progress = 100  # Total progress steps
         for progress in range(total_progress):
             time.sleep(0.05)  # Simulating a small delay between updates
+            if progress == 30:
+                loading_window.title("Merry dickmas")
             progressbar['value'] = (progress / total_progress) * 100
             loading_window.update_idletasks()  # Update the loading window
         
