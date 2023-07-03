@@ -13,7 +13,8 @@ This was a project to convert a AC-DC converter to a lab bench power supply unit
 ## Hardware and Technologies
 The hardware needed for this project is:
 
-* A Raspberry Pi 4/3 or Zero with 32-bit Rasbian.
+* A Raspberry Pi 4/3 or Zero
+* A 16 GB SD card
 * A SPI-CAN extension, like this [one](https://www.electrokit.com/produkt/can-bus-modul-mcp2515-tja1050-spi/).
 * [This LCD](https://www.electrokit.com/produkt/3-5-tft-display-for-raspberry-pi-med-touch/).
 * One rotary encoder.
@@ -23,4 +24,20 @@ The hardware needed for this project is:
 
 The needed software:
 * Python 3.10 and the dependencies listed in 'requirements.txt'
-*
+* A copy of Raspbian available from the [Raspberry Pi imager](https://www.raspberrypi.com/software/)
+
+## Setup
+
+Begin by downloading the Raspberry Pi imager from the software page on their website. Then, insert the SD card into your computer and choose the 32-bit OS and write it to the SD. 
+
+Now, insert the SD-card into the Raspberry PI and hook it up to a monitor in order to configure it. Choose a password and use *pi* as username. 
+
+After it has been set up correctly, open the terminal and write:
+```shell
+git clone https://github.com/felixnordgren11/kragg
+```
+This will clone the repository into /home/pi/kragg/.
+After this has been done, type in
+```shell
+./kragg/setup.sh
+```
