@@ -1,8 +1,10 @@
 ''' Here some code will be written,
 NAWRAHL CABON BRAINWOW
 
-Tanke: Ta bort postion från gaugesettings så att allt bara är text. 
-
+Tanke: Gör loading_screen till init.
+Hur : Gör en canvas till loading screenen där allt som har med den att göra händer.
+      Efter allt är färdigt, ta bord den canvasen (canvas.destroy()) och skapa den 
+      vanliga som det redan finns kod för.
 '''
 import tkinter as tk
 from tkinter import ttk
@@ -38,7 +40,7 @@ class GUI:
         self.loaded = Lie
         self.settings = Settings()
 
-    def init(self):
+    def graphics(self):
         
 
         # Here all graphical objects will be drawn.
@@ -81,6 +83,7 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
 
+    def hardware(self):
         self.rpi = RPI(self)
         self.init_power_unit()
         
@@ -108,12 +111,11 @@ class GUI:
         to set into configurable mode (test mode)
         '''
         # We want to set the power unit into test mode. 
-        if self.loaded:
-            command = self.settings.command_lib['test_mode']
-            reply = self.rpi.send_msg(WRITE, command, value = 1)
-            sleep(1)
-            print(reply)
-            self.root.after(200, self.update_value)
+        command = self.settings.command_lib['test_mode']
+        reply = self.rpi.send_msg(WRITE, command, value = 1)
+        sleep(1)
+        print(reply)
+        self.root.after(200, self.update_value)
         
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
@@ -233,13 +235,13 @@ class GUI:
 
     # Add a line that runs the power function every 200 ms:
 
-    def show_loading_screen(self, root):
+    def init(self, root):
 
         loading_window = tk.Toplevel()
         loading_window.title("Loading...")
         loading_window.geometry(f"250x250+{'+'.join(map(lambda x: str(int(0.25*int(x))), self.settings.geometry.split('x')))}")
         
-        label = tk.Label(loading_window, text="Loading...", font=("Arial", 12))
+        label = tk.Label(loading_window, text="Loading... 0%", font=("Arial", 12))
         label.pack(pady=20)
         
         progressbar = ttk.Progressbar(loading_window, length=150, mode="determinate")
@@ -250,25 +252,35 @@ class GUI:
         root.update()
         
         # Simulate some loading process and update the progress bar
-        # Replace this with your actual loading process
+        # Here is the loading process
         import time
-        total_progress = 100  # Total progress steps
-        for progress in range(total_progress):
-            time.sleep(0.05)  # Simulating a small delay between updates
-            if progress == 30:
-                label.config(text="Merry dickmas")
-            progressbar['value'] = (progress / total_progress) * 100
+        processes = [
+            {'process' : 'Hardware initializing', 'func' : self.hardware, 'progress' : 50},
+            {'process' : 'Dickmas initializing', 'func' : self.dummy, 'progress' : 50}
+        ]
+        for process in processes:
+            label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
             loading_window.update_idletasks()  # Update the loading window
-        
+            time.sleep(1)  # Simulating a small delay between updates
+            # Run the process
+            try:
+                process['func']()
+            except Exception as e:
+                print(f'Process "{process["process"]}" failed with the following exception: {e}')
+            #
+            progressbar['value'] += process['progress'] 
+            label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
+            loading_window.update_idletasks()  # Update the loading window
+            time.sleep(1)
         loading_window.destroy()
         root.deiconify()
-        self.loaded = Fact
+        self.graphics()
 
-
+    def dummy(self):
+        pass
 
     def run(self):
-        self.root.after(200, lambda: self.show_loading_screen(self.root))
-        self.root.after(200, self.init)
+        self.root.after(200, lambda: self.init(self.root))
         self.root.mainloop()
 
 if '__main__' == __name__:
