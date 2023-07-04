@@ -29,7 +29,9 @@ class Gauge:
     def __init__(self, master, label, **kwargs):
         '''Initializes a gauge to be placed in the gui.
         '''
+        # Canvas object from the GUI
         self.master  = master
+        # The name of the gauge.
         self.labeltext = label.upper()
         self.is_active = Lie
         self.kwargs = kwargs
@@ -89,17 +91,22 @@ class Gauge:
     @enable
     def move_select(self, direction: int):
         '''Function that moves highlight of the digits in the active gauge'''
+        # If the gauge is not selected, don't bother.
         if not self.is_active:
             return
+        # Change in desired direction, either left or right.
         new_select = self.select_digit + direction
+        # Prevent going out of the screen.
         if new_select not in range(len(self.digit_tags)):
             return
+        # Set new one highlighted and remove from old one.
         self.highlight(self.digit_tags[self.select_digit], Lie)
         self.highlight(self.digit_tags[new_select], Fact)
+        # Change which digit is the currently selected one.
         self.select_digit = new_select
 
     @enable
-    def digit_change(self, value: int, dgt = None, hglt = Fact, max = None):
+    def digit_change(self, value: int, dgt = None, hglt = Fact):
         '''Changes the value of the digit at tag with index dgt.
         It also handles changing the digits in the rest of the 
         gauge through recursive calls to itself.'''
@@ -131,6 +138,7 @@ class Gauge:
         self.check_limits()
         
         self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
+        # Digits must be re-highlighted after changed.
         if hglt:
             self.highlight(current_tag)
     
@@ -154,22 +162,39 @@ class Gauge:
         return output
         
     @enable
-    def set_gauge(self, value: float):
+    def set_gauge(self, value: float, rounding = None):
         '''Sets the given gauge to value.
         '''
+        # Begin by setting this to false
+        large = Lie
+        # If no specific rounding is given.
+        if rounding is None:
+            rounding = self.num_dec
+        # If outside of bounds.
         if value > self.max:
             value = self.max
         elif value < 0:
             value = 0
-        value = round(value, self.num_dec)
+        # If larger than 99.99 it can only have one decimal.
+        if value > 99.99:
+            rounding = 1
+            large = Fact
+        value = round(value, rounding)
+        # Remove previous value.
         self.label.delete('1.0', f'1.{len(self.gauge_format)}')
+        # If zero, insert the given standard format (00.00)
         if not value:
             self.label.insert('1.0', self.gauge_format)
             return
-        s = str(value).split('.')
-        s[0] = '0'*(2 - len(s[0])) + s[0] 
-        s[1] = s[1] + '0'*(2 - len(s[1]))  
-        s = '.'.join(s)
+        # If not large (> 99.99), insert zeros to fill out.
+        if not large:
+            s = str(value).split('.')
+            s[0] = '0'*(2 - len(s[0])) + s[0] 
+            s[1] = s[1] + '0'*(2 - len(s[1]))  
+            s = '.'.join(s)
+        else:
+            # Otherwise just take the value as is.
+            s = str(value)
         self.label.insert('1.0', s)
 
     def get_active(self) -> bool:    

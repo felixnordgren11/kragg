@@ -78,7 +78,10 @@ class RPI:
         
 
     def send_msg(self, tpe: str, command, value = 0.0) -> int:
-   
+        '''Send the specified type of message with given 
+        command and value. If tpe is READ, then return value
+        is the answer given by the power unit.
+        '''
         # Getting the message from library written in settings 
         arb_id, msg_data = command
         # Make value to centiunits.
@@ -92,10 +95,10 @@ class RPI:
             else:
                 value = int(value)
                 msg_data = [*msg_data, value]
-
+        # Construct a message object to be sent on the bus.
         msg = can.Message(arbitration_id = arb_id, data = msg_data, is_extended_id=False)
         self.bus.send(msg)
-
+        # If tpe is READ them 
         if tpe == READ:
             msg = self.bus.recv(timeout = 0.2)
             if msg is not None:

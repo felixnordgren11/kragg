@@ -149,5 +149,7 @@ class Settings:
             'enable_powertrain' : (id, [0x2F, 0x10, 0x20, 0xF1]),
             'test_dp' : (id, [0x2F, 0x10, 0x20, 0xFE])
         }
+
+        self.can_init_command = 'sudo ip link set can0 up type can bitrate 500000'
         
         

@@ -1,12 +1,14 @@
 ''' Here some code will be written,
 NAWRAHL CABON BRAINWOW
 
-Tanke: Ta bort postion från gaugesettings så att allt bara är text. 
-
+Tanke: Gör loading_screen till init.
+Hur : Gör en canvas till loading screenen där allt som har med den att göra händer.
+      Efter allt är färdigt, ta bord den canvasen (canvas.destroy()) och skapa den 
+      vanliga som det redan finns kod för.
 '''
 import tkinter as tk
+import os
 from tkinter import ttk
-
 from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
@@ -28,9 +30,6 @@ class GUI:
     '''
     Our main class
     '''
-    
-    
-    
     def __init__(self):
         '''Initializes variables'''
         # This is our window.
@@ -38,26 +37,23 @@ class GUI:
         self.loaded = Lie
         self.settings = Settings()
 
-    def init(self):
-        
-
+    def graphics(self):
+        '''Draws the GUI's visual components.
+        '''
         # Here all graphical objects will be drawn.
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
+        self.canvas.grab_set()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
         '''photo = tk.PhotoImage(file = "iconphoto.png")
         self.root.iconphoto(False, photo)'''
-
         # Initialize as disabled. Otherwise it will start with an output voltage neq 0.
         self.mode = 'disable'
-
-        # For loading screen
-        
-
-        # Bind click events
+        # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
+        # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
         self.is_active = Lie
         self.canvas.focus_set() 
@@ -80,13 +76,20 @@ class GUI:
         for label, gge in self.settings.gaugesettings.items():
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
+        
+        self.root.update()
 
+    def hardware(self):
+        '''Initializes the Raspberry Pi and the power unit.
+        '''
+        # Send command to init the can communication, then wait 100ms
+        os.system(self.settings.can_init_command)
+        sleep(0.1)
+        # Instantiate RPI class which initializes all pins etc.
         self.rpi = RPI(self)
+        # Send appropriate commands to the power unit.
         self.init_power_unit()
         
-
-
-
     def draw_border(self):
         '''Function that draws the border around the GUI,
         Some values could possibly be given as arguments.
@@ -99,21 +102,17 @@ class GUI:
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Neanderball', font = ('Small Fonts', 20), fill = 'black')  
 
-       
-        #self.round_rectangle(self.canvas, x1, y1,x1 + 100, y1 + 50, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
-    
 
     def init_power_unit(self):
         '''Sends necessary commands to the power unit
         to set into configurable mode (test mode)
         '''
         # We want to set the power unit into test mode. 
-        if self.loaded:
-            command = self.settings.command_lib['test_mode']
-            reply = self.rpi.send_msg(WRITE, command, value = 1)
-            sleep(1)
-            print(reply)
-            self.root.after(200, self.update_value)
+        command = self.settings.command_lib['test_mode']
+        reply = self.rpi.send_msg(WRITE, command, value = 1)
+        sleep(1)
+        self.root.after(200, self.update_value)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
         
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
@@ -132,6 +131,7 @@ class GUI:
     def update_value(self):
             '''Helper function that computes the measured output power.
             '''
+
             # Send v_read a
             v_value, i_value = self.rpi.send_msg(
                 READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
@@ -141,7 +141,7 @@ class GUI:
             # Update power gauge
             v = self.gges['v_out'].get_value()
             i = self.gges['i_out'].get_value()
-            self.gges['p'].set_gauge(round(i*v,2))
+            self.gges['p'].set_gauge(i*v, rounding = 2)
 
             self.root.after(self.settings.update_speed, self.update_value)
             
@@ -213,6 +213,8 @@ class GUI:
 
 
     def callback(self, event):
+            '''Handles all left-mouse-click events.
+            '''
             x, y = event.x, event.y
             # Helper function
             inside_btn = lambda x, y, btn: (x > btn.kwargs['x1'] and x < btn.kwargs['x2']) and (y > btn.kwargs['y1'] and y < btn.kwargs['y2']) 
@@ -228,18 +230,21 @@ class GUI:
                      btn.selected(Fact)
                      if mode == 'enable':
                          self.set_current_out()
+                     elif mode == 'disable':
+                         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
                 else:
                      btn.selected(Lie)
 
     # Add a line that runs the power function every 200 ms:
 
-    def show_loading_screen(self, root):
-
+    def init(self, root):
+        '''Initializes the hardware one the Raspberry Pi
+        '''
         loading_window = tk.Toplevel()
         loading_window.title("Loading...")
         loading_window.geometry(f"250x250+{'+'.join(map(lambda x: str(int(0.25*int(x))), self.settings.geometry.split('x')))}")
         
-        label = tk.Label(loading_window, text="Loading...", font=("Arial", 12))
+        label = tk.Label(loading_window, text="Loading... 0%", font=("Arial", 12))
         label.pack(pady=20)
         
         progressbar = ttk.Progressbar(loading_window, length=150, mode="determinate")
@@ -250,25 +255,36 @@ class GUI:
         root.update()
         
         # Simulate some loading process and update the progress bar
-        # Replace this with your actual loading process
+        # Here is the loading process
         import time
-        total_progress = 100  # Total progress steps
-        for progress in range(total_progress):
-            time.sleep(0.05)  # Simulating a small delay between updates
-            if progress == 30:
-                label.config(text="Merry dickmas")
-            progressbar['value'] = (progress / total_progress) * 100
+        processes = [
+            {'process' : 'Hardware initializing', 'func' : self.hardware, 'progress' : 50},
+            {'process' : 'Dickmas initializing', 'func' : self.dummy, 'progress' : 50}
+        ]
+        for process in processes:
+            label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
             loading_window.update_idletasks()  # Update the loading window
-        
+            time.sleep(1)  # Simulating a small delay between updates
+            # Run the process
+            try:
+                process['func']()
+            except Exception as e:
+                print(f'Process "{process["process"]}" failed with the following exception: {e}')
+            #
+            progressbar['value'] += process['progress'] 
+            label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
+            loading_window.update_idletasks()  # Update the loading window
+            time.sleep(1)
         loading_window.destroy()
         root.deiconify()
-        self.loaded = Fact
+   
 
-
+    def dummy(self):
+        pass
 
     def run(self):
-        self.root.after(200, lambda: self.show_loading_screen(self.root))
-        self.root.after(200, self.init)
+        self.graphics()
+        self.root.after(200, lambda: self.init(self.root))
         self.root.mainloop()
 
 if '__main__' == __name__:
