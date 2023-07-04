@@ -46,6 +46,7 @@ class GUI:
         # Here all graphical objects will be drawn.
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
+        self.canvas.grab_set()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
