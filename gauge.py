@@ -163,6 +163,8 @@ class Gauge:
             value = self.max
         elif value < 0:
             value = 0
+        elif value > 99.99:
+            rounding = 1
         value = round(value, rounding)
         self.label.delete('1.0', f'1.{len(self.gauge_format)}')
         if not value:
