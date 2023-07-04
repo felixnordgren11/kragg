@@ -39,5 +39,10 @@ git clone https://github.com/felixnordgren11/kragg
 This will clone the repository into /home/pi/kragg/.
 After this has been done, type in
 ```shell
-./kragg/setup.sh
+cd kragg
+
+chmod +x setup.sh
+
+./setup.sh
 ```
+to enter the kragg folder, make the setup.sh file executable and then run it. When told, enter 1 and press 'Enter' to run the last file and reboot the system.

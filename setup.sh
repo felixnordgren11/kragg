@@ -11,9 +11,9 @@ pip install -r requirements.txt
 
 #replace the config file
 
-sudo rm -f ./home/pi/boot/config.txt
-chmod +x config.txt
-sudo mv config.txt /boot
+sudo rm -f /home/pi/boot/config.txt
+#chmod +x config.txt
+sudo mv config.txt /home/pi/boot
 
 #Clone the Git repository and run the file enabling the LCD screen
 
