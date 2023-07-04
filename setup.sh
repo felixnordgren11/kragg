@@ -7,13 +7,13 @@ sudo update-rc.d innit.sh defaults
 
 #install requirements
 
-pip install -r kragg/requirements.txt
+pip install -r requirements.txt
 
 #replace the config file
 
 sudo rm -f ./home/pi/boot/config.txt
 chmod +x config.txt
-sudo mv config.txt /home/pi/boot/
+sudo mv config.txt /boot
 
 #Clone the Git repository and run the file enabling the LCD screen
 
