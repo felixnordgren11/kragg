@@ -2,13 +2,7 @@
 
 #Move innit.sh to /etc/init.d/ and make it run at boot
 
-git clone https://github.com/goodtft/LCD-show.git
-chmod -r 755 LCD-show
-cd LCD-show/
-sudo ./LCD35-show
-sudo ./LCD-hdmi
-sleep 5
-cd ..
+
 
 /kragg/innit.sh
 
@@ -29,6 +23,9 @@ chmod +x config.txt
 sudo mv config.txt /home/pi/boot/
 
 
+git clone https://github.com/goodtft/LCD-show.git
+chmod -R 755 LCD-show
+cd LCD-show/
 echo "Enter 1 to reboot"
 read in
-test $in -eq 1 && sudo reboot
+test $in -eq 1 && sudo ./LCD35-show
