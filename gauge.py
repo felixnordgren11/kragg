@@ -178,7 +178,7 @@ class Gauge:
             s[0] = '0'*(2 - len(s[0])) + s[0] 
             s[1] = s[1] + '0'*(2 - len(s[1]))  
             s = '.'.join(s)
-        else large:
+        else:
             s = str(value)
         self.label.insert('1.0', s)
 
