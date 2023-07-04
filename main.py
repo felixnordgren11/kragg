@@ -84,7 +84,7 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
             self.gges[label].draw()
         
-        root.update()
+        self.root.update()
 
     def hardware(self):
         self.rpi = RPI(self)
