@@ -58,11 +58,11 @@ class RPI:
             if self.GUI.mode == 'enable':
                 # Update voltage and send.
                 # First we get the active gauge:
-                cmnd, active_gauge = [(g, name) for name, g in self.GUI.gges.items() if g.get_active()][0]
+                active_gauge, cmnd  = [(g, name) for name, g in self.GUI.gges.items() if g.get_active()][0]
 
                 self.send_msg(WRITE, self.settings.command_lib[cmnd], active_gauge.get_value())
                 
-                
+
     def pin_b_rising(self):                   # Pin B event handler
         '''Handler for when pin is set high
         '''
