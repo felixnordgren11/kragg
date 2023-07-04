@@ -69,8 +69,9 @@ class RPI:
         if self.pin_a.is_pressed:
              self.add_value(-1) 
              if self.GUI.mode == 'enable':
-                # Update voltage and send.
-                pass
+                active_gauge, cmnd  = [(g, name) for name, g in self.GUI.gges.items() if g.get_active()][0]
+
+                self.send_msg(WRITE, self.settings.command_lib[cmnd], active_gauge.get_value())
 
 
     def add_value(self, value: int):
