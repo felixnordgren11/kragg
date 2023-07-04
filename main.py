@@ -277,12 +277,13 @@ class GUI:
             time.sleep(1)
         loading_window.destroy()
         root.deiconify()
-        self.graphics()
+   
 
     def dummy(self):
         pass
 
     def run(self):
+        self.graphics()
         self.root.after(200, lambda: self.init(self.root))
         self.root.mainloop()
 
