@@ -8,7 +8,7 @@ sudo update-rc.d innit.sh defaults
 
 #install requirements
 
-pip install -r requirements.txt
+pip install -r kragg/requirements.txt
 
 #replace the config file
 
