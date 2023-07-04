@@ -20,4 +20,6 @@ chmod +x config.txt
 sudo mv config.txt /home/pi/boot/
 
 
-echo "Merry Dickmas Santa Cock" "Peter Piper picked a peck of pickled cocks"
+echo "Enter 1 to reboot"
+read in
+test $in -eq 1 && sudo reboot
