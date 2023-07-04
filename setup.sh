@@ -1,7 +1,6 @@
 #! /usr/bin/bash/
 
 #Move innit.sh to /etc/init.d/ and make it run at boot
-/kragg/innit.sh
 chmod +x innit.sh
 sudo mv innit.sh /etc/init.d/
 sudo update-rc.d innit.sh defaults
@@ -13,8 +12,6 @@ pip install -r kragg/requirements.txt
 #replace the config file
 
 sudo rm -f ./home/pi/boot/config.txt
-
-/kragg/config.txt
 chmod +x config.txt
 sudo mv config.txt /home/pi/boot/
 
