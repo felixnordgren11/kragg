@@ -154,14 +154,16 @@ class Gauge:
         return output
         
     @enable
-    def set_gauge(self, value: float):
+    def set_gauge(self, value: float, rounding = None):
         '''Sets the given gauge to value.
         '''
+        if rounding is None:
+            rounding = self.num_dec
         if value > self.max:
             value = self.max
         elif value < 0:
             value = 0
-        value = round(value, self.num_dec)
+        value = round(value, rounding)
         self.label.delete('1.0', f'1.{len(self.gauge_format)}')
         if not value:
             self.label.insert('1.0', self.gauge_format)

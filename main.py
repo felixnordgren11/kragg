@@ -146,7 +146,7 @@ class GUI:
             # Update power gauge
             v = self.gges['v_out'].get_value()
             i = self.gges['i_out'].get_value()
-            self.gges['p'].set_gauge(round(i*v,2))
+            self.gges['p'].set_gauge(i*v, rounding = 2)
 
             self.root.after(self.settings.update_speed, self.update_value)
             
