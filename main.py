@@ -7,8 +7,8 @@ Hur : Gör en canvas till loading screenen där allt som har med den att göra h
       vanliga som det redan finns kod för.
 '''
 import tkinter as tk
+import os
 from tkinter import ttk
-
 from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
@@ -30,9 +30,6 @@ class GUI:
     '''
     Our main class
     '''
-    
-    
-    
     def __init__(self):
         '''Initializes variables'''
         # This is our window.
@@ -41,8 +38,8 @@ class GUI:
         self.settings = Settings()
 
     def graphics(self):
-        
-
+        '''Draws the GUI's visual components.
+        '''
         # Here all graphical objects will be drawn.
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
@@ -52,15 +49,11 @@ class GUI:
         self.root.attributes('-fullscreen', True)
         '''photo = tk.PhotoImage(file = "iconphoto.png")
         self.root.iconphoto(False, photo)'''
-
         # Initialize as disabled. Otherwise it will start with an output voltage neq 0.
         self.mode = 'disable'
-
-        # For loading screen
-        
-
-        # Bind click events
+        # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
+        # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
         self.is_active = Lie
         self.canvas.focus_set() 
@@ -87,12 +80,16 @@ class GUI:
         self.root.update()
 
     def hardware(self):
+        '''Initializes the Raspberry Pi and the power unit.
+        '''
+        # Send command to init the can communication, then wait 100ms
+        os.system(self.settings.can_init_command)
+        sleep(0.1)
+        # Instantiate RPI class which initializes all pins etc.
         self.rpi = RPI(self)
+        # Send appropriate commands to the power unit.
         self.init_power_unit()
         
-
-
-
     def draw_border(self):
         '''Function that draws the border around the GUI,
         Some values could possibly be given as arguments.
@@ -105,9 +102,6 @@ class GUI:
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Neanderball', font = ('Small Fonts', 20), fill = 'black')  
 
-       
-        #self.round_rectangle(self.canvas, x1, y1,x1 + 100, y1 + 50, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
-    
 
     def init_power_unit(self):
         '''Sends necessary commands to the power unit
@@ -117,8 +111,8 @@ class GUI:
         command = self.settings.command_lib['test_mode']
         reply = self.rpi.send_msg(WRITE, command, value = 1)
         sleep(1)
-        print(reply)
         self.root.after(200, self.update_value)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
         
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
@@ -137,6 +131,7 @@ class GUI:
     def update_value(self):
             '''Helper function that computes the measured output power.
             '''
+
             # Send v_read a
             v_value, i_value = self.rpi.send_msg(
                 READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
@@ -218,6 +213,8 @@ class GUI:
 
 
     def callback(self, event):
+            '''Handles all left-mouse-click events.
+            '''
             x, y = event.x, event.y
             # Helper function
             inside_btn = lambda x, y, btn: (x > btn.kwargs['x1'] and x < btn.kwargs['x2']) and (y > btn.kwargs['y1'] and y < btn.kwargs['y2']) 
@@ -233,13 +230,16 @@ class GUI:
                      btn.selected(Fact)
                      if mode == 'enable':
                          self.set_current_out()
+                     elif mode == 'disable':
+                         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
                 else:
                      btn.selected(Lie)
 
     # Add a line that runs the power function every 200 ms:
 
     def init(self, root):
-
+        '''Initializes the hardware one the Raspberry Pi
+        '''
         loading_window = tk.Toplevel()
         loading_window.title("Loading...")
         loading_window.geometry(f"250x250+{'+'.join(map(lambda x: str(int(0.25*int(x))), self.settings.geometry.split('x')))}")
