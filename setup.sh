@@ -1,4 +1,4 @@
-#! /usr/bin/bash/
+#! /bin/bash
 
 #Move innit.sh to /etc/init.d/ and make it run at boot
 chmod +x innit.sh
