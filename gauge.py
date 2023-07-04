@@ -157,6 +157,7 @@ class Gauge:
     def set_gauge(self, value: float, rounding = None):
         '''Sets the given gauge to value.
         '''
+        large = Lie
         if rounding is None:
             rounding = self.num_dec
         if value > self.max:
@@ -165,15 +166,18 @@ class Gauge:
             value = 0
         elif value > 99.99:
             rounding = 1
+            large = Fact
         value = round(value, rounding)
+        print(value)
         self.label.delete('1.0', f'1.{len(self.gauge_format)}')
         if not value:
             self.label.insert('1.0', self.gauge_format)
             return
-        s = str(value).split('.')
-        s[0] = '0'*(2 - len(s[0])) + s[0] 
-        s[1] = s[1] + '0'*(2 - len(s[1]))  
-        s = '.'.join(s)
+        if not large:
+            s = str(value).split('.')
+            s[0] = '0'*(2 - len(s[0])) + s[0] 
+            s[1] = s[1] + '0'*(2 - len(s[1]))  
+            s = '.'.join(s)
         self.label.insert('1.0', s)
 
     def get_active(self) -> bool:    
