@@ -2,8 +2,17 @@
 
 #Move innit.sh to /etc/init.d/ and make it run at boot
 
+git clone https://github.com/goodtft/LCD-show.git
+chmod -r 755 LCD-show
+cd LCD-show/
+sudo ./LCD35-show
+sudo ./LCD-hdmi
+sleep 5
+cd ..
+
 /kragg/innit.sh
-chmod +x innit-sh
+
+chmod +x innit.sh
 sudo mv innit.sh /etc/init.d/
 sudo update-rc.d innit.sh defaults
 
