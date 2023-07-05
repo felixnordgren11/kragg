@@ -99,11 +99,12 @@ class RPI:
         # Make value to centiunits.
         if tpe == WRITE:
             if (msg_data[-1] >> 4) != 0xF:
-                value = int(100*value)
+                value = int(100*value) + 1
                 # Data is divided into bytes.
                 MSB = value >> 8
                 LSB = value - (MSB << 8)
-                msg_data = [*msg_data, LSB, MSB]
+                msg_data = [*msg_data, LSB, MSB] 
+
             else:
                 value = int(value)
                 msg_data = [*msg_data, value]

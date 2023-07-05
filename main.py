@@ -166,7 +166,7 @@ class GUI:
         are_active = self.gges[sel].get_active()
         if are_active:
             # Means we are confirming.
-            if self.mode == 'enable':
+            if self.mode != 'disable':
                 self.rpi.send_msg(WRITE, self.settings.command_lib[sel], self.gges[sel].get_value())
         self.gges[sel].set_active(not are_active)
 
