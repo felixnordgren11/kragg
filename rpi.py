@@ -100,7 +100,7 @@ class RPI:
         if tpe == WRITE:
             if (msg_data[-1] >> 4) != 0xF:
                 # +1 is to compensate for 485 setting 
-                # out max when sent 0.
+                # out max when sent 0. Nocco
                 value = int(100*value) + 1
                 # Data is divided into bytes.
                 MSB = value >> 8
