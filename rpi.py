@@ -69,10 +69,16 @@ class RPI:
         if self.pin_a.is_pressed:
              self.add_value(-1) 
              if self.GUI.mode == 'enable':
-                active_gauge, cmnd  = [(g, name) for name, g in self.GUI.gges.items() if g.get_active()][0]
+                # Update hardware
+                self.update_hardware()
 
-                self.send_msg(WRITE, self.settings.command_lib[cmnd], active_gauge.get_value())
-
+    def update_hardware(self):
+        '''Updates the hardware to the set values of the active gauge(s):
+        '''
+        # Which is the active gauge?
+        active_gauge, cmnd  = [(g, name) for name, g in self.GUI.gges.items() if g.get_active()][0]
+        # Send it's corresponding value.
+        self.send_msg(WRITE, self.settings.command_lib[cmnd], active_gauge.get_value())
 
     def add_value(self, value: int):
         # Add value to the active gauge objects in the GUI
