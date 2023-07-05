@@ -111,9 +111,10 @@ class GUI:
         command = self.settings.command_lib['test_mode']
         reply = self.rpi.send_msg(WRITE, command, value = 1)
         sleep(1)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 1)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 1)
+        sleep(0.5)
         self.root.after(200, self.update_value)
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
-        
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''Helper function that can draw rounded objects.
