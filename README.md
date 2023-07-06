@@ -56,4 +56,4 @@ chmod +x setup.sh
 
 ./setup.sh
 ```
-
+to enter the kragg folder, make the setup.sh file executable and then run it. When told, enter 1 and press 'Enter' to run the last file and reboot the system.

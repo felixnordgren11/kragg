@@ -111,9 +111,10 @@ class GUI:
         command = self.settings.command_lib['test_mode']
         reply = self.rpi.send_msg(WRITE, command, value = 1)
         sleep(1)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0.1)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 0.1)
+        sleep(0.5)
         self.root.after(200, self.update_value)
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
-        
 
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''Helper function that can draw rounded objects.
@@ -166,7 +167,7 @@ class GUI:
         are_active = self.gges[sel].get_active()
         if are_active:
             # Means we are confirming.
-            if self.mode == 'enable':
+            if self.mode != 'disable':
                 self.rpi.send_msg(WRITE, self.settings.command_lib[sel], self.gges[sel].get_value())
         self.gges[sel].set_active(not are_active)
 
