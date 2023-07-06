@@ -7,14 +7,14 @@ Hur : Gör en canvas till loading screenen där allt som har med den att göra h
       vanliga som det redan finns kod för.
 '''
 import tkinter as tk
+import sys
 import os
 from tkinter import ttk
-from settings import *
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
 from time import sleep
-#import ctypes
+from settings import *
 
 Fact = True
 Lie  = False
@@ -36,74 +36,82 @@ class GUI:
         self.root = tk.Tk()
         self.loaded = Lie
         self.settings = Settings()
+        
+        # Our Tk objects
+        self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
 
-    def graphics(self):
+        # Start in disabled mode.
+        self.mode = 'disable'
+        
+        # Define our buttons.
+        self.btns = {}
+        for label, btn in self.settings.buttonsettings.items():
+            self.btns[label] = Button(self.canvas, label, **btn)
+
+        # Define our gauges.
+        self.gges = {}
+        for label, gge in self.settings.gaugesettings.items():
+            self.gges[label] = Gauge(self.canvas, label, **gge)
+
+        # Select the active button.
+        self.btns[self.mode].selected(Fact)
+
+        # Instantiate RPI class which initializes all pins etc.
+        self.rpi = RPI(self)
+            
+    def _graphics(self):
         '''Draws the GUI's visual components.
         '''
         # Here all graphical objects will be drawn.
-        self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
+        
         self.canvas.pack()
         self.canvas.grab_set()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
-        '''photo = tk.PhotoImage(file = "iconphoto.png")
-        self.root.iconphoto(False, photo)'''
-        # Initialize as disabled. Otherwise it will start with an output voltage neq 0.
-        self.mode = 'disable'
+
         # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
+
         # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
-        self.is_active = Lie
-        self.canvas.focus_set() 
+        self.canvas.focus_set()
         self.canvas.config(cursor = 'none')
-        self.draw_border()
+        self._draw_border()
+
+        # Draw the buttons.
+        for btn in self.btns.values():
+            btn.draw()
         
-        # Loop through the button settings dictionary and create the specified
-        # buttons. After that they are drawn using the draw() method.
-        
-        self.btns = {}
-        for label, btn in self.settings.buttonsettings.items():
-            self.btns[label] = Button(self.canvas, label, **btn)
-            self.btns[label].draw()
-        self.btns[self.mode].selected(Fact)
-        
-        # Loop through the gauge settings dictionary we created in the settings.py file.
-        # For each gauge, we create a Gauge object and store it in the gges dictionary.
-        # Call the draw() method to draw the gauge.
-        self.gges = {}
-        for label, gge in self.settings.gaugesettings.items():
-            self.gges[label] = Gauge(self.canvas, label, **gge)
-            self.gges[label].draw()
+        # Draw the gauges.
+        for gge in self.gges.values():
+            gge.draw()
         
         self.root.update()
 
-    def hardware(self):
+    def _hardware(self):
         '''Initializes the Raspberry Pi and the power unit.
         '''
         # Send command to init the can communication, then wait 100ms
         os.system(self.settings.can_init_command)
         sleep(0.1)
-        # Instantiate RPI class which initializes all pins etc.
-        self.rpi = RPI(self)
         # Send appropriate commands to the power unit.
-        self.init_power_unit()
+        self._init_power_unit()
         
-    def draw_border(self):
+    def _draw_border(self):
         '''Function that draws the border around the GUI,
         Some values could possibly be given as arguments.
         '''
-        self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
+        self._round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
                              self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
-        self.round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
+        self._round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
                              self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Neanderball', font = ('Small Fonts', 20), fill = 'black')  
 
 
-    def init_power_unit(self):
+    def _init_power_unit(self):
         '''Sends necessary commands to the power unit
         to set into configurable mode (test mode)
         '''
@@ -114,9 +122,9 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 0)
         sleep(0.5)
-        self.root.after(200, self.update_value)
+        self.root.after(200, self._update_value)
 
-    def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
+    def _round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''Helper function that can draw rounded objects.
         '''  
         points = (x1+r, y1, x1+r, y1, x2-r, y1, x2-r, y1, x2, y1, x2, y1+r,
@@ -129,22 +137,21 @@ class GUI:
 #                        RUNS CONTINUOUSLY
 
 
-    def update_value(self):
-            '''Helper function that computes the measured output power.
+    def _update_value(self):
+        '''Helper function that computes the measured output power.
             '''
+        # Send v_read a
+        v_value, i_value = self.rpi.send_msg(
+            READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
+        self.gges['v_out'].set_gauge(v_value/100)
+        self.gges['i_out'].set_gauge(i_value/100)
 
-            # Send v_read a
-            v_value, i_value = self.rpi.send_msg(
-                READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
-            self.gges['v_out'].set_gauge(v_value/100)
-            self.gges['i_out'].set_gauge(i_value/100)
-
-            # Update power gauge
-            v = self.gges['v_out'].get_value()
-            i = self.gges['i_out'].get_value()
-            self.gges['p'].set_gauge(i*v, rounding = 2)
-
-            self.root.after(self.settings.update_speed, self.update_value)
+        # Update power gauge
+        v = self.gges['v_out'].get_value()
+        i = self.gges['i_out'].get_value()
+        self.gges['p'].set_gauge(i*v, rounding = 2)
+        # Set to update again in 200ms 
+        self.root.after(self.settings.update_speed, self._update_value)
             
 ##################################################################################
 
@@ -184,7 +191,7 @@ class GUI:
         '''
         print(event)
         if event.char == 'q':
-             quit()
+            sys.exit()
 
         elif event.char in ['v','i']:
             self.select_gauge(event.char)
@@ -218,27 +225,34 @@ class GUI:
             '''
             x, y = event.x, event.y
             # Helper function
-            inside_btn = lambda x, y, btn: (x > btn.kwargs['x1'] and x < btn.kwargs['x2']) and (y > btn.kwargs['y1'] and y < btn.kwargs['y2']) 
+            def inside_btn(x, y, btn):
+                    inside_in_x = x > btn.kwargs['x1'] and x < btn.kwargs['x2']
+                    inside_in_y = y > btn.kwargs['y1'] and y < btn.kwargs['y2']
+                    is_inside = inside_in_x and inside_in_y
+                    return is_inside
+                
             # Check if one of boxes are clicked.
             # First check that any of boxes is selected:
-            if not any([inside_btn(x,y,btn) for btn in self.btns.values()]):
-                 return 
+            if not any(inside_btn(x,y,btn) for btn in self.btns.values()):
+                return
             
             for mode, btn in self.btns.items():
                 if inside_btn(x, y, btn):
-                     self.mode = mode
-                     print(mode)
-                     btn.selected(Fact)
-                     if mode == 'enable':
-                         self.set_current_out()
-                     elif mode == 'disable':
-                         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
+                    # If inside, button has been clicked: set corresponding mode. 
+                    self.mode = mode
+                    # Show button as selected.
+                    btn.selected(Fact)
+                    if mode == 'enable':
+                        self.set_current_out()
+                    elif mode == 'disable':
+                        # Disable output.
+                        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
                 else:
                      btn.selected(Lie)
 
     # Add a line that runs the power function every 200 ms:
 
-    def init(self, root):
+    def _init(self, root):
         '''Initializes the hardware one the Raspberry Pi
         '''
         loading_window = tk.Toplevel()
@@ -257,15 +271,14 @@ class GUI:
         
         # Simulate some loading process and update the progress bar
         # Here is the loading process
-        import time
         processes = [
-            {'process' : 'Hardware initializing', 'func' : self.hardware, 'progress' : 50},
-            {'process' : 'Dickmas initializing', 'func' : self.dummy, 'progress' : 50}
+            {'process' : 'Hardware initializing', 'func' : self._hardware, 'progress' : 50},
+            {'process' : 'Secret stuff initializing', 'func' : self._dummy, 'progress' : 50}
         ]
         for process in processes:
             label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
             loading_window.update_idletasks()  # Update the loading window
-            time.sleep(1)  # Simulating a small delay between updates
+            sleep(1)  # Simulating a small delay between updates
             # Run the process
             try:
                 process['func']()
@@ -275,17 +288,17 @@ class GUI:
             progressbar['value'] += process['progress'] 
             label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
             loading_window.update_idletasks()  # Update the loading window
-            time.sleep(1)
+            sleep(1)
         loading_window.destroy()
         root.deiconify()
    
 
-    def dummy(self):
+    def _dummy(self):
         pass
 
     def run(self):
-        self.graphics()
-        self.root.after(200, lambda: self.init(self.root))
+        self._graphics()
+        self.root.after(200, lambda: self._init(self.root))
         self.root.mainloop()
 
 if '__main__' == __name__:
