@@ -2,4 +2,6 @@
 
 git pull
 
-python /home/pi/kragg/main.py
+cd /
+
+python ~/kragg/main.py
