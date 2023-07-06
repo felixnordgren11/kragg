@@ -65,7 +65,7 @@ class RPI:
         '''Handler for when pin is set high
         '''
         if self.pin_a.is_pressed:
-             self.add_value(-1) 
+             self.add_value(-1)
              if self.GUI.mode == 'enable':
                 # Update hardware
                 self.update_hardware()
@@ -114,7 +114,7 @@ class RPI:
         # Construct a message object to be sent on the bus.
         msg = can.Message(arbitration_id = arb_id, data = msg_data, is_extended_id=False)
         self.bus.send(msg)
-        # If tpe is READ them 
+        # If tpe is READ them
         if tpe == READ:
             msg = self.bus.recv(timeout = 0.2)
             if msg is not None:
@@ -124,14 +124,13 @@ class RPI:
             self.bus.recv(timeout=0.1)
         return 0
     
-
     @staticmethod
     def _decode(msg: can.Message) -> int:
         '''Returns the data contained in the
         most recent 
         '''
         # msg.data is a byte array
-        data = list(msg.data) 
+        data = list(msg.data)
         # The relevant data lies in bytes 4 - 8
         data = data[4:]
         # Check if negative
@@ -140,20 +139,23 @@ class RPI:
         if is_negative:
             return 0
         # Now, convert from this array which is little endian
-        data = sum([d << i*8 for i, d in enumerate(data)])
+        data = sum(d << i*8 for i, d in enumerate(data))
         return data
+    
+    def close(self):
+        '''Closes rpi, which actually only means closing the can bus
+        '''
+        self.bus.shutdown()
     
 if __name__ == '__main__':
 
-    rpi = RPI()
     while 1:
-        id, cmnd = rpi.settings.command_lib[input('Command: ')]
+        arb_id, cmnd = rpi.settings.command_lib[input('Command: ')]
         if cmnd[0] == 0x2F:
             value = float(input('Value: '))
-            tpe = WRITE
-            rpi.send_msg(tpe, (id,cmnd),  value= value)
+            TPE = WRITE
         else:
-            tpe = READ
-            ans = rpi.send_msg(tpe, (id,cmnd))
+            TPE = READ
+            ans = rpi.send_msg(tpe, (arb_id,cmnd))
             print(ans/100)
             
