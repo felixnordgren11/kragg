@@ -111,8 +111,8 @@ class GUI:
         command = self.settings.command_lib['test_mode']
         reply = self.rpi.send_msg(WRITE, command, value = 1)
         sleep(1)
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0.1)
-        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 0.1)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
+        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 0)
         sleep(0.5)
         self.root.after(200, self.update_value)
 
