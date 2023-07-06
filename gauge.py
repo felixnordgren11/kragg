@@ -25,6 +25,9 @@ def enable(func):
 
 
 class Gauge:
+    '''
+    Class that handles the gauges on the GUI
+    '''
 
     def __init__(self, master, label, **kwargs):
         '''Initializes a gauge to be placed in the gui.
@@ -45,20 +48,20 @@ class Gauge:
         self.select_digit = self.settings.default_digit
         self.digit_tags = list(range(0,len(self.gauge_format)))
         self.digit_tags.remove(self.gauge_format.index('.'))
-        self.num_dec = len(self.gauge_format.split('.')[-1])
+        self.num_dec = len(self.gauge_format.rsplit('.', maxsplit = 1)[-1])
         #print(self.digit_tags)
 
     def draw(self):
         '''Draws the gauge on the screen.'''
         self.label = tk.Text(
-                              self.master, 
-                              bg = self.kwargs['bg'], fg = self.kwargs['fg'], 
+                              self.master,
+                              bg = self.kwargs['bg'], fg = self.kwargs['fg'],
                               font = self.kwargs['font'],
                               **self.settings.textsettings['gaugetext'], relief="flat",)
         self.label.insert('1.0', self.display)
         self.label['state'] = tk.DISABLED
-        self.label.place(x = (self.kwargs['a']), 
-                         y = (self.kwargs['b']), 
+        self.label.place(x = (self.kwargs['a']),
+                         y = (self.kwargs['b']),
                          anchor='nw')
 
         # Add labels
@@ -78,13 +81,14 @@ class Gauge:
     
     
     @enable
-    def highlight(self, dgt: int, on = Fact):
+    def highlight(self, dgt: int, on=Fact):
         '''Highlights the digit currently active.
         colours defined in settings file'''
         if on:
-            self.label.tag_config(str(dgt), background = self.kwargs['active'], foreground = self.kwargs['bg'])
+            self.label.tag_config(str(dgt), background=self.kwargs['active'], foreground=self.kwargs['bg'])
         else:
-            self.label.tag_config(str(dgt), background = self.kwargs['bg'], foreground = self.kwargs['fg'])
+            self.label.tag_config(str(dgt), background=self.kwargs['bg'], foreground=self.kwargs['fg'])
+
             
     
     
