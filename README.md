@@ -36,8 +36,19 @@ After it has been set up correctly, open the terminal and write:
 ```shell
 git clone https://github.com/felixnordgren11/kragg
 ```
-This will clone the repository into /home/pi/kragg/.
-After this has been done, type in
+This will clone the repository into /home/pi.
+Then you will have to type in the following commands:
+
+```shell
+cd kragg
+
+chmod +x lcd.sh
+
+./lcd.sh
+```
+Respond with a 'y' and then press enter when prompted, this will run the last file and reboot the system.
+#
+When the system has booted up again, open the terminal type in:
 ```shell
 cd kragg
 
@@ -45,4 +56,4 @@ chmod +x setup.sh
 
 ./setup.sh
 ```
-to enter the kragg folder, make the setup.sh file executable and then run it. When told, enter 1 and press 'Enter' to run the last file and reboot the system.
+

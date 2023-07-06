@@ -1,9 +1,18 @@
 #! /bin/bash
 
 #Move innit.sh to /etc/init.d/ and make it run at boot
-chmod +x innit.sh
-sudo mv innit.sh /etc/init.d/
-sudo update-rc.d innit.sh defaults
+
+
+###chmod +x innit.sh
+###sudo mv innit.sh /etc/init.d/
+###sudo update-rc.d innit.sh defaults
+
+#use chish.service to execute this instead
+sudo mv chish.service /etc/systemd/system
+sudo chmod 644 /etc/systemd/system/chish.service
+sudo systemctl enable chish
+sudo systemctl start chish
+
 
 #install requirements
 
@@ -15,11 +24,18 @@ sudo rm -f /home/pi/boot/config.txt
 #chmod +x config.txt
 sudo mv config.txt /home/pi/boot
 
-#Clone the Git repository and run the file enabling the LCD screen
 
-git clone https://github.com/goodtft/LCD-show.git
-chmod -R 755 LCD-show
-cd LCD-show/
-echo "Enter 1 to reboot"
-read in
-test $in -eq 1 && sudo ./LCD35-show
+#Run innit.sh at boot
+mkdir /home/pi/.config/autostart
+sudo mv /home/pi/kragg/startup.dekstop /home/pi/.config/autostart
+
+# Check user input
+if [[ "$answer" == "y" ]]; then
+    # Running LCD35-show and rebooting the operating system
+    echo "Rebooting the operating system..."
+    sudo reboot
+elif [[ "$answer" == "n" ]]; then
+    echo "Not rebooting the operating system."
+else
+    echo "Invalid input. Please enter either 'y' or 'n'."
+fi
