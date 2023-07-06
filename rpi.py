@@ -101,7 +101,8 @@ class RPI:
         if tpe == WRITE:
             if (msg_data[-1] >> 4) != 0xF:
                 # out max when sent 0. Nocco
-                value = int(100*value)
+                # 10 to compensate for not being zero
+                value = int(100*value) + 10
                 # Data is divided into bytes.
                 MSB = value >> 8
                 LSB = value - (MSB << 8)
