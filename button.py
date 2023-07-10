@@ -15,7 +15,7 @@ class Button:
         self.labeltext = label
         self.settings = Settings()
         # Selected variable
-        #self.icon = None
+        self.icon = None
         self.is_selected = Lie
         
     def round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):   
