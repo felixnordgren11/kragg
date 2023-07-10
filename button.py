@@ -32,8 +32,8 @@ class Button:
         Draw button on screen. 
         '''
         btnkwargs = self.settings.textsettings['buttontext']
-        x = (self.kwargs['x1'] + self.kwargs['x2'])/2
-        y = (self.kwargs['y1'] + self.kwargs['y2'])/2
+        x = (self.kwargs['x_1'] + self.kwargs['x_2'])/2
+        y = (self.kwargs['y_1'] + self.kwargs['y_2'])/2
         self.icon = self.round_rectangle(self.master, **self.kwargs)
         self.label = self.master.create_text(x, y, anchor='center', text = self.labeltext.upper(), **btnkwargs)
         return self.icon
