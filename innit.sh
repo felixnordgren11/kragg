@@ -1,5 +1,4 @@
 #! /bin/bash
-gnome-terminal
+sudo ip link set can0 up type can bitrate 500000
 git pull
-cd /
 python ~/kragg/main.py
