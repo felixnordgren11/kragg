@@ -53,8 +53,7 @@ class GUI:
         for label, gge in self.settings.gaugesettings.items():
             self.gges[label] = Gauge(self.canvas, label, **gge)
 
-        # Select the active button.
-        self.btns[self.mode].selected(Fact)
+        
 
         # Instantiate RPI class which initializes all pins etc.
         self.rpi = RPI(self)
@@ -82,6 +81,8 @@ class GUI:
         # Draw the buttons.
         for btn in self.btns.values():
             btn.draw()
+        # Select the active button.
+        self.btns[self.mode].selected(Fact)
         
         # Draw the gauges.
         for gge in self.gges.values():
