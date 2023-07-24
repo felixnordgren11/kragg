@@ -109,7 +109,7 @@ class GUI:
                              self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = 'Neanderball', font = ('Small Fonts', 20), fill = 'black')  
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = self.settings.title, font = ('Small Fonts', 20), fill = 'black')  
 
 
     def _init_power_unit(self):
@@ -165,7 +165,7 @@ class GUI:
         # Which is the gauge we have selected. The other one is to be deactivated.
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
         sel_active = self.gges[sel].get_active()
-        
+
         if self.gges[notsel].get_active():
             # Means value was confirmed.
             self.gges[notsel].set_active(Lie)
