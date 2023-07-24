@@ -103,8 +103,8 @@ class RPI:
                 # out max when sent 0. Nocco
                 # 10 to compensate for not being zero
                 if value < 10:
-                    value = 0
-                    
+                    value = 10
+
                 value = int(100*value) 
                 # Data is divided into bytes.
                 MSB = value >> 8
