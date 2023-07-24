@@ -16,6 +16,7 @@ class Settings:
         self.bg = 'black'
         self.textcolor = 'white'
         self.font = 'Small Fonts'
+        self.title = "PSU"
         # Canvas config
         self.bg = 'black'
         self.textcolor = 'white'
