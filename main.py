@@ -164,20 +164,20 @@ class GUI:
         '''
         # Which is the gauge we have selected. The other one is to be deactivated.
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
-
+        sel_active = self.gges[sel].get_active()
+        
         if self.gges[notsel].get_active():
             # Means value was confirmed.
             self.gges[notsel].set_active(Lie)
             # Send the selected value if device is enabled.
-            if self.mode == 'enable':
+            if self.mode != 'disable':
                 self.rpi.send_msg(WRITE, self.settings.command_lib[notsel], self.gges[notsel].get_value())
         # If the selected gauge is active, the press meant to confirm the configuration
-        are_active = self.gges[sel].get_active()
-        if are_active:
+        elif sel_active:
             # Means we are confirming.
             if self.mode != 'disable':
                 self.rpi.send_msg(WRITE, self.settings.command_lib[sel], self.gges[sel].get_value())
-        self.gges[sel].set_active(not are_active)
+        self.gges[sel].set_active(not sel_active)
 
     def move_pointer(self, m: str) -> None:
         '''Updates the position of the pointer/cursor in the 
