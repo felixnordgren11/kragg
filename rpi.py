@@ -102,8 +102,8 @@ class RPI:
             if (msg_data[-1] >> 4) != 0xF:
                 # out max when sent 0. Nocco
                 # 10 to compensate for not being zero
-                if value < 10:
-                    value = 10
+                if value < 1:
+                    value = 1
 
                 value = int(100*value) 
                 # Data is divided into bytes.
