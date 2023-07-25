@@ -141,6 +141,8 @@ class Gauge:
         '''Sets the given gauge to value.
         '''
         # Begin by setting this to false
+        if type(value) is not float:
+            value = float(value)
         large = Lie
         # If no specific rounding is given.
         if rounding is None:
