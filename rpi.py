@@ -87,7 +87,16 @@ class RPI:
         for gauge in self.GUI.gges.values():
             # We check all as only one will be active at any time.
             if gauge.get_active():
-                gauge.digit_change(value)
+                seldgt = gauge.select_digit
+                if seldgt == 0:
+                    change = value*10
+                elif seldgt == 2:
+                    change = value/10
+                elif seldgt == 3:
+                    change = value/100
+                else:
+                    change = value
+                gauge.change_value(change)
         
 
     def send_msg(self, tpe: str, command, value = 0.0) -> int:

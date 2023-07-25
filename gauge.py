@@ -41,6 +41,7 @@ class Gauge:
         self.settings = Settings()
         self.gauge_format = self.settings.gauge_format
         self.display = self.gauge_format + ' ' + self.kwargs['unit']
+        self.value = 0
         if 'max' in self.kwargs:
             self.max = float(self.kwargs['max'])
         else:
@@ -145,6 +146,13 @@ class Gauge:
         # Digits must be re-highlighted after changed.
         if hglt:
             self.highlight(self.digit_tags[self.select_digit])
+
+    def change_value(self, value):
+        self.value = self.value + value
+        if self.value < 0:
+            self.value = 0
+        elif self.value > self.max:
+            self.value = self.max
     
     def check_limits(self):
         '''This method checks if the gauge has passed its maximum
@@ -211,10 +219,7 @@ class Gauge:
         return self.is_active      
     
     def refresh(self):
-        '''Updates the gauge
-        '''
         if self.get_active():
-            # Highlight the correct digit and redraw the correct value.
-            self.set_gauge(self.get_value())
-            self.label.tag_config(str(self.digit_tags[self.select_digit]), background=self.kwargs['active'], foreground=self.kwargs['bg'])
-            
+            self.set_gauge(self.value)
+            self.highlight(self.digit_tags[self.select_digit])
+
