@@ -50,7 +50,7 @@ class RPI:
             self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
             self.pin_f.when_pressed = lambda x: self.GUI.select_gauge('i')
     
-    def set_io(toggle: bool):
+    def set_io(self, toggle: bool):
         if toggle:
             self.pin_a.when_pressed = self.pin_a_rising
             self.pin_b.when_pressed = self.pin_b_rising
