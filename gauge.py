@@ -111,7 +111,7 @@ class Gauge:
         self.select_digit = new_select
 
     
-    def change_value(self, value):
+    def change_value(self, value: float):
         '''Changes the stored value in the gauge.
         '''
         self.value = self.value + value
