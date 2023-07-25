@@ -144,16 +144,17 @@ class GUI:
         # Send v_read a
         v_value, i_value = self.rpi.send_msg(
             READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
+        # Adjust measurement
+        #######################
+        v_value = v_value - (16 + 2*(i_value/100))
+        #######################
         self.gges['v_out'].set_gauge(v_value/100)
         self.gges['i_out'].set_gauge(i_value/100)
 
         # Update power gauge
         v = self.gges['v_out'].get_value()
         i = self.gges['i_out'].get_value()
-        # Adjust measurement
-        #######################
-        v = v - (0.16 + 0.02*i)
-        #######################
+    
         # Set power gauge.
         self.gges['p'].set_gauge(i*v, rounding = 2)
 
