@@ -154,9 +154,8 @@ class GUI:
         # Force highlighting and correct value display
         for gauge in self.gges.values():
             if gauge.get_active():
-                dgt = gauge.select_digit
                 gauge.set_gauge(gauge.get_value())
-                gauge.highlight(dgt)
+                gauge.set_active(Fact)
 
         # Set power gauge.
         self.gges['p'].set_gauge(i*v, rounding = 2)
