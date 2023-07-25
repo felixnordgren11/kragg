@@ -153,7 +153,7 @@ class GUI:
 
         # Force highlighting and correct value display
         for gauge in self.gges.values():
-            if gauge.is_active():
+            if gauge.get_active():
                 dgt = gauge.select_digit
                 gauge.highlight(dgt)
                 gauge.set_gauge(gauge.get_value())
