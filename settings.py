@@ -31,7 +31,7 @@ class Settings:
             'width' : self.width}
          
          # Screen update speed
-        self.update_speed = 200
+        self.update_speed = 100
          # Voltage first, current second.
         self.maximums = {
             'SMP485' : [30, 25],
