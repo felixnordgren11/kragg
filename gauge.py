@@ -71,8 +71,6 @@ class Gauge:
         return self.label
     
     
-    
-    
     @enable
     def set_active(self, value: bool):
         '''Function that activates gauges'''
@@ -184,7 +182,8 @@ class Gauge:
         return self.is_active      
     
     def refresh(self):
+        '''Refreshes the gauge to match the latest
+        set value.
+        '''
         if self.get_active():
             self.set_gauge(self.value)
-            self.highlight(self.digit_tags[self.select_digit])
-
