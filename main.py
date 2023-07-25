@@ -123,7 +123,7 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 0)
         sleep(0.5)
-        self.root.after(200, self._update_value)
+        self.root.after(self.settings.update_speed, self._update_value)
 
     def _round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''Helper function that can draw rounded objects.
@@ -150,6 +150,15 @@ class GUI:
         # Update power gauge
         v = self.gges['v_out'].get_value()
         i = self.gges['i_out'].get_value()
+
+        # Force highlighting and correct value display
+        for gauge in self.gges.values():
+            if gauge.is_active():
+                dgt = gauge.select_digit
+                gauge.highlight(dgt)
+                gauge.set_gauge(gauge.get_value())
+
+        # Set power gauge.
         self.gges['p'].set_gauge(i*v, rounding = 2)
         # Set to update again in 200ms 
         self.root.after(self.settings.update_speed, self._update_value)
