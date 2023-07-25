@@ -152,6 +152,7 @@ class RPI:
             return 0
         # Now, convert from this array which is little endian
         data = sum(d << i*8 for i, d in enumerate(data))
+        
         return data
     
     def close(self):
