@@ -110,44 +110,10 @@ class Gauge:
         # Change which digit is the currently selected one.
         self.select_digit = new_select
 
-    # @enable
-    # def digit_change(self, value: int, dgt = None, hglt = Fact):
-    #     '''Changes the value of the digit at tag with index dgt.
-    #     It also handles changing the digits in the rest of the 
-    #     gauge through recursive calls to itself.'''
-    #     if dgt is None:
-    #         dgt = self.select_digit
-    #     current_tag = self.digit_tags[dgt]
-    #     current_value = int(self.label.get(f"1.{current_tag}"))
-    #     new_value = int(current_value) + value
-    #     # Logic handling the potential crossover at 9 and 0.
-    #     if new_value == 10:
-    #         if all([self.label.get(f'1.{d}') == '9' for i, d in enumerate(self.digit_tags) if i < dgt]):
-    #             new_value = 9 
-    #         else:
-    #             new_value = 0 
-    #             self.digit_change(value, dgt - 1, hglt = Lie)
-
-    #     elif new_value == -1:
-    #         if all([self.label.get(f'1.{d}')=='0' for i, d in enumerate(self.digit_tags) if i < dgt]):
-    #             new_value = 0
-    #             self.set_gauge(0)
-    #         else:
-    #             new_value = 9
-    #             self.digit_change(value, dgt - 1, hglt = Lie)
-
-    #     self.label['state'] = tk.NORMAL
-    #     self.label.delete(f"1.{current_tag}")
-    #     self.label.insert(f"1.{current_tag}", str(new_value))
-    #     # Reset gauge if maximum or minimum is exceeded.
-    #     self.check_limits()
-        
-    #     self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
-    #     # Digits must be re-highlighted after changed.
-    #     if hglt:
-    #         self.highlight(self.digit_tags[self.select_digit]) 
-
+    
     def change_value(self, value):
+        '''Changes the stored value in the gauge.
+        '''
         self.value = self.value + value
         if self.value < 0:
             self.value = 0
