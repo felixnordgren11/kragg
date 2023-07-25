@@ -140,6 +140,7 @@ class Gauge:
     def set_gauge(self, value: float, rounding = None):
         '''Sets the given gauge to value.
         '''
+        self.value = value
         # Begin by setting this to false
         if type(value) is not float:
             value = float(value)
