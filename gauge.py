@@ -170,8 +170,7 @@ class Gauge:
     def get_value(self) -> float:
         '''Returns the displayed value of the gauge
         '''
-        output = float(self.label.get('1.0', 'end-1c').split()[0])
-        return output
+        return self.value
         
     @enable
     def set_gauge(self, value: float, rounding = None):
