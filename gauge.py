@@ -200,6 +200,9 @@ class Gauge:
             # Otherwise just take the value as is.
             s = str(value)
         self.label.insert('1.0', s)
+        # Restore tags.
+        for dgt in self.digit_tags:
+                self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
 
     def get_active(self) -> bool:    
         '''Returns True if the gauge is in active mode and
@@ -213,7 +216,5 @@ class Gauge:
         if self.get_active():
             # Highlight the correct digit and redraw the correct value.
             self.set_gauge(self.get_value())
-            for dgt in self.digit_tags:
-                self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
             self.label.tag_config(str(self.digit_tags[self.select_digit]), background=self.kwargs['active'], foreground=self.kwargs['bg'])
             
