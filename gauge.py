@@ -143,7 +143,8 @@ class Gauge:
         
         self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
         # Digits must be re-highlighted after changed.
-        self.highlight(self.digit_tags[self.select_digit])
+        if hglt:
+            self.highlight(self.digit_tags[self.select_digit])
     
     def check_limits(self):
         '''This method checks if the gauge has passed its maximum
