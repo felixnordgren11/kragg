@@ -51,7 +51,7 @@ class GUI:
         # Define our gauges.
         self.gges = {}
         for label, gge in self.settings.gaugesettings.items():
-            self.gges[label] = Gauge(self.canvas, label, **gge)
+            self.gges[label] = Gauge(self, label, **gge)
 
         
 
@@ -150,11 +150,6 @@ class GUI:
         # Update power gauge
         v = self.gges['v_out'].get_value()
         i = self.gges['i_out'].get_value()
-
-        # Force highlighting and correct value display
-        for gauge in self.gges.values():
-            if gauge.get_active():
-                gauge.set_active(Fact)
 
         # Set power gauge.
         self.gges['p'].set_gauge(i*v, rounding = 2)
