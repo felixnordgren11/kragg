@@ -18,10 +18,8 @@ def enable(func):
     '''
     def wrapper(self, *args, **kwargs):
         self.label['state'] = tk.NORMAL
-        self.GUI.rpi.set_io(Lie)
         var = func(self, *args, **kwargs)
         self.label['state'] = tk.DISABLED
-        self.GUI.rpi.set_io(Fact)
         return var
     return wrapper
 
