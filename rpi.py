@@ -96,7 +96,7 @@ class RPI:
                     change = value/100
                 else:
                     change = value
-                gauge.change_value(change)
+                gauge.change_value(float(change))
         
 
     def send_msg(self, tpe: str, command, value = 0.0) -> int:
