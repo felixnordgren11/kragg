@@ -158,6 +158,7 @@ class GUI:
 
         # Set power gauge.
         self.gges['p'].value = i*v
+        self.gges['p'].set_gauge(10)
 
         # Refresh gauges
         for gauge in self.gges.values():
