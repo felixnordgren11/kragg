@@ -150,14 +150,17 @@ class GUI:
         # Update power gauge
         v = self.gges['v_out'].get_value()
         i = self.gges['i_out'].get_value()
-
+        # Adjust measurement
+        #######################
+        v = v - (0.16 + 0.02*i)
+        #######################
         # Set power gauge.
         self.gges['p'].set_gauge(i*v, rounding = 2)
 
         # Refresh gauges
         for gauge in self.gges.values():
             gauge.refresh()
-            
+
         # Set to update again in 200ms 
         self.root.after(self.settings.update_speed, self._update_value)
             
