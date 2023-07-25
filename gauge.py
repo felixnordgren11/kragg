@@ -212,5 +212,9 @@ class Gauge:
         '''
         if self.get_active():
             # Highlight the correct digit and redraw the correct value.
-            self.highlight(self.digit_tags[self.select_digit])
             self.set_gauge(self.get_value())
+            for dgt in self.digit_tags:
+                self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
+            self.highlight(self.digit_tags[self.select_digit])
+            
+            
