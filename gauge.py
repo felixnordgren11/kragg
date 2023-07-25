@@ -215,6 +215,5 @@ class Gauge:
             self.set_gauge(self.get_value())
             for dgt in self.digit_tags:
                 self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
-            self.highlight(self.digit_tags[self.select_digit])
-            
+            self.label.tag_config(str(self.digit_tags[self.select_digit]), background=self.kwargs['active'], foreground=self.kwargs['bg'])
             
