@@ -154,7 +154,6 @@ class GUI:
         # Force highlighting and correct value display
         for gauge in self.gges.values():
             if gauge.get_active():
-                gauge.set_gauge(gauge.get_value())
                 gauge.set_active(Fact)
 
         # Set power gauge.
