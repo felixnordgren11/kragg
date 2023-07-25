@@ -197,17 +197,17 @@ class Gauge:
         # If zero, insert the given standard format (00.00)
         if not value:
             self.label.insert('1.0', self.gauge_format)
-            return
-        # If not large (> 99.99), insert zeros to fill out.
-        if not large:
-            s = str(value).split('.')
-            s[0] = '0'*(2 - len(s[0])) + s[0]
-            s[1] = s[1] + '0'*(2 - len(s[1]))
-            s = '.'.join(s)
         else:
-            # Otherwise just take the value as is.
-            s = str(value)
-        self.label.insert('1.0', s)
+            # If not large (> 99.99), insert zeros to fill out.
+            if not large:
+                s = str(value).split('.')
+                s[0] = '0'*(2 - len(s[0])) + s[0]
+                s[1] = s[1] + '0'*(2 - len(s[1]))
+                s = '.'.join(s)
+            else:
+                # Otherwise just take the value as is.
+                s = str(value)
+            self.label.insert('1.0', s)
         # Restore tags.
         for dgt in self.digit_tags:
                 self.label.tag_add(str(dgt), f"1.{dgt}", f"1.{dgt + 1}")
