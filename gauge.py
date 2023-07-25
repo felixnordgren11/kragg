@@ -31,12 +31,11 @@ class Gauge:
     Class that handles the gauges on the GUI
     '''
 
-    def __init__(self, GUI, label, **kwargs):
+    def __init__(self, master, label, **kwargs):
         '''Initializes a gauge to be placed in the gui.
         '''
         # Canvas object from the GUI
-        self.GUI = GUI
-        self.master  = GUI.canvas
+        self.master  = master
         # The name of the gauge.
         self.labeltext = label.upper()
         self.is_active = Lie
