@@ -110,7 +110,7 @@ class Gauge:
         # Change which digit is the currently selected one.
         self.select_digit = new_select
 
-    @enable
+ """    @enable
     def digit_change(self, value: int, dgt = None, hglt = Fact):
         '''Changes the value of the digit at tag with index dgt.
         It also handles changing the digits in the rest of the 
@@ -145,7 +145,7 @@ class Gauge:
         self.label.tag_add(str(current_tag), f"1.{current_tag}", f"1.{current_tag + 1}")
         # Digits must be re-highlighted after changed.
         if hglt:
-            self.highlight(self.digit_tags[self.select_digit])
+            self.highlight(self.digit_tags[self.select_digit]) """
 
     def change_value(self, value):
         self.value = self.value + value

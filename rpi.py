@@ -112,7 +112,7 @@ class RPI:
                 # out max when sent 0. Nocco
                 # 10 to compensate for not being zero
                 if value < 1:
-                    value = 1
+                    value = 0.1
 
                 value = int(100*value) 
                 # Data is divided into bytes.
