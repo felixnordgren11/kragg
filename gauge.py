@@ -18,8 +18,10 @@ def enable(func):
     '''
     def wrapper(self, *args, **kwargs):
         self.label['state'] = tk.NORMAL
+        self.GUI.rpi.set_io(Lie)
         var = func(self, *args, **kwargs)
         self.label['state'] = tk.DISABLED
+        self.GUI.rpi.set_io(Fact)
         return var
     return wrapper
 
@@ -29,11 +31,12 @@ class Gauge:
     Class that handles the gauges on the GUI
     '''
 
-    def __init__(self, master, label, **kwargs):
+    def __init__(self, GUI, label, **kwargs):
         '''Initializes a gauge to be placed in the gui.
         '''
         # Canvas object from the GUI
-        self.master  = master
+        self.GUI = GUI
+        self.master  = GUI.canvas
         # The name of the gauge.
         self.labeltext = label.upper()
         self.is_active = Lie
