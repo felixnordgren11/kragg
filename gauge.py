@@ -207,3 +207,10 @@ class Gauge:
         '''      
         return self.is_active      
     
+    def refresh(self):
+        '''Updates the gauge
+        '''
+        if self.get_active():
+            # Highlight the correct digit and redraw the correct value.
+            self.highlight(self.digit_tags[self.select_digit])
+            self.set_gauge(self.get_value())

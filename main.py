@@ -153,6 +153,11 @@ class GUI:
 
         # Set power gauge.
         self.gges['p'].set_gauge(i*v, rounding = 2)
+        
+        # Refresh the gauges
+        for gauge in self.gges.values():
+            gauge.refresh()
+
         # Set to update again in 200ms 
         self.root.after(self.settings.update_speed, self._update_value)
             
