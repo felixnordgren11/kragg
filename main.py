@@ -136,9 +136,6 @@ class GUI:
                 x1, y1+r, x1, y1)
         return master.create_polygon(points, **kwargs, smooth=True)
 
-##################################################################################
-#                        RUNS CONTINUOUSLY
-
 
     def calibration_procedure(self):
         # Check if calibration
@@ -192,13 +189,15 @@ class GUI:
      
         return v_m
 
+##################################################################################
+#                        RUNS CONTINUOUSLY
+
     def _update_value(self):
         '''Helper function that computes the measured output power.
             '''
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
             
-
         # Send v_read a
         v_value, i_value = self.rpi.send_msg(
             READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
@@ -238,6 +237,7 @@ class GUI:
         
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             # Calibration
+            print("Cal!")
             return
         # Which is the gauge we have selected. The other one is to be deactivated.
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
