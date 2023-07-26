@@ -169,7 +169,7 @@ class GUI:
 
         
     def voltage_curvefit(self, current):
-
+        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 20)
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
         messagebox.showinfo('Calibration', f"Set load to {int(current)}A")
 
