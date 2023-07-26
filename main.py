@@ -143,7 +143,7 @@ class GUI:
         # Check if calibration
         start = time()
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
-                if start > 3:
+                if time() - start > 3:
                     messagebox.showinfo('Monster', "The wife-beater drink!")
                     return
 
