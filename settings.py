@@ -167,7 +167,7 @@ class Settings:
 
         for line in lines:
             line = line.replace(' ', '')
-            key, value = line.split(',')
+            key, value = line.split(':')
             cal_data[key] = float(value)
 
         return cal_data
