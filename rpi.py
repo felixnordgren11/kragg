@@ -27,12 +27,12 @@ class RPI:
         self.pin_a = io.Button(ROTARY_LEFT)                      # Rotary encoder pin A connected to GPIO2
         self.pin_b = io.Button(ROTARY_RIGHT)                      # Rotary encoder pin B connected to GPIO3
         # Used to select the v_set gauge
-        self.pin_c  = io.Button(BUTTON_V)
+        self.pin_v  = io.Button(BUTTON_V)
         # Used to toggle between the digits when setting the reference output
         self.pin_d  = io.Button(BUTTON_LEFT)
         self.pin_e  = io.Button(BUTTON_RIGHT)
         # Used to select the i_set gauge.
-        self.pin_f  = io.Button(BUTTON_I)
+        self.pin_i  = io.Button(BUTTON_I)
         # Can details:
         bustype = 'socketcan'
         channel = 'can0'
@@ -45,10 +45,10 @@ class RPI:
         if GUI is not None:
             self.pin_a.when_pressed = self.pin_a_rising
             self.pin_b.when_pressed = self.pin_b_rising
-            self.pin_c.when_pressed = lambda x: self.GUI.select_gauge('v')
+            self.pin_v.when_pressed = lambda x: self.GUI.select_gauge('v')
             self.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
             self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
-            self.pin_f.when_pressed = lambda x: self.GUI.select_gauge('i')
+            self.pin_i.when_pressed = lambda x: self.GUI.select_gauge('i')
     
     def pin_a_rising(self):                # Pin A event handler
         '''Handler for when pin is set high

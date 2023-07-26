@@ -9,11 +9,12 @@ Hur : Gör en canvas till loading screenen där allt som har med den att göra h
 import tkinter as tk
 import sys
 import os
+from tkinter import messagebox
 from tkinter import ttk
 from button import Button
 from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
-from time import sleep
+from time import sleep, time
 from settings import *
 
 Fact = True
@@ -177,6 +178,11 @@ class GUI:
         PSU.
         '''
         # Which is the gauge we have selected. The other one is to be deactivated.
+        start = time()
+        while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+            if time() - start > 2:
+                messagebox.showinfo('Maltab', 'Oyeyeyjey')
+
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
         sel_active = self.gges[sel].get_active()
 
