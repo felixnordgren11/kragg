@@ -149,14 +149,13 @@ class GUI:
         if not start_cal:
             return
         amps = np.array([0, 5 , 7,])
-        vlts = np.array([100*i for i in range(5,self.settings.max_v, 5)])
-        vlts
+        vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         measurements = []
         for i in amps:
             measurements.append(np.array(self.voltage_curvefit(i)))
-        dv, offset = np.polyfit(vlts*100, np.array(measurements[0]) - 100*vlts, 1)
-        i_m = [v_m[-1] - vlts[-1]*100 for v_m in measurements]
-        di, _ = np.polyfit(amps*100, i_m, 1)
+        dv, offset = np.polyfit(vlts, np.array(measurements[0]) - 100*vlts, 1)
+        i_m = [v_m[-1] - 100*vlts[-1] for v_m in measurements]
+        di, _ = np.polyfit(amps, i_m, 1)
 
         # Now write to cal file
         name = self.settings.cal_file
