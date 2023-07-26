@@ -142,14 +142,18 @@ class GUI:
     def calibration_procedure(self):
         # Check if calibration
         start = time()
-        while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
+        while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
             if time() - start > 2:
                 messagebox.showinfo('Monster', "The wife-beater drink!")
-                break
+                while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed): pass;
+                return
 
     def _update_value(self):
         '''Helper function that computes the measured output power.
             '''
+        if (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+            self.calibration_procedure()
+            
 
         # Send v_read a
         v_value, i_value = self.rpi.send_msg(
@@ -190,7 +194,6 @@ class GUI:
         
         if (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
             # Calibration
-            self.root.after(100, self.calibration_procedure)
             return
         # Which is the gauge we have selected. The other one is to be deactivated.
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
