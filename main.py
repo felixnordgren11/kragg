@@ -142,7 +142,7 @@ class GUI:
         start = time()
         start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
-                if time() - start > 3:
+                if time() - start > 5:
                     start_cal = Fact
                     messagebox.showinfo('Calibration', "Calibration started.")
                     break
