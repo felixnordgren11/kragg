@@ -9,6 +9,7 @@ Hur : Gör en canvas till loading screenen där allt som har med den att göra h
 import tkinter as tk
 import sys
 import os
+import numpy as np
 from tkinter import messagebox
 from tkinter import ttk
 from button import Button
@@ -144,8 +145,52 @@ class GUI:
         start = time()
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
                 if time() - start > 3:
-                    messagebox.showinfo('Monster', "The wife-beater drink!")
-                    return
+                    messagebox.showinfo('Calibration', "Calibration started.")
+                    break
+
+        amps = np.array([0, 5 , 10, 15])
+        vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
+        vlts
+        measurements = []
+        for i in amps:
+            measurements.append(np.array(self.voltage_curvefit(i)))
+        dv, offset = np.polyfit(vlts, np.array(measurements[0]) - vlts, 1)
+        i_m = [v_m[-1] for v_m in measurements]
+        di, _ = np.polyfit(amps, i_m - amps, 1)
+
+        # Now write to cal file
+        name = self.settings.cal_file
+        with open(name, 'w') as file:
+            lines = [f"offset:{offset}",
+                     f"v:{dv}",
+                     f"i:{di}"]
+            file.writelines(lines)
+
+
+        
+    def voltage_curvefit(self, current):
+
+        messagebox.showinfo('Calibration', f"Set load to {int(current)}A")
+
+        # Measure at 5, 10, 15, 20, 25 volts
+        vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
+        # Start by setting current limit to non zero value.
+        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
+        # Wait for curr to adapt
+        while (self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100 > CURR_OFF):
+            sleep(0.2)
+        v_m = np.array([0 for i in vlts])
+        for i, v in enumerate(vlts):
+            self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
+            # Wait for voltage to reach setpoint
+            sleep(3)
+            # Measured voltage in centivolts.
+            meas_v = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
+            v_m[i] = meas_v
+        # Lower the voltage again.
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
+     
+        return v_m
 
     def _update_value(self):
         '''Helper function that computes the measured output power.

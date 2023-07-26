@@ -5,7 +5,7 @@ Fact = True
 Lie = False
 LEFT = -1
 RIGHT = 1
-
+CURR_OFF = 50
 
 class Settings:
 
@@ -31,8 +31,8 @@ class Settings:
             'width' : self.width}
          
         # To calibrate the output voltage.
-        cal_file = 'cal.txt'
-        self.calibration = self.read_calibration(cal_file)
+        self.cal_file = 'cal.txt'
+        self.calibration = self.read_calibration(self.cal_file)
          
         # Screen update speed
         self.update_speed = 100
