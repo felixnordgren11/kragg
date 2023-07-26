@@ -30,7 +30,11 @@ class Settings:
             'height' : self.height,
             'width' : self.width}
          
-         # Screen update speed
+        # To calibrate the output voltage.
+        cal_file = 'cal.txt'
+        self.calibration = self.read_calibration(cal_file)
+         
+        # Screen update speed
         self.update_speed = 100
          # Voltage first, current second.
         self.maximums = {
@@ -153,4 +157,17 @@ class Settings:
 
         self.can_init_command = 'sudo ip link set can0 up type can bitrate 500000'
         
-        
+    def read_calibration(self, cal_file: str):
+        '''Reads calibration data from text file
+        '''
+        with open(cal_file, 'r') as data:
+            lines = data.readlines()
+
+        cal_data = {}
+
+        for line in lines:
+            line = line.replace(' ', '')
+            key, value = line.split(',')
+            cal_data[key] = float(value)
+
+        return cal_data

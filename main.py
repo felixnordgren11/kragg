@@ -146,7 +146,9 @@ class GUI:
             READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
         # Adjust measurement
         #######################
-        v_value = v_value - (27 + .4*(i_value/100) - 1.14*(v_value/100))
+        v_value = v_value + (self.settings.calibration['offset'] + 
+                             self.settings.calibration['i']*(i_value/100) + 
+                             self.settings.calibration['v']*(v_value/100))
         #######################
         self.gges['v_out'].set_gauge(v_value/100)
         self.gges['i_out'].set_gauge(i_value/100)
@@ -234,34 +236,34 @@ class GUI:
 
 
     def callback(self, event):
-            '''Handles all left-mouse-click events.
-            '''
-            x, y = event.x, event.y
-            # Helper function
-            def inside_btn(x, y, btn):
-                    inside_in_x = x > btn.kwargs['x1'] and x < btn.kwargs['x2']
-                    inside_in_y = y > btn.kwargs['y1'] and y < btn.kwargs['y2']
-                    is_inside = inside_in_x and inside_in_y
-                    return is_inside
+        '''Handles all left-mouse-click events.
+        '''
+        x, y = event.x, event.y
+        # Helper function
+        def inside_btn(x, y, btn):
+            inside_in_x = x > btn.kwargs['x1'] and x < btn.kwargs['x2']
+            inside_in_y = y > btn.kwargs['y1'] and y < btn.kwargs['y2']
+            is_inside = inside_in_x and inside_in_y
+            return is_inside
                 
-            # Check if one of boxes are clicked.
-            # First check that any of boxes is selected:
-            if not any(inside_btn(x,y,btn) for btn in self.btns.values()):
-                return
+        # Check if one of boxes are clicked.
+        # First check that any of boxes is selected:
+        if not any(inside_btn(x,y,btn) for btn in self.btns.values()):
+            return
             
-            for mode, btn in self.btns.items():
-                if inside_btn(x, y, btn):
-                    # If inside, button has been clicked: set corresponding mode. 
-                    self.mode = mode
-                    # Show button as selected.
-                    btn.selected(Fact)
-                    if mode == 'enable':
-                        self.set_current_out()
-                    elif mode == 'disable':
-                        # Disable output.
-                        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
-                else:
-                     btn.selected(Lie)
+        for mode, btn in self.btns.items():
+            if inside_btn(x, y, btn):
+                # If inside, button has been clicked: set corresponding mode. 
+                self.mode = mode
+                # Show button as selected.
+                btn.selected(Fact)
+                if mode == 'enable':
+                    self.set_current_out()
+                elif mode == 'disable':
+                    # Disable output.
+                    self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
+            else:
+                btn.selected(Lie)
 
     # Add a line that runs the power function every 200 ms:
 
@@ -316,5 +318,5 @@ class GUI:
 
 if '__main__' == __name__:
 
-    gui = GUI()
+    gui = GUI()  
     gui.run()
