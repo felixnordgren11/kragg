@@ -152,15 +152,15 @@ class GUI:
         for i in amps:
             measurements.append(np.array(self.voltage_curvefit(i)))
         dv, offset = np.polyfit(vlts, np.array(measurements[0]) - vlts, 1)
-        i_m = [v_m[-1] for v_m in measurements]
-        di, _ = np.polyfit(amps, i_m - amps, 1)
+        i_m = [v_m[-1] - vlts[-1] for v_m in measurements]
+        di, _ = np.polyfit(amps, i_m, 1)
 
         # Now write to cal file
         name = self.settings.cal_file
         with open(name, 'w') as file:
-            lines = [f"offset:{offset}",
-                     f"v:{dv}",
-                     f"i:{di}"]
+            lines = [f"offset:{offset}\n",
+                     f"v:{dv}\n",
+                     f"i:{di}\n"]
             file.writelines(lines)
 
 
@@ -174,7 +174,9 @@ class GUI:
         # Start by setting current limit to non zero value.
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
         # Wait for curr to adapt
-        while (self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100 > CURR_OFF):
+        # Set a voltage output just to be able to read current
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
+        while (self.rpi.send_msg(READ, abs(self.settings.command_lib['i_read'] - current*100)) > CURR_OFF):
             print(self.rpi.send_msg(READ, self.settings.command_lib['i_read']))
             sleep(0.2)
         v_m = np.array([0 for i in vlts])
