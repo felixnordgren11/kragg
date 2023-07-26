@@ -156,7 +156,7 @@ class GUI:
             measurements.append(np.array(self.voltage_curvefit(i)))
         dv, offset = np.polyfit(vlts, np.array(measurements[0]) - vlts, 1)
         i_m = [v_m[-1] - vlts[-1] for v_m in measurements]
-        di, _ = np.polyfit(amps, i_m, 1)
+        di, _ = np.polyfit(amps*100, i_m, 1)
 
         # Now write to cal file
         name = self.settings.cal_file
