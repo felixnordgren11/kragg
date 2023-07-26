@@ -145,7 +145,7 @@ class GUI:
                     messagebox.showinfo('Calibration', "Calibration started.")
                     break
 
-        amps = np.array([0, 5 , 10, 15])
+        amps = np.array([0, 5 , 7,])
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         vlts
         measurements = []
@@ -175,6 +175,7 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
         # Wait for curr to adapt
         while (self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100 > CURR_OFF):
+            print(self.rpi.send_msg(READ, self.settings.command_lib['i_read']))
             sleep(0.2)
         v_m = np.array([0 for i in vlts])
         for i, v in enumerate(vlts):
