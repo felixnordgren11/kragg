@@ -191,7 +191,7 @@ class GUI:
         PSU.
         '''
         
-        if (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+        if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             # Calibration
             return
         # Which is the gauge we have selected. The other one is to be deactivated.
