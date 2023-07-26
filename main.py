@@ -182,7 +182,8 @@ class GUI:
         while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
             if time() - start > 2:
                 messagebox.showinfo('Maltab', 'Oyeyeyjey')
-                
+                break
+
         # Which is the gauge we have selected. The other one is to be deactivated.
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
         sel_active = self.gges[sel].get_active()
