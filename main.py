@@ -155,9 +155,9 @@ class GUI:
             measurements.append(np.array(self.voltage_curvefit(i)))
         dv, offset = np.polyfit(vlts, np.array(100*vlts - measurements[0]), 1)
         print(measurements)
-        i_m = [[100*vlts[i] - v_m[i] for v_m in measurements] for i in len(vlts)]
+        i_m = [[100*vlts[i] - v_m[i] for v_m in measurements] for i in range(len(vlts))]
         di_tot = 0
-        for i in len(vlts):
+        for i in range(len(vlts)):
             di, _ = np.polyfit(amps, i_m, 1)
             di_tot = di_tot + di
         di_tot = di_tot/len(vlts)
