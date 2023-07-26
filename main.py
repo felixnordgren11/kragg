@@ -141,15 +141,14 @@ class GUI:
 
     def calibration_procedure(self):
         # Check if calibration
-        start = time()
-        while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+        while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
                 messagebox.showinfo('Monster', "The wife-beater drink!")
                 return
 
     def _update_value(self):
         '''Helper function that computes the measured output power.
             '''
-        if (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+        if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
             
 
