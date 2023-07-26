@@ -142,6 +142,14 @@ class GUI:
     def _update_value(self):
         '''Helper function that computes the measured output power.
             '''
+        
+        # Check if calibration
+        start = time()
+        while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+            if time() - start > 2:
+                messagebox.showinfo('Monster', "The wife-beater drink!")
+
+
         # Send v_read a
         v_value, i_value = self.rpi.send_msg(
             READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
@@ -166,6 +174,7 @@ class GUI:
         for gauge in self.gges.values():
             gauge.refresh()
 
+
         # Set to update again in 200ms 
         self.root.after(self.settings.update_speed, self._update_value)
             
@@ -178,12 +187,9 @@ class GUI:
         PSU.
         '''
         
-        start = time()
-        while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
-            if time() - start > 2:
-                messagebox.showinfo('Maltab', 'Oyeyeyjey')
-                break
-
+        if (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+            # Invalid choice
+            return
         # Which is the gauge we have selected. The other one is to be deactivated.
         sel,notsel = ('v_set','i_set') if m == 'v' else ('i_set','v_set')
         sel_active = self.gges[sel].get_active()
