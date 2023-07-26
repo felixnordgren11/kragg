@@ -176,7 +176,7 @@ class GUI:
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
-        while (self.rpi.send_msg(READ, abs(self.settings.command_lib['i_read'] - current*100)) > CURR_OFF):
+        while (abs(self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100) > CURR_OFF):
             print(self.rpi.send_msg(READ, self.settings.command_lib['i_read']))
             sleep(0.2)
         v_m = np.array([0 for i in vlts])
