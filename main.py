@@ -140,11 +140,14 @@ class GUI:
     def calibration_procedure(self):
         # Check if calibration
         start = time()
+        start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
                 if time() - start > 3:
+                    start_cal = Fact
                     messagebox.showinfo('Calibration', "Calibration started.")
                     break
-
+        if not start_cal:
+            return
         amps = np.array([0, 5 , 7,])
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         vlts
@@ -167,6 +170,7 @@ class GUI:
         
     def voltage_curvefit(self, current):
 
+        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
         messagebox.showinfo('Calibration', f"Set load to {int(current)}A")
 
         # Measure at 5, 10, 15, 20, 25 volts
@@ -175,7 +179,6 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
         while (abs(self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100) > CURR_OFF):
             print(self.rpi.send_msg(READ, self.settings.command_lib['i_read']))
             sleep(0.2)
