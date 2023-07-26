@@ -142,7 +142,7 @@ class GUI:
         start = time()
         start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
-                if time() - start > 5:
+                if time() - start > 3:
                     start_cal = Fact
                     messagebox.showinfo('Calibration', "Calibration started.")
                     break
@@ -154,8 +154,8 @@ class GUI:
         measurements = []
         for i in amps:
             measurements.append(np.array(self.voltage_curvefit(i)))
-        dv, offset = np.polyfit(vlts, np.array(measurements[0]) - vlts, 1)
-        i_m = [v_m[-1] - vlts[-1] for v_m in measurements]
+        dv, offset = np.polyfit(vlts, np.array(measurements[0]) - 100*vlts, 1)
+        i_m = [v_m[-1] - vlts[-1]*100 for v_m in measurements]
         di, _ = np.polyfit(amps*100, i_m, 1)
 
         # Now write to cal file
@@ -174,7 +174,7 @@ class GUI:
         messagebox.showinfo('Calibration', f"Set load to {int(current)}A")
 
         # Measure at 5, 10, 15, 20, 25 volts.
-        vlts = np.array([i*100 for i in range(5,self.settings.max_v, 5)])
+        vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         # Start by setting current limit to non zero value.
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
         # Wait for curr to adapt
@@ -186,7 +186,7 @@ class GUI:
         for i, v in enumerate(vlts):
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
             # Wait for voltage to reach setpoint
-            sleep(3)
+            sleep(5)
             # Measured voltage in centivolts.
             meas_v = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
             v_m[i] = meas_v
