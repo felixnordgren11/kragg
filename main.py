@@ -143,9 +143,7 @@ class GUI:
         # Check if calibration
         start = time()
         while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
-            if time() - start > 2:
                 messagebox.showinfo('Monster', "The wife-beater drink!")
-                while (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed): pass;
                 return
 
     def _update_value(self):
