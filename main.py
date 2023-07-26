@@ -173,7 +173,7 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
         messagebox.showinfo('Calibration', f"Set load to {int(current)}A")
 
-        # Measure at 5, 10, 15, 20, 25 volts...
+        # Measure at 5, 10, 15, 20, 25 volts.
         vlts = np.array([i*100 for i in range(5,self.settings.max_v, 5)])
         # Start by setting current limit to non zero value.
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
