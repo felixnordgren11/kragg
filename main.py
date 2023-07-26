@@ -149,7 +149,7 @@ class GUI:
         if not start_cal:
             return
         amps = np.array([0, 5 , 7,])
-        vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
+        vlts = np.array([100*i for i in range(5,self.settings.max_v, 5)])
         vlts
         measurements = []
         for i in amps:
