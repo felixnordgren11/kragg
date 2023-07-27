@@ -41,6 +41,12 @@ class GUI:
         
         # Start in disabled mode.
         self.mode = 'disable'
+
+        # Bind keyboard events
+        self.root.bind_all("<Key>", self.key)
+
+        # Bind mouse events
+        self.root.bind_all("<Button-1>", self.callback)
         
         # Instantiate RPI class which initializes all pins etc.
         self.rpi = RPI(self)
@@ -104,18 +110,10 @@ class GUI:
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
 
-        # Bind keyboard events
-        self.root.bind_all("<Key>", self.key)
-
-        # Bind mouse events
-        self.root.bind_all("<Button-1>", self.callback)
         self.canvas.focus_set()
         self.canvas.config(cursor = 'none')
         self._draw_border()
         
-        # Draw the gauge.
-        for gge in self.gges.values():
-            gge.draw()
         
         
         self.root.update()
@@ -324,6 +322,7 @@ class GUI:
         
         elif event.char == 'c':
             self._clear_all()
+            self._graphics_calibration()
 
         elif event.char in ['v','i']:
             self.select_gauge(event.char)
