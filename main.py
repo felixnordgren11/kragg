@@ -83,7 +83,7 @@ class GUI:
         self.root.bind_all("<Button-1>", self.callback)
         self.canvas.focus_set()
         self.canvas.config(cursor = 'none')
-        self._draw_border()
+        self._draw_border(self.settings.title)
 
         # Draw the buttons.
         for btn in self.btns.values():
@@ -112,13 +112,12 @@ class GUI:
         
         
         self.canvas.grab_set()
-        self.root.title(self.settings.cal_title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
 
         self.canvas.focus_set()
         self.canvas.config(cursor = 'none')
-        self._draw_border()
+        self._draw_border(self.settings.cal_title)
         
         
         self.root.update()
@@ -139,7 +138,7 @@ class GUI:
         # Send appropriate commands to the power unit.
         self._init_power_unit()
         
-    def _draw_border(self):
+    def _draw_border(self, title):
         '''Function that draws the border around the GUI,
         Some values could possibly be given as arguments.
         '''
@@ -149,7 +148,7 @@ class GUI:
                              self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = self.settings.title, font = ('Small Fonts', 20), fill = 'black')  
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = title, font = ('Small Fonts', 20), fill = 'black')  
 
 
     def _init_power_unit(self):
