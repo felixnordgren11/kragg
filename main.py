@@ -39,12 +39,9 @@ class GUI:
         self.loaded = Lie
         self.settings = Settings()
         
-        # Our Tk objects
-        self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
-        self.canvas.pack()
         # Start in disabled mode.
         self.mode = 'disable'
-
+        
         # Instantiate RPI class which initializes all pins etc.
         self.rpi = RPI(self)
             
@@ -52,8 +49,9 @@ class GUI:
         '''Draws the GUI's visual components.
         '''
         # Here all graphical objects will be drawn.
-        
-                
+        # Our Tk objects
+        self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
+        self.canvas.pack()
         # Define our buttons.
         self.btns = {}
         for label, btn in self.settings.buttonsettings.items():
@@ -234,6 +232,9 @@ class GUI:
     def _update_value(self):
         '''Helper function that computes the measured output power.
             '''
+        if not self.canvas.winfo_exists():
+            return 
+        
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
             
