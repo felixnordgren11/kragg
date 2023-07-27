@@ -50,6 +50,23 @@ class RPI:
             self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
             self.pin_i.when_pressed = lambda x: self.GUI.select_gauge('i')
     
+
+    def toggle_io(self, toggle: bool):
+        if toggle:
+            self.pin_a.when_pressed = self.pin_a_rising
+            self.pin_b.when_pressed = self.pin_b_rising
+            self.pin_v.when_pressed = lambda x: self.GUI.select_gauge('v')
+            self.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
+            self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
+            self.pin_i.when_pressed = lambda x: self.GUI.select_gauge('i')
+        else:
+            self.pin_a.when_pressed = lambda x: 1
+            self.pin_b.when_pressed = lambda x: 1
+            self.pin_v.when_pressed = lambda x: 1
+            self.pin_d.when_pressed = lambda x: 1
+            self.pin_e.when_pressed = lambda x: 1
+            self.pin_i.when_pressed = lambda x: 1
+
     def pin_a_rising(self):                # Pin A event handler
         '''Handler for when pin is set high
         '''

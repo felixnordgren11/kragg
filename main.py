@@ -180,6 +180,8 @@ class GUI:
         start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
                 if time() - start > 3:
+                    # Disable callbacks.
+                    self.rpi.toggle_io(Lie)
                     self._clear_all()
                     self._graphics_calibration()
                     start_cal = Fact
@@ -209,6 +211,9 @@ class GUI:
                      f"v:{dv}\n",
                      f"i:{di}\n"]
             file.writelines(lines)
+
+        # Enable callbacks again.
+        self.rpi.toggle_io(Fact)
 
 
         
