@@ -118,8 +118,7 @@ class GUI:
         self.root.update()
         
     def _clear_all(self):
-        for item in self.canvas.winfo_children():
-            item.destroy()
+        self.canvas.destroy()
 
     def _hardware(self):
         '''Initializes the Raspberry Pi and the power unit.
