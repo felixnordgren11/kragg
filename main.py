@@ -117,7 +117,7 @@ class GUI:
         
         self.root.update()
         
-    def clear_all(self)
+    def _clear_all(self):
         for item in canvas.winfo_children():
             item.destroy()
 
@@ -310,6 +310,9 @@ class GUI:
         print(event)
         if event.char == 'q':
             sys.exit()
+        
+        elif event.char == 'c':
+            self._clear_all()
 
         elif event.char in ['v','i']:
             self.select_gauge(event.char)
