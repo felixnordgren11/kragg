@@ -5,17 +5,6 @@ RIGHT = 1
 Fact = True
 Lie = False
 
-def enable(func):
-    '''Decorator that returns the same function
-    only that the label of a Gauge object is activated
-    before execution and deactivated after.
-    '''
-    def wrapper(self, *args, **kwargs):
-        self.label['state'] = tk.NORMAL
-        var = func(self, *args, **kwargs)
-        self.label['state'] = tk.DISABLED
-        return var
-    return wrapper
 
 class Prompt:
     '''
