@@ -38,7 +38,7 @@ class Prompt:
         points = (x1,y1,x2,y2)
         return master.create_polygon(points, **kwargs, smooth=True)
     
-    def set_text(self, text_in)
+    def set_text(self, text_in):
         self.master.itemconfig(self.label, text = text_in)
         
     def draw_prompt(self):
