@@ -31,7 +31,7 @@ class Prompt:
         self.settings = Settings()
         self.icon = None
         
-    def create_rectangle(self, master, x1, y1, x2, y2, **kwargs)
+    def create_rectangle(self, master, x1, y1, x2, y2, **kwargs):
         '''
         Draws a rectangle
         '''
