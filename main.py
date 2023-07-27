@@ -41,7 +41,7 @@ class GUI:
         
         # Our Tk objects
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
-
+        self.canvas.pack()
         # Start in disabled mode.
         self.mode = 'disable'
         
@@ -65,7 +65,6 @@ class GUI:
         '''
         # Here all graphical objects will be drawn.
         
-        self.canvas.pack()
         self.canvas.grab_set()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
@@ -148,7 +147,7 @@ class GUI:
                     break
         if not start_cal:
             return
-        amps = np.array([0, 5 , 7,])
+        amps = np.array([0, 5, 10, 15])
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         measurements = []
         for i in amps:
