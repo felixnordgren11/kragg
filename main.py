@@ -118,7 +118,7 @@ class GUI:
         self.root.update()
         
     def _clear_all(self):
-        for item in canvas.winfo_children():
+        for item in self.canvas.winfo_children():
             item.destroy()
 
     def _hardware(self):
