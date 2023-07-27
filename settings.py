@@ -93,8 +93,6 @@ class Settings:
                          'y1' : self.height*0.2,
                          'x2' : self.width*0.9,
                          'y2' : self.height*0.45,
-                         'outline' : self.border_color,
-                         'width' : 2,
                          'fill' : 'black'},
         }
         

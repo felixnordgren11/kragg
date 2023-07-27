@@ -30,7 +30,7 @@ class Prompt:
         promptkwargs = self.settings.textsettings['prompttext']
         x = (self.kwargs['x1'] + self.kwargs['x2'])/2
         y = (self.kwargs['y1'] + self.kwargs['y2'])/2
-        self.icon = self.master.create_rectangle(**self.kwargs)
+        self.icon = self.master.create_rectangle(self.kwargs['x1'], self.kwargs['y1'], self.kwargs['x2'], self.kwargs['y2'], self.kwargs['fill'])
         self.label = self.master.create_text(x, y, anchor='center', text = '', **promptkwargs)
         return self.icon
     
