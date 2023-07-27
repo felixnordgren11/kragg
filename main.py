@@ -97,6 +97,10 @@ class GUI:
         '''
         # Here all graphical objects will be drawn.
         
+        self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
+        self.canvas.pack()
+        
+        
         self.canvas.grab_set()
         self.root.cal_title(self.settings.cal_title)
         self.root.geometry(self.settings.geometry)
@@ -115,11 +119,13 @@ class GUI:
         for gge in self.gges.values():
             gge.draw()
         
+        
         self.root.update()
         
+        
     def _clear_all(self):
-        for item in canvas.winfo_children():
-            item.destroy()
+        if self.canvas.winfo_exists():
+            self.canvas.destroy()
 
     def _hardware(self):
         '''Initializes the Raspberry Pi and the power unit.
