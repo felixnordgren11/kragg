@@ -175,13 +175,13 @@ class GUI:
 
 
     def calibration_procedure(self):
-        self._clear_all()
-        self._graphics_calibration()
         # Check if calibration
         start = time()
         start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
                 if time() - start > 3:
+                    self._clear_all()
+                    self._graphics_calibration()
                     start_cal = Fact
                     messagebox.showinfo('Calibration', "Calibration started.")
                     break
