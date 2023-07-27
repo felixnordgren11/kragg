@@ -11,12 +11,11 @@ class Prompt:
     Class that handles the prompt in calibration mode
     '''
     
-    def __init__(self, master, label, **kwargs):
+    def __init__(self, master, **kwargs):
         '''Instantiates the prompt
         '''
         self.master = master
         self.kwargs = kwargs
-        self.labeltext = label
         self.settings = Settings()
         self.icon = None
     

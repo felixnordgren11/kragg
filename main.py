@@ -104,11 +104,9 @@ class GUI:
         
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
-        
-        self.prompts = {}
-        for label, prompt in self.settings.promptsettings.items():
-            self.prompts[label] = Prompt(self.canvas, label, **prompt)
-            self.prompts[label].draw_prompt()
+        prompt = self.settings.promptsettings['calibration_prompt']
+        self.prompt = Prompt(self.canvas, **prompt)
+        self.prompt.draw_prompt()
         
         
         self.canvas.grab_set()
@@ -185,7 +183,7 @@ class GUI:
                     self._clear_all()
                     self._graphics_calibration()
                     start_cal = Fact
-                    messagebox.showinfo('Calibration', "Calibration started.")
+                    self.prompt.set_text("Calibration started!")   
                     break
         if not start_cal:
             return
@@ -220,7 +218,7 @@ class GUI:
     def voltage_curvefit(self, current):
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 20)
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
-        messagebox.showinfo('Calibration', f"Set load to {int(current)}A")
+        self.prompt.set_text(f"Set load to {int(current)}A")
 
         # Measure at 5, 10, 15, 20, 25 volts.
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
