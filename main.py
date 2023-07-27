@@ -157,6 +157,7 @@ class GUI:
         print(measurements)
         i_m = [[100*vlts[i] - v_m[i] for v_m in measurements] for i in range(len(vlts))]
         di_tot = 0
+        di = 0 
         for i in range(len(vlts)):
             di, _ = np.polyfit(amps, i_m[i], 1)
             di_tot = di_tot + di
