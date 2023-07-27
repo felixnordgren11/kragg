@@ -87,7 +87,7 @@ class GUI:
         # Draw the gauges.
         for gge in self.gges.values():
             gge.draw()
-        
+
         self.root.update()
         
     def _graphics_calibration(self):
@@ -116,7 +116,10 @@ class GUI:
         self.root.update()
         
     def _clear_all(self):
-        self.canvas.destroy()
+        '''Clear the entire screen.
+        '''
+        if self.canvas.winfo_exists():
+            self.canvas.destroy()
 
     def _hardware(self):
         '''Initializes the Raspberry Pi and the power unit.
@@ -233,6 +236,8 @@ class GUI:
         '''Helper function that computes the measured output power.
             '''
         if not self.canvas.winfo_exists():
+            # Set to update again in 200ms 
+            self.root.after(self.settings.update_speed*2, self._update_value)
             return 
         
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
