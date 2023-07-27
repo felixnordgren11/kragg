@@ -104,6 +104,10 @@ class GUI:
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
         
+        self.prompts = {}
+        for label, prompt in self.settings.promptsettings.items():
+            self.prompts[label] = Prompt(self.canvas, label, **gge)
+        
         
         self.canvas.grab_set()
         self.root.geometry(self.settings.geometry)
@@ -112,7 +116,6 @@ class GUI:
         self.canvas.focus_set()
         self.canvas.config(cursor = 'none')
         self._draw_border(self.settings.cal_title)
-        
         
         
         self.root.update()

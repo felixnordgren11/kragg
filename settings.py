@@ -56,6 +56,11 @@ class Settings:
                 'width' : "8", 
                 'height' : "1", 
             },
+            'prompttext' : {
+                'width' : 8,
+                'height': 1,
+                'font' : ("Small Fonts", 12),  
+            }
             
         }
         self.buttonsettings = {
@@ -82,6 +87,16 @@ class Settings:
                          'fill' : 'black'}
         }
         #
+        
+        self.promptsettings = {
+            'calibration_prompt': {'x1' : self.width*0.1,
+                         'y1' : self.height*0.2,
+                         'x2' : self.width*0.9,
+                         'y2' : self.height*0.45,
+                         'outline' : self.border_color,
+                         'width' : 2,
+                         'fill' : 'black'},
+        }
         
         self.gauge_format = '00.00'
         # Change this to select what the default precision is when setting the gauges
