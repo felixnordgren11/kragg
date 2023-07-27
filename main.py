@@ -91,6 +91,35 @@ class GUI:
             gge.draw()
         
         self.root.update()
+        
+    def _graphics_calibration(self):
+        '''Draws the GUI's visual components.
+        '''
+        # Here all graphical objects will be drawn.
+        
+        self.canvas.grab_set()
+        self.root.cal_title(self.settings.cal_title)
+        self.root.geometry(self.settings.geometry)
+        self.root.attributes('-fullscreen', True)
+
+        # Bind keyboard events
+        self.root.bind_all("<Key>", self.key)
+
+        # Bind mouse events
+        self.root.bind_all("<Button-1>", self.callback)
+        self.canvas.focus_set()
+        self.canvas.config(cursor = 'none')
+        self._draw_border()
+        
+        # Draw the gauge.
+        for gge in self.gges.values():
+            gge.draw()
+        
+        self.root.update()
+        
+    def clear_all(self)
+        for item in canvas.winfo_children():
+            item.destroy()
 
     def _hardware(self):
         '''Initializes the Raspberry Pi and the power unit.
