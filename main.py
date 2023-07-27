@@ -106,7 +106,7 @@ class GUI:
         
         
         self.canvas.grab_set()
-        self.root.cal_title(self.settings.cal_title)
+        self.root.title(self.settings.cal_title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
 
