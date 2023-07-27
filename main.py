@@ -13,6 +13,7 @@ import numpy as np
 from tkinter import messagebox
 from tkinter import ttk
 from button import Button
+from prompt import Prompt
 from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
 from time import sleep, time
@@ -97,7 +98,7 @@ class GUI:
         self.root.update()
         
     def _graphics_calibration(self):
-        '''Draws the GUI's visual components.
+        '''Draws the GUI's visual components during calibration mode.
         '''
         # Here all graphical objects will be drawn.
         
@@ -106,7 +107,8 @@ class GUI:
         
         self.prompts = {}
         for label, prompt in self.settings.promptsettings.items():
-            self.prompts[label] = Prompt(self.canvas, label, **gge)
+            self.prompts[label] = Prompt(self.canvas, label, **prompt)
+            self.prompts[label].draw_prompt()
         
         
         self.canvas.grab_set()
@@ -174,6 +176,8 @@ class GUI:
 
 
     def calibration_procedure(self):
+        self._clear_all()
+        self._graphics_calibration()
         # Check if calibration
         start = time()
         start_cal = Lie

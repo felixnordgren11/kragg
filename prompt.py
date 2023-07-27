@@ -37,10 +37,11 @@ class Prompt:
         '''
         points = (x1,y1,x2,y2)
         return master.create_polygon(points, **kwargs, smooth=True)
+    
+    def set_text(self, text_in)
+        self.master.itemconfig(self.label, text = text_in)
         
-        
-        
-    def draw(self):
+    def draw_prompt(self):
         '''
         Draw prompt
         '''
@@ -48,8 +49,10 @@ class Prompt:
         x = (self.kwargs['x1'] + self.kwargs['x2'])/2
         y = (self.kwargs['y1'] + self.kwargs['y2'])/2
         self.icon = self.create_rectangle(**self.kwargs)
-        self.label = self.master.create_text(x, y, anchor='center', text = self.labeltext.upper(), **promptkwargs)
+        self.label = self.master.create_text(x, y, anchor='center', text = '', **promptkwargs)
         return self.icon
+    
+    
     
 
 
