@@ -44,7 +44,16 @@ class GUI:
         self.canvas.pack()
         # Start in disabled mode.
         self.mode = 'disable'
+
+        # Instantiate RPI class which initializes all pins etc.
+        self.rpi = RPI(self)
+            
+    def _graphics(self):
+        '''Draws the GUI's visual components.
+        '''
+        # Here all graphical objects will be drawn.
         
+                
         # Define our buttons.
         self.btns = {}
         for label, btn in self.settings.buttonsettings.items():
@@ -56,14 +65,6 @@ class GUI:
             self.gges[label] = Gauge(self.canvas, label, **gge)
 
         
-
-        # Instantiate RPI class which initializes all pins etc.
-        self.rpi = RPI(self)
-            
-    def _graphics(self):
-        '''Draws the GUI's visual components.
-        '''
-        # Here all graphical objects will be drawn.
         
         self.canvas.grab_set()
         self.root.title(self.settings.title)
