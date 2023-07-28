@@ -183,7 +183,7 @@ class GUI:
                     self._clear_all()
                     self._graphics_calibration()
                     start_cal = Fact
-                    self.prompt.set_text("Calibration started!")   
+                    self.prompt.set_text("Calibration started!")
                     break
         if not start_cal:
             return
@@ -219,6 +219,7 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 20)
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
         self.prompt.set_text(f"Set load to {int(current)}A")
+        self.root.update()
 
         # Measure at 5, 10, 15, 20, 25 volts.
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
