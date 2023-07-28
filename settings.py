@@ -57,7 +57,8 @@ class Settings:
                 'height' : "1", 
             },
             'prompttext' : {
-                'font' : ("Small Fonts", 12),  
+                'font' : ("Small Fonts", 12), 
+                'fill' : '#ffffff'
             }
             
         }
