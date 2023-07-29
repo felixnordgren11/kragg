@@ -98,7 +98,8 @@ class GUI:
         self.root.update()
         
     def _graphics_calibration(self):
-        '''Draws the GUI's visual components during calibration mode.
+        '''
+        Draws the GUI's visual components during calibration mode.
         '''
         # Here all graphical objects will be drawn.
         
@@ -123,13 +124,15 @@ class GUI:
         
         
     def _clear_all(self):
-        '''Clear the entire screen.
+        '''
+        Clear the entire screen.
         '''
         if self.canvas.winfo_exists():
             self.canvas.destroy()
 
     def _hardware(self):
-        '''Initializes the Raspberry Pi and the power unit.
+        '''
+        Initializes the Raspberry Pi and the power unit.
         '''
         # Send command to init the can communication, then wait 100ms
         os.system(self.settings.can_init_command)
@@ -138,7 +141,8 @@ class GUI:
         self._init_power_unit()
         
     def _draw_border(self, title):
-        '''Function that draws the border around the GUI,
+        '''
+        Function that draws the border around the GUI,
         Some values could possibly be given as arguments.
         '''
         self._round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
@@ -151,7 +155,8 @@ class GUI:
 
 
     def _init_power_unit(self):
-        '''Sends necessary commands to the power unit
+        '''
+        Sends necessary commands to the power unit
         to set into configurable mode (test mode)
         '''
         # We want to set the power unit into test mode. 
@@ -164,7 +169,8 @@ class GUI:
         self.root.after(self.settings.update_speed, self._update_value)
 
     def _round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
-        '''Helper function that can draw rounded objects.
+        '''
+        Helper function that can draw rounded objects.
         '''  
         points = (x1+r, y1, x1+r, y1, x2-r, y1, x2-r, y1, x2, y1, x2, y1+r,
                 x2, y1+r, x2, y2-r, x2, y2-r, x2, y2, x2-r, y2, x2-r, y2,
@@ -174,7 +180,9 @@ class GUI:
 
 
     def calibration_procedure(self):
-        # Check if calibration
+        '''
+        Starts calibration
+        '''
         start = time()
         start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
