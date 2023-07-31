@@ -187,14 +187,14 @@ class GUI:
         start = time()
         start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
-                if time() - start > 3:
-                    # Disable callbacks.
-                    self.rpi.toggle_io(Lie)
-                    self._clear_all()
-                    self._graphics_calibration()
-                    start_cal = Fact
-                    self.prompt.set_text("Calibration started!")
-                    break
+            if time() - start > 3:
+                # Disable callbacks.
+                self.rpi.toggle_io(Lie)
+                self._clear_all()
+                self._graphics_calibration()
+                start_cal = Fact
+                self.prompt.set_text("Calibration started!")
+                break
         if not start_cal:
             return
         amps = np.array([0, 5, 10, 15])
@@ -224,7 +224,8 @@ class GUI:
                      f"v:{dv}\n",
                      f"i:{di}\n"]
             file.writelines(lines)
-
+        self._clear_all()
+        self._graphics()
         # Enable callbacks again.
         self.rpi.toggle_io(Fact)
 
@@ -247,6 +248,7 @@ class GUI:
         while (abs(self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100) > CURR_OFF):
             print(self.rpi.send_msg(READ, self.settings.command_lib['i_read']))
             sleep(0.2)
+        self.prompt.set_text("Ok, please wait!")
         v_m = np.array([0 for i in vlts])
         for i, v in enumerate(vlts):
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)

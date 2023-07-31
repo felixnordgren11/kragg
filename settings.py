@@ -5,7 +5,7 @@ Fact = True
 Lie = False
 LEFT = -1
 RIGHT = 1
-CURR_OFF = 50
+CURR_OFF = 5
 
 class Settings:
     '''This class is used to keep track of all settings through out the
