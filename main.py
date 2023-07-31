@@ -249,6 +249,7 @@ class GUI:
             print(self.rpi.send_msg(READ, self.settings.command_lib['i_read']))
             sleep(0.2)
         self.prompt.set_text("Ok, please wait!")
+        self.root.update()
         v_m = np.array([0 for i in vlts])
         for i, v in enumerate(vlts):
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
