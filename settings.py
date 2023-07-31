@@ -8,7 +8,9 @@ RIGHT = 1
 CURR_OFF = 50
 
 class Settings:
-
+    '''This class is used to keep track of all settings through out the
+    program.
+    '''
     def __init__(self):
         self.title = 'GUI'
         self.cal_title = 'CALIBRATION'
@@ -173,7 +175,7 @@ class Settings:
     def read_calibration(self, cal_file: str):
         '''Reads calibration data from text file
         '''
-        with open(cal_file, 'r') as data:
+        with open(cal_file, 'r', encoding = 'utf-8') as data:
             lines = data.readlines()
 
         cal_data = {}

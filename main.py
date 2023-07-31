@@ -133,7 +133,7 @@ class GUI:
         '''
         # Send command to init the can communication, then wait 100ms
         os.system(self.settings.can_init_command)
-        sleep(0.1)
+        sleep(0.5)
         # Send appropriate commands to the power unit.
         self._init_power_unit()
         
@@ -157,7 +157,8 @@ class GUI:
         # We want to set the power unit into test mode. 
         command = self.settings.command_lib['test_mode']
         reply = self.rpi.send_msg(WRITE, command, value = 1)
-        sleep(1)
+        sleep(0.5)
+        # Set ouput to zero.
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 0)
         sleep(0.5)
@@ -174,6 +175,8 @@ class GUI:
 
 
     def calibration_procedure(self):
+        '''Procedure used to set the calibration constants.
+        '''
         # Check if calibration
         start = time()
         start_cal = Lie
@@ -191,13 +194,18 @@ class GUI:
         amps = np.array([0, 5, 10, 15])
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         measurements = []
+
+        # Collect an set of voltage read outs per current set point.
         for i in amps:
             measurements.append(np.array(self.voltage_curvefit(i)))
+
+        # Fit linear parameters to the data.
         dv, offset = np.polyfit(vlts, np.array(100*vlts - measurements[0]), 1)
-        print(measurements)
         i_m = [[100*vlts[i] - v_m[i] for v_m in measurements] for i in range(len(vlts))]
         di_tot = 0
         di = 0 
+
+        # Perform same operation as above.
         for i in range(len(vlts)):
             di, _ = np.polyfit(amps, i_m[i], 1)
             di_tot = di_tot + di
@@ -217,6 +225,8 @@ class GUI:
 
         
     def voltage_curvefit(self, current):
+        '''Get voltage measurements for a provided current.
+        '''
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 20)
         self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
         self.prompt.set_text(f"Set load to {int(current)}A")
@@ -422,10 +432,18 @@ class GUI:
             loading_window.update_idletasks()  # Update the loading window
             sleep(1)  # Simulating a small delay between updates
             # Run the process
+            error_codes = {
+                '100' : self._hardware
+            }
             try:
                 process['func']()
-            except Exception as e:
-                print(f'Process "{process["process"]}" failed with the following exception: {e}')
+            except Exception as error:
+                print(f'Process "{process["process"]}" failed with the following exception: {error}')
+                for code, func in error_codes.items():
+                    if code in str(error):
+                        # Run fix:
+                        func()
+                    "Failed to connect"
             #
             progressbar['value'] += process['progress'] 
             label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
