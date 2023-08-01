@@ -105,6 +105,9 @@ class GUI:
         
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
+        self.root.geometry(self.settings.geometry)
+        self.root.attributes('-fullscreen', True)
+        self.canvas.config(cursor = 'none')
         self._draw_border(self.settings.cal_title)
         prompt = self.settings.promptsettings['calibration_prompt']
         self.prompt = Prompt(self.canvas, **prompt)
@@ -119,13 +122,9 @@ class GUI:
             'fg' : '#ffffff',
             'font' : (self.settings.font, self.settings.output_font_size),
         }
-        self.A_gauge = Gauge(self.canvas, '', **kwargs)
+        self.A_gauge = Gauge(self.canvas, 'onje', **kwargs)
         self.A_gauge.draw()
-        self.root.geometry(self.settings.geometry)
-        self.root.attributes('-fullscreen', True)
-
-        self.canvas.focus_set()
-        self.canvas.config(cursor = 'none')
+        
         
         
         
