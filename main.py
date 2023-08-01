@@ -124,10 +124,6 @@ class GUI:
         }
         self.A_gauge = Gauge(self.canvas, 'onje', **kwargs)
         self.A_gauge.draw()
-        
-        
-        
-        
         self.root.update()
         
         
@@ -257,8 +253,10 @@ class GUI:
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
         while (abs(self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100) > CURR_OFF):
-            self.A_gauge.set_gauge(self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100)
+            current = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100
+            self.A_gauge.set_gauge(current)
             sleep(0.2)
+            self.root.update()
         self.prompt.set_text("Ok, please wait!")
         self.root.update()
         v_m = np.array([0 for i in vlts])
