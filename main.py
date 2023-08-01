@@ -116,10 +116,10 @@ class GUI:
             'a' : self.settings.width*0.1,
             'b' : self.settings.height*0.385,
             'width' : 1,
-            'bg' : '#000000',
+            'bg' : '#ffffff',
             'max': self.settings.max_i,
             'unit' : 'A',
-            'fg' : '#ffffff',
+            'fg' : '#000000',
             'font' : (self.settings.font, self.settings.output_font_size),
         }
         self.A_gauge = Gauge(self.canvas, 'onje', **kwargs)
