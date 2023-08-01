@@ -62,6 +62,7 @@ class Settings:
                 'font' : ("Small Fonts", 12), 
                 'fg' : '#ff00ff',
                 'bg' : '#000000',
+                'anchor' : 'center',
                 'height' : 1
             }
             
