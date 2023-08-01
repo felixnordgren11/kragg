@@ -20,7 +20,11 @@ class Prompt:
         self.icon = None
     
     def set_text(self, text_in):
-        self.master.itemconfig(self.label, text = text_in)
+        ''' Updates the label text
+        '''
+        self.label.delete(0,-1)
+        self.label.insert(0, text_in)
+
     def draw_prompt(self):
         '''
         Draw promptv  
@@ -29,9 +33,10 @@ class Prompt:
         x = (self.kwargs['x1'] + self.kwargs['x2'])/2
         y = (self.kwargs['y1'] + self.kwargs['y2'])/2
         self.icon = self.master.create_rectangle(self.kwargs['x1'], self.kwargs['y1'], self.kwargs['x2'], self.kwargs['y2'], fill = self.kwargs['fill'])
-        self.label = self.master.create_text(x, y, anchor='center', text = 'Calibration started.', **promptkwargs)
+        self.label = tk.Text(self.master, **promptkwargs)
+        self.label.place(x = x, y = y, anchor = 'center')
         return self.icon
-    
+
     
     
 
