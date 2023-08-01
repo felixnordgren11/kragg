@@ -19,11 +19,19 @@ class Prompt:
         self.settings = Settings()
         self.icon = None
     
-    def set_text(self, text_in):
+    def set_text(self, text):
         ''' Updates the label text
         '''
-        self.label.delete(0,-1)
-        self.label.insert(0, text_in)
+        self._clear()
+        self._insert(text)
+
+    def _clear(self):
+        '''Clears text'''
+        self.label.delete("1.0","end")
+
+    def _insert(self, text):
+        '''Inserts provided text'''
+        self.label.insert("1.0", text)
 
     def draw_prompt(self):
         '''
