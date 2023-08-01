@@ -253,8 +253,8 @@ class GUI:
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
         while (abs(self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100) > CURR_OFF):
-            current = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100
-            self.A_gauge.set_gauge(current)
+            cunt = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100
+            self.A_gauge.set_gauge(cunt)
             sleep(0.2)
             self.root.update()
         self.prompt.set_text("Ok, please wait!")
