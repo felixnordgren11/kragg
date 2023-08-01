@@ -194,6 +194,9 @@ class GUI:
                 self._graphics_calibration()
                 start_cal = Fact
                 self.prompt.set_text("Calibration started!")
+                self.root.update()
+                # Delay to allow reader to read message.
+                sleep(0.5)
                 break
         if not start_cal:
             return
