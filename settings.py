@@ -60,7 +60,9 @@ class Settings:
             },
             'prompttext' : {
                 'font' : ("Small Fonts", 12), 
-                'fg' : '#ffffff'
+                'fg' : '#ff00ff',
+                'bg' : '#000000',
+                'height' : 1
             }
             
         }
