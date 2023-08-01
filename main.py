@@ -108,9 +108,19 @@ class GUI:
         self._draw_border(self.settings.cal_title)
         prompt = self.settings.promptsettings['calibration_prompt']
         self.prompt = Prompt(self.canvas, **prompt)
-        self.prompt.draw_prompt()
-        
-        
+        self.prompt.draw()
+        kwargs = {
+            'a' : self.settings.width*0.1,
+            'b' : self.settings.height*0.385,
+            'width' : 1,
+            'bg' : '#000000',
+            'max': self.settings.max_i,
+            'unit' : 'A',
+            'fg' : '#ffffff',
+            'font' : (self.settings.font, self.settings.output_font_size),
+        }
+        self.A_gauge = Gauge(self.canvas, '', **kwargs)
+        self.A_gauge.draw()
         self.canvas.grab_set()
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
@@ -249,7 +259,7 @@ class GUI:
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
         while (abs(self.rpi.send_msg(READ, self.settings.command_lib['i_read']) - current*100) > CURR_OFF):
-            print(self.rpi.send_msg(READ, self.settings.command_lib['i_read']))
+            self.A_gauge.set_gauge(self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100)
             sleep(0.2)
         self.prompt.set_text("Ok, please wait!")
         self.root.update()

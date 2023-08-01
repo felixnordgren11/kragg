@@ -34,7 +34,7 @@ class Prompt:
         '''Inserts provided text'''
         self.txt.set(text)
 
-    def draw_prompt(self):
+    def draw(self):
         '''
         Draw promptv  
         '''
