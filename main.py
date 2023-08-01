@@ -121,7 +121,6 @@ class GUI:
         }
         self.A_gauge = Gauge(self.canvas, '', **kwargs)
         self.A_gauge.draw()
-        self.canvas.grab_set()
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
 
