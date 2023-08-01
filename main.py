@@ -252,7 +252,7 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
-        while self.rpi.send_msg(READ, self.settings.command_lib['i_read'] != current*100):
+        while self.rpi.send_msg(READ, self.settings.command_lib['i_read']) != current*100:
             # The current output current to be adjusted to the demanded value.
             temp_curr = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100
             self.A_gauge.set_gauge(temp_curr)
