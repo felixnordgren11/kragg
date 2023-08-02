@@ -110,7 +110,6 @@ class GUI:
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
         self.cal_canvas.config(cursor = 'none')
-        self._draw_border(self.cal_canvas, self.settings.cal_title)
         prompt = self.settings.promptsettings['calibration_prompt']
         self.prompt = Prompt(self.cal_canvas, **prompt)
         self.prompt.draw()
@@ -143,6 +142,8 @@ class GUI:
             'V_gauge' : self.V_gauge,
             'A_gauge' : self.A_gauge
         }
+
+        self._draw_border(self.cal_canvas, self.settings.cal_title)
         self.root.update()
         
         
