@@ -98,10 +98,7 @@ class Gauge:
         if not self.is_active:
             return
         # Change in desired direction, either left or right.
-        new_select = self.select_digit + direction
-        # Prevent going out of the screen.
-        if new_select not in range(len(self.digit_tags)):
-            return
+        new_select = (self.select_digit + direction) % 4
         # Set new one highlighted and remove from old one.
         self.highlight(self.digit_tags[self.select_digit], Lie)
         self.highlight(self.digit_tags[new_select], Fact)

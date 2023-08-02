@@ -129,7 +129,7 @@ class GUI:
             'width' : 1,
             'active' : '#991100',
             'bg' : '#ffffff',
-            'max': self.settings.max_i,
+            'max': self.settings.max_v,
             'unit' : 'V',
             'fg' : '#000000',
             'font' : (self.settings.font, self.settings.output_font_size),
