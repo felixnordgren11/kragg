@@ -302,9 +302,9 @@ class GUI:
             confirm = Lie
             # Will run until "V" callback is executed.
             self.prompt.set_text(f"Set measured voltage to {v} and confirm with 'V'.")
-            self.root.update()
             while not confirm:
                 # To not freeze
+                self.root.update()
                 sleep(0.1)
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
             # Wait for voltage to reach setpoint
