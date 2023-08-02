@@ -182,7 +182,7 @@ class Gauge:
         '''Returns True if the gauge is in active mode and
         is being edited by the user.
         '''      
-        return self.is_active      
+        return self.is_active     
     
     def refresh(self):
         '''Refreshes the gauge to match the latest
