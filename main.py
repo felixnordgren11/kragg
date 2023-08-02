@@ -402,8 +402,8 @@ class GUI:
         selected gauge. Goes in the direction dictated by
         the values set in the settings file.
         '''
-        self.gges['v_set'].move_select(self.settings.moves[m])
-        self.gges['i_set'].move_select(self.settings.moves[m])
+        for gauge in self.gges.values():
+            gauge.move_select(self.settings.moves[m])
 
     def key(self, event:tk.Event):
         '''This function is used to operate the GUI from a PC
