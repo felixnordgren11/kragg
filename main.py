@@ -222,7 +222,7 @@ class GUI:
                 self.prompt.set_text("Calibration started!")
                 self.root.update()
                 # Delay to allow reader to read message.
-                sleep(0.5)
+                sleep(3)
                 break
         if not start_cal:
             return
