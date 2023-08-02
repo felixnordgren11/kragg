@@ -301,12 +301,12 @@ class GUI:
         for i, v in enumerate(vlts):
             confirm = Lie
             # Will run until "V" callback is executed.
-            self.prompt.set_text(f"Set measured voltage to {v} and confirm with 'V'.")
+            self.prompt.set_text(f"Set measured voltage to {v}\n and confirm with 'V'.")
             while not confirm:
                 # To not freeze
-                self.root.update()
                 self.gges['V_gauge'].refresh()
-                sleep(0.1)
+                self.root.update()
+
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
             # Wait for voltage to reach setpoint
             sleep(5)
