@@ -112,7 +112,7 @@ class GUI:
         prompt = self.settings.promptsettings['calibration_prompt']
         self.prompt = Prompt(self.canvas, **prompt)
         self.prompt.draw()
-        kwargs = {
+        Akwargs = {
             'a' : self.settings.width*0.1,
             'b' : self.settings.height*0.385,
             'width' : 1,
@@ -122,8 +122,24 @@ class GUI:
             'fg' : '#000000',
             'font' : (self.settings.font, self.settings.output_font_size),
         }
-        self.A_gauge = Gauge(self.canvas, 'onje', **kwargs)
+        Vkwargs = {
+            'a' : self.settings.width*0.1,
+            'b' : self.settings.height*0.485,
+            'width' : 1,
+            'bg' : '#ffffff',
+            'max': self.settings.max_i,
+            'unit' : 'V',
+            'fg' : '#000000',
+            'font' : (self.settings.font, self.settings.output_font_size),
+        }
+        self.A_gauge = Gauge(self.canvas, 'A_cal', **Akwargs)
+        self.V_gauge = Gauge(self.canvas, 'V_cal', **Vkwargs)
         self.A_gauge.draw()
+        self.V_gauge.draw()
+        self.gges = {
+            'V_gauge' : self.V_gauge,
+            'A_gauge' : self.A_gauge
+        }
         self.root.update()
         
         
@@ -204,6 +220,16 @@ class GUI:
                 break
         if not start_cal:
             return
+        
+        # Add voltage callback to rotary encoder.
+        self.mode = 'enable'
+        self.rpi.pin_a.when_pressed = self.rpi.pin_a_rising
+        self.rpi.pin_b.when_pressed = self.rpi.pin_b_rising
+        self.gges['V_gauge'].set_active(Fact)
+        # Increase sensitivity.
+        self.gges['V_gauge'].move_select(RIGHT)
+        
+
         amps = np.array([0, 5, 10, 15])
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         measurements = []
