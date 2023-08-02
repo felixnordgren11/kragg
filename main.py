@@ -233,8 +233,8 @@ class GUI:
         self.rpi.pin_a.when_pressed = self.rpi.pin_a_rising
         self.rpi.pin_b.when_pressed = self.rpi.pin_b_rising
         # Make it possible to change sensitivity
-        self.rpi.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
-        self.rpi.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
+        self.rpi.pin_d.when_pressed = lambda x: self.move_pointer('Left')
+        self.rpi.pin_e.when_pressed = lambda x: self.move_pointer('Right')
 
         self.gges['V_gauge'].set_active(Fact)
         # Increase sensitivity.
