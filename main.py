@@ -497,6 +497,9 @@ class GUI:
             # Unknown error.
             print("Non expected error.")
             raise msg
+
+        while self.rpi.bus.recv(timeout=0.1) is not None:
+            pass
         
     def _dummy(self):
         pass
