@@ -66,7 +66,6 @@ class Settings:
                 'bg' : '#000000',
                 'anchor' : 'center',
                 'height' : 1,
-                'width'  : 10
             }
             
         }
