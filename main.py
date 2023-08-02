@@ -300,9 +300,12 @@ class GUI:
         v_m = np.array([0 for i in vlts])
         for i, v in enumerate(vlts):
             confirm = Lie
+            # Will run until "V" callback is executed.
+            self.prompt.set_text(f"Set measured voltage to {v} and confirm with 'V'.")
+            self.root.update()
             while not confirm:
-                # Will run until "V" callback is executed.
-                self.prompt.set_text(f"Set measured voltage to {v} and confirm with 'V'.")
+                # To not freeze
+                sleep(0.1)
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
             # Wait for voltage to reach setpoint
             sleep(5)
