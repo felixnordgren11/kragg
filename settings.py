@@ -58,14 +58,14 @@ class Settings:
             },
             'gaugetext' : {
                 'width' : "8", 
-                'height' : "2", 
+                'height' : "1", 
             },
             'prompttext' : {
                 'font' : ("Small Fonts", 12), 
                 'fg' : '#ff00ff',
                 'bg' : '#000000',
                 'anchor' : 'center',
-                'height' : 1,
+                'height' : 2,
             }
             
         }
