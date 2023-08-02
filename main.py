@@ -479,7 +479,7 @@ class GUI:
         for code in error_codes:
             if code in str(msg):
                 error = code
-
+        print(error)
         if error == FAILED_INIT:
             try: 
                 self._hardware()
