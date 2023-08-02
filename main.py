@@ -149,13 +149,13 @@ class GUI:
         Function that draws the border around the GUI,
         Some values could possibly be given as arguments.
         '''
-        self._round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
+        self._round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05,
                              self.settings.width*0.95, self.settings.height*0.98, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
-        self._round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05, 
+        self._round_rectangle(self.canvas, self.settings.width*0.05, self.settings.height*0.05,
                              self.settings.width*0.95, self.settings.height*0.12, outline = self.settings.border_color, width = 2, fill = self.settings.border_color)
         self.canvas.create_rectangle(self.settings.width*0.05, self.settings.height*0.1, 
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
-        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = title, font = ('Small Fonts', 20), fill = 'black')  
+        self.canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = title, font = ('Small Fonts', 20), fill = 'black') 
 
 
     def _init_power_unit(self):
@@ -294,8 +294,8 @@ class GUI:
             READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
         # Adjust measurement
         #######################
-        v_value = v_value + (self.settings.calibration['offset'] + 
-                             self.settings.calibration['i']*(i_value/100) + 
+        v_value = v_value + (self.settings.calibration['offset'] +
+                             self.settings.calibration['i']*(i_value/100) +
                              self.settings.calibration['v']*(v_value/100))
         #######################
 
@@ -454,18 +454,11 @@ class GUI:
             loading_window.update_idletasks()  # Update the loading window
             sleep(1)  # Simulating a small delay between updates
             # Run the process
-            error_codes = {
-                '100' : self._hardware
-            }
             try:
                 process['func']()
             except Exception as error:
                 print(f'Process "{process["process"]}" failed with the following exception: {error}')
-                for code, func in error_codes.items():
-                    if code in str(error):
-                        # Run fix:
-                        func()
-                    "Failed to connect"
+                self._handle_error(error)
             #
             progressbar['value'] += process['progress'] 
             label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
@@ -474,7 +467,37 @@ class GUI:
         loading_window.destroy()
         root.deiconify()
    
+    def _handle_error(self, msg: Exception):
+        '''Handles potential errors during start up.
+        '''
+        error_codes = {
+            FAILED_INIT,
+            NO_CONNECT
+        }
+        # Find if it is a known error
+        error = ''
+        for code in error_codes:
+            if code in str(msg):
+                error = code
 
+        if error == FAILED_INIT:
+            try: 
+                self._hardware()
+            except Exception as e:
+                # Try to recursively handle this error.
+                self._handle_error(e)
+                
+        elif error == NO_CONNECT:
+            messagebox.showinfo("Error", "485 Not connected!\n Connect and then press ok")
+            try:
+                self._hardware()
+            except Exception as e:
+                self._handle_error(e)
+        else:
+            # Unknown error.
+            print("Non expected error.")
+            raise msg
+        
     def _dummy(self):
         pass
 

@@ -5,6 +5,9 @@ Fact = True
 Lie = False
 LEFT = -1
 RIGHT = 1
+# Some error codes
+FAILED_INIT = '100'
+NO_CONNECT = '105'
 
 class Settings:
     '''This class is used to keep track of all settings through out the
