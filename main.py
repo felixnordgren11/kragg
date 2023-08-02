@@ -305,6 +305,7 @@ class GUI:
             while not confirm:
                 # To not freeze
                 self.root.update()
+                self.gges['V_gauge'].refresh()
                 sleep(0.1)
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
             # Wait for voltage to reach setpoint
