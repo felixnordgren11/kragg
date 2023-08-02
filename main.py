@@ -110,7 +110,7 @@ class GUI:
         self.cal_canvas.config(cursor = 'none')
         self._draw_border(self.cal_canvas, self.settings.cal_title)
         prompt = self.settings.promptsettings['calibration_prompt']
-        self.prompt = Prompt(self.canvas, **prompt)
+        self.prompt = Prompt(self.cal_canvas, **prompt)
         self.prompt.draw()
         Akwargs = {
             'a' : self.settings.width*0.1,
