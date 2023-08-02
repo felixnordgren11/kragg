@@ -227,9 +227,13 @@ class GUI:
         if not start_cal:
             return
         
+
         # Add voltage callback to rotary encoder.
         self.rpi.pin_a.when_pressed = self.rpi.pin_a_rising
         self.rpi.pin_b.when_pressed = self.rpi.pin_b_rising
+        # Make "V" a confirm button
+        confirm = Lie
+        self.rpi.pin_v.when_pressed = lambda : (confirm := Fact)
         self.gges['V_gauge'].set_active(Fact)
         # Increase sensitivity.
         self.gges['V_gauge'].move_select(RIGHT)
@@ -295,6 +299,10 @@ class GUI:
         self.root.update()
         v_m = np.array([0 for i in vlts])
         for i, v in enumerate(vlts):
+            confirm = Lie
+            while not confirm:
+                # Will run until "V" callback is executed.
+                self.prompt.set_text(f"Set measured voltage to {v} and confirm with 'V'.")
             self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = v)
             # Wait for voltage to reach setpoint
             sleep(5)
