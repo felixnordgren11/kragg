@@ -126,6 +126,7 @@ class GUI:
             'a' : self.settings.width*0.1,
             'b' : self.settings.height*0.485,
             'width' : 1,
+            'active' : '#991100',
             'bg' : '#ffffff',
             'max': self.settings.max_i,
             'unit' : 'V',
