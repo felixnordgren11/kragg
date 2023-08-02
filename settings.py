@@ -65,7 +65,8 @@ class Settings:
                 'fg' : '#ff00ff',
                 'bg' : '#000000',
                 'anchor' : 'center',
-                'height' : 1
+                'height' : 1,
+                'width'  : 10
             }
             
         }
