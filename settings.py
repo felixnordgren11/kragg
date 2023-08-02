@@ -61,8 +61,8 @@ class Settings:
                 'height' : "1", 
             },
             'prompttext' : {
-                'font' : ("Small Fonts", 12), 
-                'fg' : '#ff00ff',
+                'font' : ("Small Fonts", 13), 
+                'fg' : '#ffffff',
                 'bg' : '#000000',
                 'anchor' : 'center',
                 'height' : 2,
@@ -96,9 +96,9 @@ class Settings:
         
         self.promptsettings = {
             'calibration_prompt': {'x1' : self.width*0.1,
-                         'y1' : self.height*0.2,
+                         'y1' : self.height*0.1,
                          'x2' : self.width*0.9,
-                         'y2' : self.height*0.45,
+                         'y2' : self.height*0.35,
                          'fill' : 'black'},
         }
         
