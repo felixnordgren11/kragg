@@ -58,7 +58,7 @@ class Settings:
             },
             'gaugetext' : {
                 'width' : "8", 
-                'height' : "1", 
+                'height' : "2", 
             },
             'prompttext' : {
                 'font' : ("Small Fonts", 12), 
