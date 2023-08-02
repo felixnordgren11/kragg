@@ -94,7 +94,8 @@ class GUI:
         # Draw the gauges.
         for gge in self.gges.values():
             gge.draw()
-
+        
+        self.canvas.focus_set()
         self.root.update()
         
     def _graphics_calibration(self):
@@ -103,6 +104,7 @@ class GUI:
         '''
         # Here all graphical objects will be drawn.
         
+
         self.cal_canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.cal_canvas.pack()
         self.root.geometry(self.settings.geometry)
@@ -212,6 +214,9 @@ class GUI:
                 # Disable callbacks.
                 self.rpi.toggle_io(Lie)
                 self._clear_all()
+                # Set in enable mode:
+                self.mode = 'enable'
+                # Draw graphics.
                 self._graphics_calibration()
                 start_cal = Fact
                 self.prompt.set_text("Calibration started!")
@@ -223,7 +228,6 @@ class GUI:
             return
         
         # Add voltage callback to rotary encoder.
-        self.mode = 'enable'
         self.rpi.pin_a.when_pressed = self.rpi.pin_a_rising
         self.rpi.pin_b.when_pressed = self.rpi.pin_b_rising
         self.gges['V_gauge'].set_active(Fact)
