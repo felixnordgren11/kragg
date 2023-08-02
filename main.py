@@ -298,10 +298,7 @@ class GUI:
                              self.settings.calibration['i']*(i_value/100) + 
                              self.settings.calibration['v']*(v_value/100))
         #######################
-        if v_value == 0 or i_value == 0:
-            print("0!!!")
-        else:
-            print("int 0!!!")
+
         self.gges['v_out'].set_gauge(v_value/100)
         self.gges['i_out'].set_gauge(i_value/100)
 
