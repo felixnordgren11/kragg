@@ -60,6 +60,10 @@ class Settings:
                 'width' : "8", 
                 'height' : "1", 
             },
+            'gaugetext_cal' : {
+                'width' : "12", 
+                'height' : "2", 
+            },
             'prompttext' : {
                 'font' : ("Comic Sans MS", 13), 
                 'fg' : '#ffffff',
@@ -157,7 +161,7 @@ class Settings:
         self.cal_gaugesettings = {
             'A_gauge' : {
                 'a' : self.width*0.1,
-                'b' : self.height*0.6,
+                'b' : self.height*0.8,
                 'width' : 2,
                 'bg' : '#ffffff',
                 'max': self.max_i,
@@ -167,7 +171,7 @@ class Settings:
             },
             'V_gauge' : {
                 'a' : self.width*0.1,
-                'b' : self.height*0.8,
+                'b' : self.height*0.6,
                 'width' : 2,
                 'active' : '#991100',
                 'bg' : '#ffffff',

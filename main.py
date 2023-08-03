@@ -114,7 +114,7 @@ class GUI:
         self.gges = {}
         for label, kwargs in self.settings.cal_gaugesettings.items():
             self.gges[label] = Gauge(self.cal_canvas, label, **kwargs)
-            self.gges[label].draw()
+            self.gges[label].draw('gaugetext_cal')
 
 
         self._draw_border(self.cal_canvas, self.settings.cal_title)
@@ -160,7 +160,7 @@ class GUI:
         Function that draws a smaller border in the canvas.
         '''
         self._round_rectangle(canvas, self.settings.width*0.12, self.settings.height*0.2,
-                             self.settings.width*0.88, self.settings.height*0.6, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
+                             self.settings.width*0.88, self.settings.height*0.5, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
         #canvas.create_rectangle(self.settings.width*0.15, self.settings.height*0.1, 
         #                     self.settings.width*0.4, self.settings.height*0.4, outline = '', fill = self.settings.border_color)  
 
