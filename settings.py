@@ -26,7 +26,7 @@ class Settings:
         self.set_fontsize = 16
         self.file = "dickmas.jpg"
         # Canvas config
-        self.bg = tk.Photoimage(file = "dickmas.jpg")
+        self.bg = tk.PhotoImage(file = "dickmas.jpg")
         self.textcolor = 'white'
         self.model_nr = 'SMP485'
         self.border_color = 'white'
