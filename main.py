@@ -18,7 +18,7 @@ from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
 from time import sleep, time
 from settings import *
-from PIL import ImageTk
+from PIL import *
 
 Fact = True
 Lie  = False
@@ -61,6 +61,9 @@ class GUI:
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
         
+        image = ImageTk.PhotoImage(file = "dickmas.jpg")
+        self.canvas.create_image(100, 100, image = image, anchor = 'nw')
+        
         
 
         # Define our buttons.
@@ -84,8 +87,7 @@ class GUI:
         self.root.bind_all("<Button-1>", self.callback)
         self.canvas.config(cursor = 'none')
         self._draw_border(self.canvas, self.settings.title)
-        image = ImageTk.PhotoImage(file = "dickmas.ppm")
-        self.canvas.create_image(100, 100, image = image, anchor = 'nw')
+        
         # Draw the buttons.
         for btn in self.btns.values():
             btn.draw()
