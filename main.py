@@ -81,7 +81,7 @@ class GUI:
 
         # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
-        img= (Image.open("dickmas.jpg"))
+        img= (Image.open("iconphoto.png"))
         # Resize the Image using resize method
         resized_image= img.resize((320,480), Image.ANTIALIAS)
         self.root.one = one = ImageTk.PhotoImage(resized_image)
