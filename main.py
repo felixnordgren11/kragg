@@ -97,7 +97,7 @@ class GUI:
         for gge in self.gges.values():
             gge.draw()
         # To highlight all objects drawn on the canvas.
-        self.root.one = one = ImageTk.PhotoImage(file = "dickmas.jpg")
+        one = ImageTk.PhotoImage(file = "dickmas.jpg")
         self.canvas.create_image(1, 1, anchor = 'nw', image = one)
         self.canvas.update()
         
