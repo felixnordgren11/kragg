@@ -278,11 +278,11 @@ class GUI:
                     return []
             # The current output current to be adjusted to the demanded value.
             temp_curr = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100
-            self.A_gauge.set_gauge(temp_curr)
+            self.gges['A_gauge'].set_gauge(temp_curr)
             sleep(0.2)
             self.root.update()
         # Update with last value
-        self.A_gauge.set_gauge(self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100)
+        self.gges['A_gauge'].set_gauge(self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100)
         self.prompt.set_text("Ok, please wait!")
         self.root.update()
         v_m = np.array([0 for i in vlts])
