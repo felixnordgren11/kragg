@@ -23,6 +23,7 @@ class Settings:
         self.font = 'Small Fonts'
         self.title = "Kragg"
         self.set_fontsize = 16
+        self.file = "dickmas.jpg"
         # Canvas config
         self.bg = 'black'
         self.textcolor = 'white'
@@ -32,7 +33,7 @@ class Settings:
         self.disable_color = '#ff5500'
         self.keep_color = '#0066ff'
         self.canvassettings = {
-            'bg' : self.bg,
+            'bg' : self.file,
             'height' : self.height,
             'width' : self.width}
          
