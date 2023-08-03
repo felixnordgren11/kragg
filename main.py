@@ -69,9 +69,6 @@ class GUI:
         for label, gge in self.settings.gaugesettings.items():
             self.gges[label] = Gauge(self.canvas, label, **gge)
 
-        
-        
-        self.canvas.grab_set()
         self.root.title(self.settings.title)
         self.root.geometry(self.settings.geometry)
         self.root.attributes('-fullscreen', True)
@@ -81,7 +78,6 @@ class GUI:
 
         # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
-        self.canvas.focus_set()
         self.canvas.config(cursor = 'none')
         self._draw_border(self.canvas, self.settings.title)
 
@@ -95,8 +91,11 @@ class GUI:
         for gge in self.gges.values():
             gge.draw()
         
+        self.canvas.grab_set()
         self.canvas.focus_set()
         self.root.update()
+        self.canvas.grab_set()
+        self.canvas.focus_set()
         
     def _graphics_calibration(self):
         '''
