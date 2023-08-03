@@ -110,35 +110,12 @@ class GUI:
         prompt = self.settings.promptsettings['calibration_prompt']
         self.prompt = Prompt(self.cal_canvas, **prompt)
         self.prompt.draw()
-        Akwargs = {
-            'a' : self.settings.width*0.1,
-            'b' : self.settings.height*0.385,
-            'width' : 1,
-            'bg' : '#ffffff',
-            'max': self.settings.max_i,
-            'unit' : 'A',
-            'fg' : '#000000',
-            'font' : (self.settings.font, self.settings.output_font_size),
-        }
-        Vkwargs = {
-            'a' : self.settings.width*0.1,
-            'b' : self.settings.height*0.485,
-            'width' : 1,
-            'active' : '#991100',
-            'bg' : '#ffffff',
-            'max': self.settings.max_v,
-            'unit' : 'V',
-            'fg' : '#000000',
-            'font' : (self.settings.font, self.settings.output_font_size),
-        }
-        self.A_gauge = Gauge(self.cal_canvas, 'A_cal', **Akwargs)
-        self.V_gauge = Gauge(self.cal_canvas, 'V_cal', **Vkwargs)
-        self.A_gauge.draw()
-        self.V_gauge.draw()
-        self.gges = {
-            'V_gauge' : self.V_gauge,
-            'A_gauge' : self.A_gauge
-        }
+        # Draw gauges.
+        self.gges = {}
+        for label, kwargs in self.settings.cal_gaugesettings.items():
+            self.gges[label] = Gauge(self.cal_canvas, label, **kwargs)
+            self.gges[label].draw()
+
 
         self._draw_border(self.cal_canvas, self.settings.cal_title)
         self.root.update()
@@ -211,6 +188,7 @@ class GUI:
         start_cal = Lie
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             if time() - start > 3:
+                start_cal = Fact
                 # Disable callbacks.
                 self.rpi.toggle_io(Lie)
                 self._clear_all()
@@ -218,8 +196,7 @@ class GUI:
                 self.mode = 'enable'
                 # Draw graphics.
                 self._graphics_calibration()
-                start_cal = Fact
-                
+
         if not start_cal:
             return
         
