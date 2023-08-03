@@ -161,8 +161,8 @@ class GUI:
         '''
         self._round_rectangle(canvas, self.settings.width*0.15, self.settings.height*0.1,
                              self.settings.width*0.85, self.settings.height*0.4, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
-        canvas.create_rectangle(self.settings.width*0.15, self.settings.height*0.1, 
-                             self.settings.width*0.4, self.settings.height*0.4, outline = '', fill = self.settings.border_color)  
+        #canvas.create_rectangle(self.settings.width*0.15, self.settings.height*0.1, 
+        #                     self.settings.width*0.4, self.settings.height*0.4, outline = '', fill = self.settings.border_color)  
 
     def _init_power_unit(self):
         '''
