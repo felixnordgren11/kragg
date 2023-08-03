@@ -22,7 +22,7 @@ class Settings:
         self.textcolor = 'white'
         self.font = 'Small Fonts'
         self.title = "Kragg"
-        self.output_font_size = 20
+        self.set_fontsize = 16
         # Canvas config
         self.bg = 'black'
         self.textcolor = 'white'
@@ -60,7 +60,7 @@ class Settings:
             'gaugetext' : {
                 'width' : "8", 
                 'height' : "1", 
-                'font'  : (self.font, self.output_font_size)
+                'font'  : (self.font, self.set_fontsize)
             },
             'gaugetext_cal' : {
                 'width' : "14", 
@@ -113,6 +113,7 @@ class Settings:
         # Change this to select what the default precision is when setting the gauges
         self.default_digit = 1
         # Change these to configure gauges.
+        self.output_font_size = 20
         
         self.gaugesettings = {
             'v_out'   : {'a' : self.width*0.1,
@@ -143,7 +144,7 @@ class Settings:
                            },
             'v_set'   : {'a' : self.width*0.5,
                            'b' : self.height*0.2,
-                           'width' : 0.9,
+                           'width' : 1,
                            'bg' : '#ffffff',
                            'active' : '#991100',
                            'unit' : 'V',
@@ -151,7 +152,7 @@ class Settings:
                            'font' : (self.font, 15),},
             'i_set'   : {'a' : self.width*0.5,
                            'b' : self.height*0.2,
-                           'width' : 0.9,
+                           'width' : 1,
                            'unit' : 'A',
                            'active' : '#991100',
                            'bg' : 'white',
