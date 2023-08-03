@@ -153,6 +153,30 @@ class Settings:
                            },
             
         }
+
+        self.cal_gaugesettings = {
+            'A_gauge' : {
+                'a' : self.width*0.1,
+                'b' : self.height*0.385,
+                'width' : 1,
+                'bg' : '#ffffff',
+                'max': self.max_i,
+                'unit' : 'A',
+                'fg' : '#000000',
+                'font' : (self.font, self.output_font_size),
+            },
+            'V_gauge' : {
+                'a' : self.width*0.1,
+                'b' : self.height*0.485,
+                'width' : 1,
+                'active' : '#991100',
+                'bg' : '#ffffff',
+                'max': self.max_v,
+                'unit' : 'V',
+                'fg' : '#000000',
+                'font' : (self.font, self.output_font_size),
+        }
+        }
         
         self.moves = {
         'Left': LEFT,
