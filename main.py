@@ -304,7 +304,7 @@ class GUI:
             # Will run until "V" callback is executed.
             self.prompt.set_text(f"Set measured voltage to {v}\n and confirm with 'V'.")
             # Use pin_v as confirm button.
-            while not self.rpi.pin_v.is_pressed:
+            while self.rpi.pin_v.is_pressed:
                 # To not freeze
                 self.gges['V_gauge'].refresh()
                 self.root.update()
