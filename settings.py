@@ -59,6 +59,7 @@ class Settings:
             'gaugetext' : {
                 'width' : "8", 
                 'height' : "1", 
+                'font'  : (self.font, 13)
             },
             'gaugetext_cal' : {
                 'width' : "14", 
@@ -66,7 +67,7 @@ class Settings:
                 'font'  : ("Small Fonts", 25)
             },
             'prompttext' : {
-                'font' : ("Comic Sans MS", 13), 
+                'font' : (self.font, 14), 
                 'fg' : '#ffffff',
                 'bg' : '#000000',
                 'anchor' : 'center',
@@ -168,7 +169,7 @@ class Settings:
                 'max': self.max_i,
                 'unit' : 'A',
                 'fg' : '#000000',
-                'font' : (self.font, 25),
+                'font' : (self.font, self.output_font_size),
             },
             'V_gauge' : {
                 'a' : self.width*0.1,
@@ -179,7 +180,7 @@ class Settings:
                 'max': self.max_v,
                 'unit' : 'V',
                 'fg' : '#000000',
-                'font' : (self.font, 25),
+                'font' : (self.font, self.output_font_size),
         }
         }
         

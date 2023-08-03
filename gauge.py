@@ -61,7 +61,6 @@ class Gauge:
         self.label = tk.Text(
                               self.master,
                               bg = self.kwargs['bg'], fg = self.kwargs['fg'],
-                              font = self.kwargs['font'],
                               **self.settings.textsettings[text], relief="flat",)
         self.label.insert('1.0', self.display)
         self.label['state'] = tk.DISABLED
