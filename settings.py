@@ -66,7 +66,7 @@ class Settings:
                 'height' : "2",
             },
             'prompttext' : {
-                'font' : (self.font, 14), 
+                'font' : (self.font, 13), 
                 'fg' : '#ffffff',
                 'bg' : '#000000',
                 'anchor' : 'center',
@@ -100,10 +100,10 @@ class Settings:
         #
         
         self.promptsettings = {
-            'calibration_prompt': {'x1' : self.width*0.1,
-                         'y1' : self.height*0.1,
-                         'x2' : self.width*0.9,
-                         'y2' : self.height*0.35,
+            'calibration_prompt': {'x1' : self.width*0.2,
+                         'y1' : self.height*0.24,
+                         'x2' : self.width*0.8,
+                         'y2' : self.height*0.45,
                          'fill' : 'black'},
         }
         
@@ -163,24 +163,24 @@ class Settings:
         self.cal_gaugesettings = {
             'A_gauge' : {
                 'a' : self.width*0.1,
-                'b' : self.height*0.8,
+                'b' : self.height*0.75,
                 'width' : 2,
                 'bg' : '#ffffff',
                 'max': self.max_i,
                 'unit' : 'A',
                 'fg' : '#000000',
-                'font' : (self.font, 25),
+                'font' : (self.font, 30),
             },
             'V_gauge' : {
                 'a' : self.width*0.1,
-                'b' : self.height*0.6,
+                'b' : self.height*0.55,
                 'width' : 2,
                 'active' : '#991100',
                 'bg' : '#ffffff',
                 'max': self.max_v,
                 'unit' : 'V',
                 'fg' : '#000000',
-                'font' : (self.font, 25),
+                'font' : (self.font, 30),
         }
         }
         
