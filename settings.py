@@ -62,7 +62,7 @@ class Settings:
                 'height' : "1", 
             },
             'gaugetext_cal' : {
-                'width' : "14", 
+                'width' : "11", 
                 'height' : "2",
             },
             'prompttext' : {
@@ -149,7 +149,7 @@ class Settings:
                            'fg' : '#000000',
                            'font' : (self.font, 15),},
             'i_set'   : {'a' : self.width*0.58,
-                           'b' : self.height*0.29,
+                           'b' : self.height*0.295,
                            'width' : 1,
                            'unit' : 'A',
                            'active' : '#991100',
