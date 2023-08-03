@@ -308,7 +308,10 @@ class GUI:
                 # To not freeze
                 self.gges['V_gauge'].refresh()
                 self.root.update()
-
+            # Wait until released.
+            while not self.rpi.pin_v.is_pressed: pass
+            # Debounce
+            sleep(0.2)
             # Measured voltage in centivolts.
             meas_v = self.rpi.send_msg(READ, self.settings.command_lib['v_read'])
             v_m[i] = meas_v
