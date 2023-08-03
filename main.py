@@ -231,8 +231,9 @@ class GUI:
                 # Enable callbacks again.
                 self.rpi.toggle_io(Fact)
                 self.root.update()
-
-
+                # Terminate procedure.
+                return
+            
         # Fit linear parameters to the data.
         dv, offset = np.polyfit(vlts, np.array(100*vlts - measurements[0]), 1)
         i_m = [[100*vlts[i] - v_m[i] for v_m in measurements] for i in range(len(vlts))]
