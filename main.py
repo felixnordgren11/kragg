@@ -223,6 +223,8 @@ class GUI:
         # Collect an set of voltage read outs per current set point.
         for i in amps:
             measurements.append(np.array(self.voltage_curvefit(i)))
+            
+            
 
         # Fit linear parameters to the data.
         dv, offset = np.polyfit(vlts, np.array(100*vlts - measurements[0]), 1)
@@ -250,6 +252,11 @@ class GUI:
         self.root.update()
         
         
+        
+                
+        
+        
+        
     def voltage_curvefit(self, current):
         '''Get voltage measurements for a provided current.
         '''
@@ -265,6 +272,10 @@ class GUI:
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
         while self.rpi.send_msg(READ, self.settings.command_lib['i_read']) != current*100:
+            start_back = time()
+            while not self.rpi.pin_i.is_pressed:
+                if time() - start_back > 3:
+                    return []
             # The current output current to be adjusted to the demanded value.
             temp_curr = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100
             self.A_gauge.set_gauge(temp_curr)
