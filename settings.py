@@ -8,6 +8,7 @@ RIGHT = 1
 # Some error codes
 FAILED_INIT = '100'
 NO_CONNECT = '105'
+import tkinter as tk
 
 class Settings:
     '''This class is used to keep track of all settings through out the
@@ -25,7 +26,7 @@ class Settings:
         self.set_fontsize = 16
         self.file = "dickmas.jpg"
         # Canvas config
-        self.bg = 'black'
+        self.bg = tk.Photoimage(file = "dickmas.jpg")
         self.textcolor = 'white'
         self.model_nr = 'SMP485'
         self.border_color = 'white'
@@ -33,7 +34,7 @@ class Settings:
         self.disable_color = '#ff5500'
         self.keep_color = '#0066ff'
         self.canvassettings = {
-            'bg' : self.file,
+            'bg' : self.bg,
             'height' : self.height,
             'width' : self.width}
          
