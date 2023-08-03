@@ -59,7 +59,7 @@ class Settings:
             'gaugetext' : {
                 'width' : "8", 
                 'height' : "1", 
-                'font'  : (self.font, 13)
+                'font'  : (self.font, self.output_font_size)
             },
             'gaugetext_cal' : {
                 'width' : "14", 
