@@ -42,10 +42,12 @@ class Gauge:
         self.gauge_format = self.settings.gauge_format
         self.display = self.gauge_format + ' ' + self.kwargs['unit']
         self.value = 0
+
         if 'max' in self.kwargs:
             self.max = float(self.kwargs['max'])
         else:
             self.max = 999.9
+            
         self.select_digit = self.settings.default_digit
         self.digit_tags = list(range(0,len(self.gauge_format)))
         self.digit_tags.remove(self.gauge_format.index('.'))
