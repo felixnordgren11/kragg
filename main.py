@@ -153,6 +153,8 @@ class GUI:
         '''
         if self.canvas.winfo_exists():
             self.canvas.destroy()
+        elif self.cal_canvas.winfo_exists():
+            self.cal_canvas.destroy()
 
     def _hardware(self):
         '''
@@ -560,5 +562,5 @@ class GUI:
 
 if '__main__' == __name__:
 
-    gui = GUI()  
+    gui = GUI() 
     gui.run()
