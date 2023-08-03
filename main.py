@@ -274,6 +274,18 @@ class GUI:
         self._graphics()
         # Enable callbacks again.
         self.rpi.toggle_io(Fact)
+        self.root.update()
+        
+        '''
+        
+        start_back = time()
+        while not self.rpi.pin_i.is_pressed:
+            if time() > -start_back = 3
+                start_cal = Lie
+                self._clear_all()
+                self._graphics()
+                self.root.update()
+        '''
 
 
         
