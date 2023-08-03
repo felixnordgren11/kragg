@@ -222,9 +222,9 @@ class GUI:
 
         # Collect an set of voltage read outs per current set point.
         for i in amps:
-            result = self.voltage_curvefit(i)
-            if result:
-                measurements.append(np.array(result))
+            result = np.array(self.voltage_curvefit(i))
+            if result.size != 0:
+                measurements.append(result)
             else:
                 self._clear_all()
                 self._graphics()
