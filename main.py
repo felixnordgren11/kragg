@@ -61,8 +61,7 @@ class GUI:
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
         
-        image = ImageTk.PhotoImage(file = "dickmas.jpg")
-        self.canvas.create_image(100, 100, image = image, anchor = 'nw')
+        
         
         
 
@@ -98,6 +97,9 @@ class GUI:
         for gge in self.gges.values():
             gge.draw()
         # To highlight all objects drawn on the canvas.
+        image = ImageTk.PhotoImage(file = "dickmas.jpg")
+        self.canvas.create_image(100, 100, image = image, anchor = 'nw')
+        
         self.root.update()
         self.canvas.grab_set()
         self.canvas.focus_set()
