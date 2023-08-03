@@ -129,7 +129,7 @@ class GUI:
             'width' : 1,
             'active' : '#991100',
             'bg' : '#ffffff',
-            'max': self.settings.max_i,
+            'max': self.settings.max_v,
             'unit' : 'V',
             'fg' : '#000000',
             'font' : (self.settings.font, self.settings.output_font_size),
@@ -233,8 +233,8 @@ class GUI:
         self.rpi.pin_a.when_pressed = self.rpi.pin_a_rising
         self.rpi.pin_b.when_pressed = self.rpi.pin_b_rising
         # Make it possible to change sensitivity
-        self.rpi.pin_d.when_pressed = lambda x: self.GUI.move_pointer('Left')
-        self.rpi.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
+        self.rpi.pin_d.when_pressed = lambda x: self.move_pointer('Left')
+        self.rpi.pin_e.when_pressed = lambda x: self.move_pointer('Right')
 
         self.gges['V_gauge'].set_active(Fact)
         # Increase sensitivity.
@@ -414,8 +414,8 @@ class GUI:
         selected gauge. Goes in the direction dictated by
         the values set in the settings file.
         '''
-        self.gges['v_set'].move_select(self.settings.moves[m])
-        self.gges['i_set'].move_select(self.settings.moves[m])
+        for gauge in self.gges.values():
+            gauge.move_select(self.settings.moves[m])
 
     def key(self, event:tk.Event):
         '''This function is used to operate the GUI from a PC
