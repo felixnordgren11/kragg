@@ -159,8 +159,8 @@ class GUI:
         '''
         Function that draws a smaller border in the canvas.
         '''
-        self._round_rectangle(canvas, self.settings.width*0.15, self.settings.height*0.1,
-                             self.settings.width*0.85, self.settings.height*0.4, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
+        self._round_rectangle(canvas, self.settings.width*0.12, self.settings.height*0.2,
+                             self.settings.width*0.88, self.settings.height*0.6, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
         #canvas.create_rectangle(self.settings.width*0.15, self.settings.height*0.1, 
         #                     self.settings.width*0.4, self.settings.height*0.4, outline = '', fill = self.settings.border_color)  
 

@@ -157,8 +157,8 @@ class Settings:
         self.cal_gaugesettings = {
             'A_gauge' : {
                 'a' : self.width*0.1,
-                'b' : self.height*0.385,
-                'width' : 1,
+                'b' : self.height*0.6,
+                'width' : 2,
                 'bg' : '#ffffff',
                 'max': self.max_i,
                 'unit' : 'A',
@@ -167,8 +167,8 @@ class Settings:
             },
             'V_gauge' : {
                 'a' : self.width*0.1,
-                'b' : self.height*0.485,
-                'width' : 1,
+                'b' : self.height*0.8,
+                'width' : 2,
                 'active' : '#991100',
                 'bg' : '#ffffff',
                 'max': self.max_v,
