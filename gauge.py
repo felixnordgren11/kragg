@@ -54,13 +54,15 @@ class Gauge:
         self.num_dec = len(self.gauge_format.rsplit('.', maxsplit = 1)[-1])
         #print(self.digit_tags)
 
-    def draw(self):
+    def draw(self, text = None):
         '''Draws the gauge on the screen.'''
+        if text is None:
+            text = 'gaugetext'
         self.label = tk.Text(
                               self.master,
                               bg = self.kwargs['bg'], fg = self.kwargs['fg'],
                               font = self.kwargs['font'],
-                              **self.settings.textsettings['gaugetext'], relief="flat",)
+                              **self.settings.textsettings[text], relief="flat",)
         self.label.insert('1.0', self.display)
         self.label['state'] = tk.DISABLED
         self.label.place(x = (self.kwargs['a']),
