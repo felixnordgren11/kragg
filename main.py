@@ -219,15 +219,14 @@ class GUI:
                 # Draw graphics.
                 self._graphics_calibration()
                 start_cal = Fact
-                self.prompt.set_text("Calibration started!")
-                self.root.update()
-                # Delay to allow reader to read message.
-                sleep(3)
-                break
+                
         if not start_cal:
             return
         
-
+        self.prompt.set_text("Calibration started!")
+        self.root.update()
+        # Delay to allow reader to read message.
+        sleep(2)
         # Add voltage callback to rotary encoder.
         self.rpi.pin_a.when_pressed = self.rpi.pin_a_rising
         self.rpi.pin_b.when_pressed = self.rpi.pin_b_rising
