@@ -90,9 +90,7 @@ class GUI:
         # Draw the gauges.
         for gge in self.gges.values():
             gge.draw()
-        
-        self.canvas.grab_set()
-        self.canvas.focus_set()
+        # To highlight all objects drawn on the canvas.
         self.root.update()
         self.canvas.grab_set()
         self.canvas.focus_set()
@@ -275,18 +273,6 @@ class GUI:
         self.rpi.toggle_io(Fact)
         self.root.update()
         
-        '''
-        
-        start_back = time()
-        while not self.rpi.pin_i.is_pressed:
-            if time() > -start_back = 3
-                start_cal = Lie
-                self._clear_all()
-                self._graphics()
-                self.root.update()
-        '''
-
-
         
     def voltage_curvefit(self, current):
         '''Get voltage measurements for a provided current.
@@ -314,17 +300,11 @@ class GUI:
         self.root.update()
         v_m = np.array([0 for i in vlts])
 
-         # Make "V" a confirm button
-        def confirm_func(self):
-            ''' Sets confirm variable true. '''
-            self.confirm = Fact
-
-        self.rpi.pin_v.when_pressed = lambda: confirm_func(self)
         for i, v in enumerate(vlts):
             # Will run until "V" callback is executed.
             self.prompt.set_text(f"Set measured voltage to {v}\n and confirm with 'V'.")
-            self.confirm = Lie
-            while not self.confirm:
+            # Use pin_v as confirm button.
+            while not self.rpi.pin_v.is_pressed:
                 # To not freeze
                 self.gges['V_gauge'].refresh()
                 self.root.update()
