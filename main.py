@@ -61,7 +61,7 @@ class GUI:
         self.canvas.pack()
         
         image = tk.PhotoImage(file = "dickmas.ppm")
-        self.canvas.create_image(10, 10, image = image, anchor = NW)
+        self.canvas.create_image(10, 10, image = image)
 
         # Define our buttons.
         self.btns = {}
