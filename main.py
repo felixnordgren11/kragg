@@ -118,6 +118,7 @@ class GUI:
 
 
         self._draw_border(self.cal_canvas, self.settings.cal_title)
+        self._draw_small_border(self.cal_canvas)
         self.root.update()
         
         
@@ -153,6 +154,15 @@ class GUI:
                              self.settings.width*0.95, self.settings.height*0.15, outline = '', fill = self.settings.border_color)  
         canvas.create_text(self.settings.width*0.5, self.settings.height*0.1, text = title, font = ('Small Fonts', 20), fill = 'black') 
 
+
+    def _draw_small_border(self, canvas):
+        '''
+        Function that draws a smaller border in the canvas.
+        '''
+        self._round_rectangle(canvas, self.settings.width*0.15, self.settings.height*0.1,
+                             self.settings.width*0.85, self.settings.height*0.4, outline = self.settings.border_color, width = 2, activewidth = 4, fill = '')
+        canvas.create_rectangle(self.settings.width*0.15, self.settings.height*0.1, 
+                             self.settings.width*0.4, self.settings.height*0.4, outline = '', fill = self.settings.border_color)  
 
     def _init_power_unit(self):
         '''
