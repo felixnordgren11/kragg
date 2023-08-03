@@ -62,8 +62,8 @@ class Settings:
                 'height' : "1", 
             },
             'gaugetext_cal' : {
-                'width' : "11", 
-                'height' : "2",
+                'width' : "8", 
+                'height' : "1",
             },
             'prompttext' : {
                 'font' : (self.font, 13), 
