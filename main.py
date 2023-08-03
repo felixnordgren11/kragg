@@ -81,7 +81,8 @@ class GUI:
 
         # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
-        one = ImageTk.PhotoImage(file = "dickmas.jpg")
+        self.root.one = one = ImageTk.PhotoImage(file = "dickmas.jpg")
+
         self.canvas.create_image(1, 1, anchor = 'nw', image = one)
         self.canvas.update()
         # Bind mouse events
