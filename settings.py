@@ -61,7 +61,7 @@ class Settings:
                 'height' : "1", 
             },
             'prompttext' : {
-                'font' : ("Small Fonts", 13), 
+                'font' : ("Comic Sans MS", 13), 
                 'fg' : '#ffffff',
                 'bg' : '#000000',
                 'anchor' : 'center',
