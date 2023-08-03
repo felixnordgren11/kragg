@@ -18,7 +18,7 @@ from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
 from time import sleep, time
 from settings import *
-from PIL import ImageTk
+from PIL import Image, ImageTk
 
 Fact = True
 Lie  = False
