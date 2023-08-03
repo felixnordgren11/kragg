@@ -59,6 +59,10 @@ class GUI:
         # Our Tk objects
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
+        
+        image = tk.PhotoImage(file = "dickmas.ppm")
+        self.canvas.create_image(10, 10, image = image, anchor = NW)
+
         # Define our buttons.
         self.btns = {}
         for label, btn in self.settings.buttonsettings.items():
