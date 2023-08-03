@@ -169,7 +169,7 @@ class Settings:
                 'max': self.max_i,
                 'unit' : 'A',
                 'fg' : '#000000',
-                'font' : (self.font, 30),
+                'font' : ("Small Fonts", 35),
             },
             'V_gauge' : {
                 'a' : self.width*0.1,
@@ -180,7 +180,7 @@ class Settings:
                 'max': self.max_v,
                 'unit' : 'V',
                 'fg' : '#000000',
-                'font' : (self.font, 30),
+                'font' : ("Small Fonts", 35),
         }
         }
         
