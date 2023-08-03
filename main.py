@@ -222,7 +222,16 @@ class GUI:
 
         # Collect an set of voltage read outs per current set point.
         for i in amps:
-            measurements.append(np.array(self.voltage_curvefit(i)))
+            result = self.voltage_curvefit(i)
+            if result:
+                measurements.append(np.array(result))
+            else:
+                self._clear_all()
+                self._graphics()
+                # Enable callbacks again.
+                self.rpi.toggle_io(Fact)
+                self.root.update()
+
 
         # Fit linear parameters to the data.
         dv, offset = np.polyfit(vlts, np.array(100*vlts - measurements[0]), 1)
