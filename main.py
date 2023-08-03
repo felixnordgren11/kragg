@@ -81,7 +81,9 @@ class GUI:
 
         # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
-
+        one = ImageTk.PhotoImage(file = "dickmas.jpg")
+        self.canvas.create_image(1, 1, anchor = 'nw', image = one)
+        self.canvas.update()
         # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
         self.canvas.config(cursor = 'none')
@@ -97,9 +99,7 @@ class GUI:
         for gge in self.gges.values():
             gge.draw()
         # To highlight all objects drawn on the canvas.
-        one = ImageTk.PhotoImage(file = "dickmas.jpg")
-        self.canvas.create_image(1, 1, anchor = 'nw', image = one)
-        self.canvas.update()
+
         
         self.root.update()
         self.canvas.grab_set()
