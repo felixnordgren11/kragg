@@ -86,7 +86,7 @@ class GUI:
         resized_image= img.resize((320,480), Image.ANTIALIAS)
         self.root.one = one = ImageTk.PhotoImage(resized_image)
 
-        self.canvas.create_image(1, 1, anchor = 'nw', image = resize(one))
+        self.canvas.create_image(1, 1, anchor = 'nw', image = one)
         self.canvas.update()
         # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
