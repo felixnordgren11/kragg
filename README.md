@@ -26,7 +26,11 @@ The needed software:
 * Python 3.10 and the dependencies listed in 'requirements.txt'
 * A copy of Raspbian available from the [Raspberry Pi imager](https://www.raspberrypi.com/software/)
 
-* ('python3 -m pip install --upgrade' Pillow to install latest Pillow version if requirements does not do this.)
+* If the setup file does not install Pillow, write the following line in the terminal to install it manually:
+```
+python3 -m pip install --upgrade
+```
+
 
 ## Setup
 
@@ -50,7 +54,7 @@ chmod +x lcd.sh
 ```
 Respond with a 'y' and then press enter when prompted, this will run the last file and reboot the system.
 #
-When the system has booted up again, open the terminal type in:
+When the system has booted up again, open the terminal and type (in order):
 ```shell
 cd kragg
 
@@ -62,8 +66,38 @@ to enter the kragg folder, make the setup.sh file executable and then run it. Wh
 
 
 
-## Build
+## Build and GPIO connections
 
-![alt text](https://github.com/felixnordgren11/kragg/dickmas.jpg?raw=true)
+
+### GPIO connections (pin numbers found here: https://pinout.xyz/#):
+* 1-26 is occupied by the touch screen.
+
+#### Connections for buttons and rotary encoder
+
+* Pin 27 (GPIO 0):  Rotary left
+* Pin 28 (GPIO 1):  Rotary right
+* Pin 29 (GPIO 5):  Button Left
+* Pin 30 (Ground):  Empty
+* Pin 31 (GPIO 6):  Button Right
+* Pin 32 (GPIO 12): Voltage Button
+* Pin 33 (GPIO 13): Current Button
+* Pin 34 (Ground):  Empty
+
+#### Connections for CAN bus
+
+* Pin 35 (GPIO 19): MISO
+* Pin 36 (GPIO 16): CS
+* Pin 37 (GPIO 26): INT
+* Pin 38 (GPIO 20): MOSI
+* Pin 39 (Ground):  GND
+* Pin 40 (GPIO 21): SCK
+
+![Figure 1: Reference for the computer orientation to pin numbers.](Rspb_Pi_3A+.jpg)
+
+![Figure 2: Screen connected to Raspberry Pi.](connected_screen.jpg)
+
+The VCC pin on the CAN bus has to be connected to a 5 V power source pin, but the screen occupies both of the Raspberry Pi's 5 V pins. Instead, a cable needs to be cut, branched and soldered/crimped so that the CAN bus can get power from the same source as the computer.
+
+
 
 
