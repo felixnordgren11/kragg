@@ -13,7 +13,7 @@ This was a project to convert a AC-DC converter to a lab bench power supply unit
 ## Hardware and Technologies
 The hardware needed for this project is:
 
-* A Raspberry Pi 4/3 or Zero
+* A Raspberry Pi 4/3 (or Zero if it could work)
 * A 16 GB SD card
 * A SPI-CAN extension, like this [one](https://www.electrokit.com/produkt/can-bus-modul-mcp2515-tja1050-spi/).
 * [This LCD](https://www.electrokit.com/produkt/3-5-tft-display-for-raspberry-pi-med-touch/).
@@ -25,6 +25,8 @@ The hardware needed for this project is:
 The needed software:
 * Python 3.10 and the dependencies listed in 'requirements.txt'
 * A copy of Raspbian available from the [Raspberry Pi imager](https://www.raspberrypi.com/software/)
+
+* ('python3 -m pip install --upgrade' Pillow to install latest Pillow version if requirements does not do this.)
 
 ## Setup
 
@@ -57,3 +59,11 @@ chmod +x setup.sh
 ./setup.sh
 ```
 to enter the kragg folder, make the setup.sh file executable and then run it. When told, enter 1 and press 'Enter' to run the last file and reboot the system.
+
+
+
+## Build
+
+![alt text](https://github.com/felixnordgren11/kragg/dickmas.jpg?raw=true)
+
+
