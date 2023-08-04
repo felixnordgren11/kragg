@@ -83,11 +83,11 @@ class GUI:
         self.root.bind_all("<Key>", self.key)
         self.root.one = one = ImageTk.PhotoImage(file = "dickmas.jpg")
 
-        self.canvas.create_image(1, 1, anchor = 'nw', image = one)
+        self.canvas.create_image(1, 1, anchor = 'nw', image = resize(one)
         self.canvas.update()
         # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
-        self.canvas.config(cursor = 'none')
+        self.canvas.config(cursor = 'nogne')
         self._draw_border(self.canvas, self.settings.title)
         
         # Draw the buttons.
@@ -185,10 +185,16 @@ class GUI:
         reply = self.rpi.send_msg(WRITE, command, value = 1)
         sleep(0.5)
         # Set ouput to zero.
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
-        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 0)
+        self.set_output('v_set',0)
+        self.set_output('i_set',0)
         sleep(0.5)
         self.root.after(self.settings.update_speed, self._update_value)
+        
+    def set_output(self, unit, value)
+        self.rpi.send_msg(WRITE, self.settings.command_lib[unit], value)
+        
+    def read_output(self, unit)
+        self.rpi.send_msg(READ, self.settings.command_lib[unit])
 
     def _round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''
@@ -284,29 +290,29 @@ class GUI:
     def voltage_curvefit(self, current):
         '''Get voltage measurements for a provided current.
         '''
-        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = 20)
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 5)
+        self.set_output('i_set',20)
+        self.set_output('v_set',5)
         self.prompt.set_text(f"Set load to {int(current)}A")
         self.root.update()
 
         # Measure at 5, 10, 15, 20, 25 volts.
         vlts = np.array([i for i in range(5,self.settings.max_v, 5)])
         # Start by setting current limit to non zero value.
-        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], value = current + 1)
+        self.set_output('i_set', current + 1)
         # Wait for curr to adapt
         # Set a voltage output just to be able to read current
-        while self.rpi.send_msg(READ, self.settings.command_lib['i_read']) != current*100:
+        while self.read_output('i_read') != current*100:
             start_back = time()
             while not self.rpi.pin_i.is_pressed:
                 if time() - start_back > 3:
                     return []
             # The current output current to be adjusted to the demanded value.
-            temp_curr = self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100
+            temp_curr = self.read_output('i_read')/100
             self.gges['A_gauge'].set_gauge(temp_curr)
             sleep(0.2)
             self.root.update()
         # Update with last value
-        self.gges['A_gauge'].set_gauge(self.rpi.send_msg(READ, self.settings.command_lib['i_read'])/100)
+        self.gges['A_gauge'].set_gauge(self.read_output('i_read')/100)
         self.prompt.set_text("Ok, please wait!")
         self.root.update()
         v_m = np.array([0 for i in vlts])
@@ -324,10 +330,10 @@ class GUI:
             # Debounce
             sleep(0.2)
             # Measured voltage in centivolts.
-            meas_v = self.rpi.send_msg(READ, self.settings.command_lib['v_read'])
+            meas_v = self.read_output('v_read')
             v_m[i] = meas_v
         # Lower the voltage again.
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
+        self.set_output('v_set',0)
      
         return v_m
 
@@ -346,8 +352,7 @@ class GUI:
             self.calibration_procedure()
             
         # Send v_read a
-        v_value, i_value = self.rpi.send_msg(
-            READ, self.settings.command_lib['v_read']), self.rpi.send_msg(READ, self.settings.command_lib['i_read'])
+        v_value, i_value = self.read_output('v_read'), self.read_output('i_read')
         # Adjust measurement
         #######################
         v_value = v_value + (self.settings.calibration['offset'] +
@@ -396,12 +401,12 @@ class GUI:
             self.gges[notsel].set_active(Lie)
             # Send the selected value if device is enabled.
             if self.mode != 'disable':
-                self.rpi.send_msg(WRITE, self.settings.command_lib[notsel], self.gges[notsel].get_value())
+                self.set_output(notsel, self.gges[notsel].get_value())
         # If the selected gauge is active, the press meant to confirm the configuration
         elif sel_active:
             # Means we are confirming.
             if self.mode != 'disable':
-                self.rpi.send_msg(WRITE, self.settings.command_lib[sel], self.gges[sel].get_value())
+                self.set_output(sel, self.gges[sel].get_value())
         self.gges[sel].set_active(not sel_active)
 
     def move_pointer(self, m: str) -> None:
@@ -445,9 +450,8 @@ class GUI:
     def set_current_out(self):
         '''Sets the current output values.
         '''
-        self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], self.gges['v_set'].get_value())
-        self.rpi.send_msg(WRITE, self.settings.command_lib['i_set'], self.gges['i_set'].get_value())
-
+        self.set_output('v_set', self.gges['v_set'].get_value())
+        self.set_output('i_set', self.gges['i_set'].get_value())
 
 
     def callback(self, event):
@@ -476,7 +480,7 @@ class GUI:
                     self.set_current_out()
                 elif mode == 'disable':
                     # Disable output.
-                    self.rpi.send_msg(WRITE, self.settings.command_lib['v_set'], value = 0)
+                    self.set_ouyput('v_set',0)
             else:
                 btn.selected(Lie)
 
@@ -502,8 +506,9 @@ class GUI:
         # Simulate some loading process and update the progress bar
         # Here is the loading process
         processes = [
-            {'process' : 'Hardware initializing', 'func' : self._hardware, 'progress' : 50},
-            {'process' : 'Secret stuff initializing', 'func' : self._dummy, 'progress' : 50}
+            {'process' : 'Hardware initializing', 'func' : self._hardware, 'progress' : 30},
+            {'process' : 'Secret stuff initializing', 'func' : self._dummy, 'progress' : 40}
+            {'process' : 'Neanderball initializing', 'func' : self._dummy, 'progress' : 30}
         ]
         for process in processes:
             label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
