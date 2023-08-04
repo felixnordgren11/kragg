@@ -18,7 +18,7 @@ from gauge import Gauge, LEFT, RIGHT
 from rpi import RPI, WRITE, READ
 from time import sleep, time
 from settings import *
-from PIL import ImageTk
+from PIL import Image, ImageTk
 
 Fact = True
 Lie  = False
@@ -81,7 +81,10 @@ class GUI:
 
         # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
-        self.root.one = one = ImageTk.PhotoImage(file = "dickmas.jpg")
+        img= (Image.open("iconphoto.png"))
+        # Resize the Image using resize method
+        resized_image= img.resize((320,480), Image.ANTIALIAS)
+        self.root.one = one = ImageTk.PhotoImage(resized_image)
 
         self.canvas.create_image(1, 1, anchor = 'nw', image = resize(one)
         self.canvas.update()
