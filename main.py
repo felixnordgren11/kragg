@@ -343,6 +343,18 @@ class GUI:
 ##################################################################################
 #                        RUNS CONTINUOUSLY
 
+    def update_hardware(self):
+        '''Updates the hardware to the set values of the active gauge(s):
+        '''
+        # Which is the active gauge?
+        active_gges  = [(g, name) for name, g in self.gges.items() if g.get_active()]
+        if not active_gges:
+            return
+        # Should only be one!
+        active_gauge, cmnd = active_gges[0]
+        # Send it's corresponding value.
+        self.set_output(cmnd, active_gauge.get_value())
+
     def _update_value(self):
         '''Helper function that computes the measured output power.
             '''

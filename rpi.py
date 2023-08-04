@@ -75,7 +75,7 @@ class RPI:
             if self.GUI.mode == 'enable':
                 # Update voltage and send.
                 # First we get the active gauge:
-                self.update_hardware()
+                self.GUI.update_hardware()
                 
 
     def pin_b_rising(self):                   # Pin B event handler
@@ -85,19 +85,9 @@ class RPI:
              self.add_value(-1)
              if self.GUI.mode == 'enable':
                 # Update hardware
-                self.update_hardware()
+                self.GUI.update_hardware()
 
-    def update_hardware(self):
-        '''Updates the hardware to the set values of the active gauge(s):
-        '''
-        # Which is the active gauge?
-        active_gges  = [(g, name) for name, g in self.GUI.gges.items() if g.get_active()]
-        if not active_gges:
-            return
-        # Should only be one!
-        active_gauge, cmnd = active_gges[0]
-        # Send it's corresponding value.
-        self.send_msg(WRITE, self.settings.command_lib[cmnd], active_gauge.get_value())
+    
 
     def add_value(self, value: int):
         # Add value to the active gauge objects in the GUI
