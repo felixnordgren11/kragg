@@ -522,7 +522,7 @@ class GUI:
         # Here is the loading process
         processes = [
             {'process' : 'Hardware initializing', 'func' : self._hardware, 'progress' : 30},
-            {'process' : 'Secret stuff initializing', 'func' : self._dummy, 'progress' : 40}
+            {'process' : 'Secret stuff initializing', 'func' : self._dummy, 'progress' : 40},
             {'process' : 'Neanderball initializing', 'func' : self._dummy, 'progress' : 30}
         ]
         for process in processes:
