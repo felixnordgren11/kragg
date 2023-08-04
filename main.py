@@ -193,10 +193,10 @@ class GUI:
         sleep(0.5)
         self.root.after(self.settings.update_speed, self._update_value)
         
-    def set_output(self, unit, value)
+    def set_output(self, unit, value):
         self.rpi.send_msg(WRITE, self.settings.command_lib[unit], value)
         
-    def read_output(self, unit)
+    def read_output(self, unit):
         self.rpi.send_msg(READ, self.settings.command_lib[unit])
 
     def _round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
