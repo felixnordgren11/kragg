@@ -90,7 +90,7 @@ class GUI:
         self.canvas.update()
         # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
-        self.canvas.config(cursor = 'nogne')
+        self.canvas.config(cursor = 'none')
         self._draw_border(self.canvas, self.settings.title)
         
         # Draw the buttons.
