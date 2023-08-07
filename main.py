@@ -375,8 +375,8 @@ class GUI:
                              self.settings.calibration['v']*(v_value)
         #######################
 
-        self.gges['v_out'].set_gauge(v_value/100)
-        self.gges['i_out'].set_gauge(i_value/100)
+        self.gges['v_out'].set_gauge(v_value)
+        self.gges['i_out'].set_gauge(i_value)
 
         # Update power gauge
         v = self.gges['v_out'].get_value()
