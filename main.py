@@ -416,8 +416,7 @@ class GUI:
         and thereby changing output reference values for the
         PSU.
         '''
-        print(not self.rpi.pin_v.is_pressed)
-        print((not self.rpi.pin_i.is_pressed))
+
         if ((not self.rpi.pin_v.is_pressed) and (not self.rpi.pin_i.is_pressed)):
             # Calibration
             print("Cal!")
