@@ -363,7 +363,7 @@ class GUI:
             self.root.after(self.settings.update_speed*2, self._update_value)
             return
         
-        if ( self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
+        if (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
             
         # Send v_read a
@@ -403,7 +403,7 @@ class GUI:
         PSU.
         '''
         
-        if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
+        if (self.rpi.pin_v.is_pressed and self.rpi.pin_i.is_pressed):
             # Calibration
             print("Cal!")
             return
