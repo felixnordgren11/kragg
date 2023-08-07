@@ -22,6 +22,12 @@ from PIL import Image, ImageTk
 
 Fact = True
 Lie  = False
+HOUR = 3600
+DAY = 24 * HOUR
+# Stockholm
+TIMEZONE = 2
+LUNCH_START = 12
+LUNCH_END = 13
 
 '''
 To do:
@@ -60,10 +66,6 @@ class GUI:
         # Our Tk objects
         self.canvas = tk.Canvas(self.root, **self.settings.canvassettings)
         self.canvas.pack()
-        
-        
-        
-        
 
         # Define our buttons.
         self.btns = {}
@@ -85,8 +87,8 @@ class GUI:
         # Resize the Image using resize method
         resized_image= img.resize((320,480), Image.ANTIALIAS)
         self.root.one = one = ImageTk.PhotoImage(resized_image)
+        self.andreas_hour = Lie
 
-        self.canvas.create_image(1, 1, anchor = 'nw', image = one)
         self.canvas.update()
         # Bind mouse events
         self.root.bind_all("<Button-1>", self.callback)
@@ -339,10 +341,7 @@ class GUI:
         self.set_output('v_set',0)
      
         return v_m
-
-##################################################################################
-#                        RUNS CONTINUOUSLY
-
+    
     def update_hardware(self):
         '''Updates the hardware to the set values of the active gauge(s):
         '''
@@ -354,6 +353,11 @@ class GUI:
         active_gauge, cmnd = active_gges[0]
         # Send it's corresponding value.
         self.set_output(cmnd, active_gauge.get_value())
+
+##################################################################################
+#                        RUNS CONTINUOUSLY
+
+
 
     def _update_value(self):
         '''Helper function that computes the measured output power.
@@ -390,6 +394,15 @@ class GUI:
         for gauge in self.gges.values():
             gauge.refresh()
 
+        # Background
+        print(self.canvas.winfo_children())
+        hr = TIMEZONE + (time() % DAY) / HOUR 
+        if hr > LUNCH_START and hr < LUNCH_END and not self.andreas_hour:
+            self.andreas_hour = Fact
+            self.pic = self.canvas.create_image(1, 1, anchor = 'nw', image = self.root.one, tags = 'andreas')
+        elif self.andreas_hour:
+            self.andreas_hour = Lie
+            self.canvas.delete('andreas')
 
         # Set to update again in 200ms 
         self.root.after(self.settings.update_speed, self._update_value)
