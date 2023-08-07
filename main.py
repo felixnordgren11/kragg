@@ -87,6 +87,8 @@ class GUI:
         # Resize the Image using resize method
         resized_image= img.resize((320,480), Image.ANTIALIAS)
         self.root.one = one = ImageTk.PhotoImage(resized_image)
+        self.andreas = self.canvas.create_image(1, 1, anchor = 'nw', image = self.root.one, tags = 'andreas')
+        self.canvas.itemconfig(self.andreas, state = 'hidden')
         self.andreas_hour = Lie
 
         self.canvas.update()
@@ -399,10 +401,10 @@ class GUI:
         hr = TIMEZONE + (time() % DAY) / HOUR 
         if hr > LUNCH_START and hr < LUNCH_END and not self.andreas_hour:
             self.andreas_hour = Fact
-            self.pic = self.canvas.create_image(1, 1, anchor = 'nw', image = self.root.one, tags = 'andreas')
+            self.canvas.itemconfig(self.andreas, state = 'normal')
         elif self.andreas_hour:
             self.andreas_hour = Lie
-            self.canvas.delete('andreas')
+            self.canvas.itemconfig(self.andreas, state = 'hidden')
 
         # Set to update again in 200ms 
         self.root.after(self.settings.update_speed, self._update_value)
