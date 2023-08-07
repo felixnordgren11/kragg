@@ -367,7 +367,7 @@ class GUI:
             self.calibration_procedure()
             
         # Send v_read a
-        v_value, i_value = float(self.read_output('v_read')), float(self.read_output('i_read'))
+        v_value, i_value = self.read_output('v_read'), self.read_output('i_read')
         # Adjust measurement
         #######################
         v_value = v_value + (self.settings.calibration['offset'] +
