@@ -98,6 +98,13 @@ to enter the kragg folder, make the setup.sh file executable and then run it. Wh
 
 The VCC pin on the CAN bus has to be connected to a 5 V power source pin, but the screen occupies both of the Raspberry Pi's 5 V pins. Instead, a cable needs to be cut, branched and soldered/crimped so that the CAN bus can get power from the same source as the computer.
 
-
+(Button-pin layout, 2nd build, from top to bottom:
+1. Rotary right
+2. Rotary left
+3. Button Current
+4. Button Right
+5. Button Voltage
+6. Button Left
+)
 
 
