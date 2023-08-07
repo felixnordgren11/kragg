@@ -495,7 +495,7 @@ class GUI:
                     self.set_current_out()
                 elif mode == 'disable':
                     # Disable output.
-                    self.set_ouyput('v_set',0)
+                    self.set_output('v_set',0)
             else:
                 btn.selected(Lie)
 
