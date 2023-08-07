@@ -197,7 +197,7 @@ class GUI:
         self.rpi.send_msg(WRITE, self.settings.command_lib[unit], value)
         
     def read_output(self, unit):
-        self.rpi.send_msg(READ, self.settings.command_lib[unit])
+        return self.rpi.send_msg(READ, self.settings.command_lib[unit])
 
     def _round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
         '''
@@ -371,12 +371,12 @@ class GUI:
         # Adjust measurement
         #######################
         v_value = v_value + (self.settings.calibration['offset'] +
-                             self.settings.calibration['i']*(i_value) +
-                             self.settings.calibration['v']*(v_value)
+                             self.settings.calibration['i']*(i_value/100) +
+                             self.settings.calibration['v']*(v_value/100))
         #######################
 
-        self.gges['v_out'].set_gauge(v_value)
-        self.gges['i_out'].set_gauge(i_value)
+        self.gges['v_out'].set_gauge(v_value/100)
+        self.gges['i_out'].set_gauge(i_value/100)
 
         # Update power gauge
         v = self.gges['v_out'].get_value()
