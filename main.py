@@ -397,7 +397,6 @@ class GUI:
             gauge.refresh()
 
         # Background
-        print(self.canvas.find_all())
         hr = TIMEZONE + (time() % DAY) / HOUR 
         if hr > LUNCH_START and hr < LUNCH_END and not self.andreas_hour:
             self.andreas_hour = Fact
