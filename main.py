@@ -401,7 +401,7 @@ class GUI:
         if hr > LUNCH_START and hr < LUNCH_END and not self.andreas_hour:
             self.andreas_hour = Fact
             self.canvas.itemconfig(self.andreas, state = 'normal')
-        elif self.andreas_hour:
+        elif self.andreas_hour and (hr < LUNCH_START or hr > LUNCH_END):
             self.andreas_hour = Lie
             self.canvas.itemconfig(self.andreas, state = 'hidden')
 
