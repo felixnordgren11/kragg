@@ -83,9 +83,9 @@ class GUI:
 
         # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
-        img= (Image.open("andreas.jpg"))
+        img= (Image.open("pictures/andreas.jpg"))
         # Resize the Image using resize method
-        resized_image= img.resize((320,480), Image.ANTIALIAS)
+        resized_image= img.resize((320,480), Image.LANCZOS)
         self.root.one = one = ImageTk.PhotoImage(resized_image)
         self.andreas = self.canvas.create_image(1, 1, anchor = 'nw', image = self.root.one, tags = 'andreas')
         self.canvas.itemconfig(self.andreas, state = 'hidden')
@@ -198,9 +198,16 @@ class GUI:
         self.root.after(self.settings.update_speed, self._update_value)
         
     def set_output(self, unit, value):
+        '''
+        Sets the output of the power unit in the given unit
+        to the given value.
+        '''
         self.rpi.send_msg(WRITE, self.settings.command_lib[unit], value)
         
     def read_output(self, unit):
+        '''
+        Reads the output value of of the gauge with the given unit.
+        '''
         return self.rpi.send_msg(READ, self.settings.command_lib[unit])
 
     def _round_rectangle(self, master, x1, y1, x2, y2, r=25, **kwargs):  
@@ -212,7 +219,6 @@ class GUI:
                 x1+r, y2, x1+r, y2, x1, y2, x1, y2-r, x1, y2-r, x1, y1+r, 
                 x1, y1+r, x1, y1)
         return master.create_polygon(points, **kwargs, smooth=True)
-
 
     def calibration_procedure(self):
         '''Procedure used to set the calibration constants.
@@ -232,8 +238,10 @@ class GUI:
                 self._graphics_calibration()
 
         if not start_cal:
+            # If buttons not pressed long enough.
             return
         
+        # Set a start message.
         self.prompt.set_text("Calibration started!")
         self.root.update()
         # Delay to allow reader to read message.
@@ -292,7 +300,6 @@ class GUI:
         # Enable callbacks again.
         self.rpi.toggle_io(Fact)
         self.root.update()
-        
 
     def voltage_curvefit(self, current):
         '''Get voltage measurements for a provided current.
@@ -358,9 +365,6 @@ class GUI:
 
 ##################################################################################
 #                        RUNS CONTINUOUSLY
-
-
-
     def _update_value(self):
         '''Helper function that computes the measured output power.
             '''
@@ -406,10 +410,8 @@ class GUI:
             self.canvas.itemconfig(self.andreas, state = 'hidden')
 
         # Set to update again in 200ms 
-        self.root.after(self.settings.update_speed, self._update_value)
-            
+        self.root.after(self.settings.update_speed, self._update_value)  
 ##################################################################################
-
 
     def select_gauge(self, m: str):
         '''Selects a gauge so that it can be configured
@@ -461,7 +463,6 @@ class GUI:
             self.select_gauge(event.char)
             return
         
-        
         #Bind left and right key buttons to move the active digit in the active gauge
         if event.keysym in ['Left','Right']:
             self.gges['v_set'].move_select(self.settings.moves[event.keysym])
@@ -474,14 +475,12 @@ class GUI:
                 self.gges['v_set'].digit_change(value)
             elif self.gges['i_set'].get_active():
                 self.gges['i_set'].digit_change(value)
-        
     
     def set_current_out(self):
         '''Sets the current output values.
         '''
         self.set_output('v_set', self.gges['v_set'].get_value())
         self.set_output('i_set', self.gges['i_set'].get_value())
-
 
     def callback(self, event):
         '''Handles all left-mouse-click events.
@@ -513,10 +512,8 @@ class GUI:
             else:
                 btn.selected(Lie)
 
-    # Add a line that runs the power function every 200 ms:
-
     def _init(self, root):
-        '''Initializes the hardware one the Raspberry Pi
+        '''Initializes the hardware on the Raspberry Pi
         '''
         loading_window = tk.Toplevel()
         loading_window.title("Loading...")
@@ -549,7 +546,7 @@ class GUI:
             except Exception as error:
                 print(f'Process "{process["process"]}" failed with the following exception: {error}')
                 self._handle_error(error)
-            #
+            # Add progress.
             progressbar['value'] += process['progress'] 
             label.config(text=f"{process['process']}... {int(progressbar['value'])}%")
             loading_window.update_idletasks()  # Update the loading window
@@ -558,7 +555,8 @@ class GUI:
         root.deiconify()
    
     def _handle_error(self, msg: Exception):
-        '''Handles potential errors during start up.
+        '''
+        Handles potential errors during start up.
         '''
         error_codes = {
             FAILED_INIT,
@@ -592,9 +590,15 @@ class GUI:
             pass
         
     def _dummy(self):
+        '''
+        Used to add fake processes to make initializaiton more fun.
+        '''
         pass
 
     def run(self):
+        '''
+        Method used to launch the GUI.
+        '''
         self._graphics()
         self.root.after(200, lambda: self._init(self.root))
         self.root.mainloop()
