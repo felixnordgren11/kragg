@@ -1,4 +1,5 @@
 import pygame
+import os
 
 
 class Sound:
@@ -9,3 +10,21 @@ class Sound:
 
         # Init the mixer.
         pygame.mixer.init()
+        
+        
+        sound = pygame.mixer.Sound('dickmas.ass')
+        
+        
+    def get_files(self) -> list[str]:
+        current_dir  = os.getcwd()
+        return os.listdir(path = current_dir)
+        
+        
+    def sound_files(self):
+        files = self.get_files()
+        lst = [file for file in files if file.split('.')[1] == 'wav']
+        dick = {i: pygame.mixer.Sound(i) for i in lst}
+        return dick
+            
+
+            
