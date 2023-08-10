@@ -10,25 +10,26 @@ class Sound:
 
         # Init the mixer.
         pygame.mixer.init()
-        self.sounds = self.sound_files()
+        self.sounds = self.get_filedict()
         self.volume = 0.5
-        
-        
-    def get_files(self) -> list[str]:
-        current_dir  = os.getcwd()
-        return os.listdir(path = current_dir)
-        
-        
-    def sound_files(self):
-        files = self.get_files()
-        lst = [file for file in files if file.split('.')[1] == 'wav']
-        dick = {i: pygame.mixer.Sound(i) for i in lst}
-        return dick
+    
+    def get_filedict(self):
+        '''
+        Finds an puts all .wav files in a dictionary
+        '''
+        current_dir  = os.getcwd() #Check current directory
+        files = os.listdir(path = current_dir) #Put all files in a list
+        lst = [file for file in files if file.split('.')[1] == 'wav'] #Save all .wav files in a new list
+        dict = {i: pygame.mixer.Sound(i) for i in lst} #Make directory with all .wav files
+        return dict
     
     def play_sound(self, audio_file : str):
         pygame.mixer.music.load(audio_file)
         pygame.mixer.music.set_volume(self.volume)
         pygame.mixer.music.play(audio_file)
+        playing = self.sounds[audio_file].play()
+        while playing.get_busy():
+            pygame.time_delay(100)
         
     def set_volume(self, volume):
         self.volume = volume
