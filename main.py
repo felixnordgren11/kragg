@@ -47,8 +47,14 @@ class GUI:
         self.loaded = Lie
         self.settings = Settings()
         
+        ################# FLAGS ###################
+
         # Start in disabled mode.
         self.mode = 'disable'
+        # Not andreas hour all hours.
+        self.andreas_hour = Lie
+        # Sound on/off
+        self.sound = Lie
 
         # Bind keyboard events
         self.root.bind_all("<Key>", self.key)
@@ -89,7 +95,7 @@ class GUI:
         self.root.one = one = ImageTk.PhotoImage(resized_image)
         self.andreas = self.canvas.create_image(1, 1, anchor = 'nw', image = self.root.one, tags = 'andreas')
         self.canvas.itemconfig(self.andreas, state = 'hidden')
-        self.andreas_hour = Lie
+        
 
         self.canvas.update()
         # Bind mouse events
@@ -363,6 +369,20 @@ class GUI:
         # Send it's corresponding value.
         self.set_output(cmnd, active_gauge.get_value())
 
+    def toggle_sound(self):
+        '''
+        Used to activate or deactivate sound mode
+        '''
+        start = time()
+        while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
+            if (time() - start) > 3:
+                self.sound = Fact
+        # Wait for release.
+        while(not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed): pass
+        
+
+
+
 ##################################################################################
 #                        RUNS CONTINUOUSLY
     def _update_value(self):
@@ -375,6 +395,10 @@ class GUI:
         
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
+
+        # Sound mode check.
+        if (not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed):
+            self.toggle_sound()
             
         # Send v_read a
         v_value, i_value = self.read_output('v_read'), self.read_output('i_read')
