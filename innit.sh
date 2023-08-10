@@ -1,5 +1,5 @@
 #! /bin/bash
+cd ~/kragg
 sudo ip link set can0 up type can bitrate 500000
-git pull
-chmod -x ~/kragg/innit.sh
-python ~/kragg/main.py
+chmod +x innit.sh
+python main.py

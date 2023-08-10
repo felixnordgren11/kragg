@@ -18,6 +18,9 @@ sudo systemctl start chish
 
 pip install -r requirements.txt
 
+# For sound.
+sudo apt-get install libsdl2-mixer-2.0-0
+
 #replace the config file
 
 sudo rm -f /home/pi/boot/config.txt
