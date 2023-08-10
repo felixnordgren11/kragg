@@ -1,6 +1,7 @@
 import gpiozero as io
 from settings import Settings
 import tkinter as tk
+from sound import Sound
 import can
 
 ROTARY_LEFT = 0
@@ -23,6 +24,7 @@ class RPI:
             print("Test mode")
         self.GUI = GUI
         self.settings = Settings()
+        self.sound = Sound()
         # Following two pins are used for the rotary encoder
         self.pin_a = io.Button(ROTARY_LEFT)                      # Rotary encoder pin A connected to GPIO2
         self.pin_b = io.Button(ROTARY_RIGHT)                      # Rotary encoder pin B connected to GPIO3
@@ -50,6 +52,8 @@ class RPI:
             self.pin_e.when_pressed = lambda x: self.GUI.move_pointer('Right')
             self.pin_i.when_pressed = lambda x: self.GUI.select_gauge('i')
     
+    def play_sound(self, file):
+        self.sound.play_sound(file)
 
     def toggle_io(self, toggle: bool):
         if toggle:

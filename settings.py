@@ -39,7 +39,7 @@ class Settings:
             'width' : self.width}
          
         # To calibrate the output voltage.
-        self.cal_file = 'cal.txt'
+        self.cal_file = 'cal.sheesh'
         self.calibration = self.read_calibration(self.cal_file)
          
         # Screen update speed

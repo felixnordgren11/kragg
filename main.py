@@ -64,6 +64,8 @@ class GUI:
         
         # Instantiate RPI class which initializes all pins etc.
         self.rpi = RPI(self)
+
+        self.rpi.play_sound("startup.wav")
             
     def _graphics(self):
         '''Draws the GUI's visual components.
