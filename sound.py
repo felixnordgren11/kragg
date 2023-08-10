@@ -24,12 +24,9 @@ class Sound:
         return dict
     
     def play_sound(self, audio_file : str):
-        pygame.mixer.music.load(audio_file)
-        pygame.mixer.music.set_volume(self.volume)
-        pygame.mixer.music.play(audio_file)
         playing = self.sounds[audio_file].play()
         while playing.get_busy():
-            pygame.time_delay(100)
+            pygame.time.delay(100)
         
     def set_volume(self, volume):
         self.volume = volume
