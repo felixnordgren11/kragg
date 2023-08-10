@@ -9,3 +9,6 @@ class Sound:
 
         # Init the mixer.
         pygame.mixer.init()
+
+        
+        sound = pygame.mixer.Sound('/home/pi/ding.wav')
