@@ -10,9 +10,7 @@ class Sound:
 
         # Init the mixer.
         pygame.mixer.init()
-        
-        
-        sound = pygame.mixer.Sound('dickmas.ass')
+        self.sounds = self.sound_files()
         
         
     def get_files(self) -> list[str]:
