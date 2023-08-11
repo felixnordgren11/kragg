@@ -382,8 +382,10 @@ class GUI:
             if (time() - start) > 3:
                 self.sound = not self.sound
                 break
+
         # Wait for release.
-        while(not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed): pass
+        
+        while(not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed): print("fast1")
         
 
 
