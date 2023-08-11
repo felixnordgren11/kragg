@@ -378,6 +378,7 @@ class GUI:
         Used to activate or deactivate sound mode
         '''
         start = time()
+        self.rpi.toggle_io(Lie)
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             if (time() - start) > 3:
                 self.sound = not self.sound
@@ -388,6 +389,7 @@ class GUI:
 
         while(not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed): print("fast1")
         
+        self.rpi.toggle_io(Fact)
 
 
 
