@@ -386,7 +386,7 @@ class GUI:
                 break
         # Wait for release.
 
-        while(not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed): print("fast1")
+        while(not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed): pass
         
         self.rpi.toggle_io(Fact)
         self.root.after(self.settings.update_speed, self._update_value)  
