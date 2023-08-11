@@ -473,6 +473,7 @@ class GUI:
         '''
                 # Sound mode check.
         if (not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed):
+            print("Bögporr")
             self.toggle_sound()
             return
 
