@@ -456,7 +456,7 @@ class GUI:
         PSU.
         '''
         if self.sound:
-            self.rpi.play_sound("tick.wav")
+            self.rpi.play_sound("cs.wav")
 
         if ((not self.rpi.pin_v.is_pressed) and (not self.rpi.pin_i.is_pressed)):
             # Calibration
@@ -485,7 +485,7 @@ class GUI:
         the values set in the settings file.
         '''
         if self.sound:
-            self.rpi.play_sound('tick.wav')
+            self.rpi.play_sound('cs.wav')
 
         for gauge in self.gges.values():
             gauge.move_select(self.settings.moves[m])
