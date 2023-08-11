@@ -371,9 +371,7 @@ class GUI:
         # Send it's corresponding value.
         
         self.set_output(cmnd, active_gauge.get_value())
-        if self.sound: 
-            print("njöööö")
-            self.rpi.play_sound("tick.wav")
+
 
     def toggle_sound(self):
         '''
@@ -402,10 +400,10 @@ class GUI:
         
                 # Sound mode check.
         if (not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed):
-            print("Bögporr")
             self.toggle_sound()
             return
 
+        print(self.sound)
 
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
