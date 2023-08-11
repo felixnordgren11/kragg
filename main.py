@@ -369,8 +369,8 @@ class GUI:
         # Should only be one!
         active_gauge, cmnd = active_gges[0]
         # Send it's corresponding value.
-        if self.sound:
-            self.rpi.play_sound("tick.wav")
+        #Sound played from callback in RPi class.
+
         self.set_output(cmnd, active_gauge.get_value())
 
 

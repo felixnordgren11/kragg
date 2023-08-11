@@ -77,6 +77,8 @@ class RPI:
     def pin_a_rising(self):                # Pin A event handler
         '''Handler for when pin is set high
         '''
+        if self.GUI.sound:
+            self.play_sound("tick.wav")
         if self.pin_b.is_pressed:
             self.add_value(1)
             if self.GUI.mode == 'enable':
