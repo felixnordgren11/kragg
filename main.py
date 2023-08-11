@@ -397,6 +397,13 @@ class GUI:
             self.root.after(self.settings.update_speed*2, self._update_value)
             return
         
+                # Sound mode check.
+        if (not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed):
+            print("Bögporr")
+            self.toggle_sound()
+            return
+
+
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
             
@@ -471,11 +478,6 @@ class GUI:
         selected gauge. Goes in the direction dictated by
         the values set in the settings file.
         '''
-                # Sound mode check.
-        if (not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed):
-            print("Bögporr")
-            self.toggle_sound()
-            return
 
         if self.sound:
             self.rpi.play_sound('tick.wav')
