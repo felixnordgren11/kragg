@@ -380,7 +380,7 @@ class GUI:
         start = time()
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             if (time() - start) > 3:
-                self.sound = Fact
+                self.sound = not self.sound
         # Wait for release.
         while(not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed): pass
         
@@ -423,6 +423,7 @@ class GUI:
         v = self.gges['v_out'].get_value()
         i = self.gges['i_out'].get_value()
     
+        self.rpi.play_sound("tick.wav")
 
         # Set power gauge.
         self.gges['p'].set_gauge(i*v)
