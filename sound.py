@@ -25,6 +25,7 @@ class Sound:
         files = os.listdir(path = (current_dir + folder)) #Put all files in a list
         if files:
             lst = [file for file in files if file.split('.')[1] == 'wav'] #Save all .wav files in a new list
+            print(files)
             dct = {i: pygame.mixer.Sound(folder + i) for i in lst} #Make directory with all .wav files
         else:
             dct = {}
