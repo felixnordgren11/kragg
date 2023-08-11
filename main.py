@@ -361,8 +361,7 @@ class GUI:
     def update_hardware(self):
         '''Updates the hardware to the set values of the active gauge(s):
         '''
-        if self.sound: 
-            self.rpi.play_sound("tick.wav")
+        
         # Which is the active gauge?
         active_gges  = [(g, name) for name, g in self.gges.items() if g.get_active()]
         if not active_gges:
@@ -372,6 +371,9 @@ class GUI:
         # Send it's corresponding value.
         
         self.set_output(cmnd, active_gauge.get_value())
+        if self.sound: 
+            print("njöööö")
+            self.rpi.play_sound("tick.wav")
 
     def toggle_sound(self):
         '''
@@ -381,6 +383,7 @@ class GUI:
         while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             if (time() - start) > 3:
                 self.sound = not self.sound
+                break
         # Wait for release.
         while(not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed): pass
         
@@ -423,7 +426,6 @@ class GUI:
         v = self.gges['v_out'].get_value()
         i = self.gges['i_out'].get_value()
     
-        self.rpi.play_sound("tick.wav")
 
         # Set power gauge.
         self.gges['p'].set_gauge(i*v)
