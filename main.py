@@ -361,6 +361,8 @@ class GUI:
     def update_hardware(self):
         '''Updates the hardware to the set values of the active gauge(s):
         '''
+        if self.sound: 
+            self.rpi.play_sound("tick.wav")
         # Which is the active gauge?
         active_gges  = [(g, name) for name, g in self.gges.items() if g.get_active()]
         if not active_gges:
@@ -368,6 +370,7 @@ class GUI:
         # Should only be one!
         active_gauge, cmnd = active_gges[0]
         # Send it's corresponding value.
+        
         self.set_output(cmnd, active_gauge.get_value())
 
     def toggle_sound(self):
@@ -443,6 +446,8 @@ class GUI:
         and thereby changing output reference values for the
         PSU.
         '''
+        if self.sound:
+            self.rpi.play_sound("tick.wav")
 
         if ((not self.rpi.pin_v.is_pressed) and (not self.rpi.pin_i.is_pressed)):
             # Calibration
@@ -470,6 +475,9 @@ class GUI:
         selected gauge. Goes in the direction dictated by
         the values set in the settings file.
         '''
+        if self.sound:
+            self.rpi.play_sound('tick.wav')
+
         for gauge in self.gges.values():
             gauge.move_select(self.settings.moves[m])
 
