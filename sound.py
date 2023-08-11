@@ -36,7 +36,7 @@ class Sound:
         self.sounds[audio_file].set_volume(self.volume)
         playing = self.sounds[audio_file].play()
         while playing.get_busy():
-            pygame.time.delay(100)
+            pygame.time.delay(10)
         
     def set_volume(self, volume):
         self.volume = volume

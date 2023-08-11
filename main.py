@@ -369,7 +369,8 @@ class GUI:
         # Should only be one!
         active_gauge, cmnd = active_gges[0]
         # Send it's corresponding value.
-        
+        if self.sound:
+            self.rpi.play_sound("tick.wav")
         self.set_output(cmnd, active_gauge.get_value())
 
 
@@ -379,17 +380,16 @@ class GUI:
         '''
         start = time()
         self.rpi.toggle_io(Lie)
-        while (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
+        while (not self.rpi.pin_d.is_pressed and not self.rpi.pin_e.is_pressed):
             if (time() - start) > 3:
                 self.sound = not self.sound
                 break
-            print("njöö")
-
         # Wait for release.
 
-        while(not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed): print("fast1")
+        while(not self.rpi.pin_e.is_pressed and not self.rpi.pin_d.is_pressed): print("fast1")
         
         self.rpi.toggle_io(Fact)
+        self.root.after(self.settings.update_speed, self._update_value)  
 
 
 
@@ -408,7 +408,7 @@ class GUI:
             self.toggle_sound()
             return
 
-        print(self.sound)
+
 
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
@@ -455,7 +455,8 @@ class GUI:
         and thereby changing output reference values for the
         PSU.
         '''
-        self.rpi.play_sound("tick.wav")
+        if self.sound:
+            self.rpi.play_sound("tick.wav")
 
         if ((not self.rpi.pin_v.is_pressed) and (not self.rpi.pin_i.is_pressed)):
             # Calibration
@@ -483,8 +484,8 @@ class GUI:
         selected gauge. Goes in the direction dictated by
         the values set in the settings file.
         '''
-
-        self.rpi.play_sound('tick.wav')
+        if self.sound:
+            self.rpi.play_sound('tick.wav')
 
         for gauge in self.gges.values():
             gauge.move_select(self.settings.moves[m])
