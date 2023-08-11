@@ -55,6 +55,9 @@ class RPI:
     def play_sound(self, file):
         self.sound.play_sound(file)
 
+    def set_volume(value):
+        self.sound.set_volume(value)
+
     def toggle_io(self, toggle: bool):
         if toggle:
             self.pin_a.when_pressed = self.pin_a_rising

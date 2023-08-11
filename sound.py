@@ -33,6 +33,7 @@ class Sound:
         return dct
     
     def play_sound(self, audio_file : str):
+        self.sounds[audio_file].set_volume(self.volume)
         playing = self.sounds[audio_file].play()
         while playing.get_busy():
             pygame.time.delay(100)

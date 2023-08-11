@@ -65,7 +65,6 @@ class GUI:
         # Instantiate RPI class which initializes all pins etc.
         self.rpi = RPI(self)
 
-        self.rpi.play_sound("startup.wav")
             
     def _graphics(self):
         '''Draws the GUI's visual components.
@@ -578,6 +577,9 @@ class GUI:
             loading_window.update_idletasks()  # Update the loading window
             sleep(1)
         loading_window.destroy()
+        self.rpi.set_volume(1)
+        # Greet the user :)
+        self.rpi.play_sound("startup.wav")
         root.deiconify()
    
     def _handle_error(self, msg: Exception):
