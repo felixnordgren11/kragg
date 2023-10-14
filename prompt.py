@@ -5,7 +5,6 @@ RIGHT = 1
 Fact = True
 Lie = False
 
-
 class Prompt:
     '''
     Class that handles the prompt in calibration mode

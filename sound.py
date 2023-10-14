@@ -41,6 +41,5 @@ class Sound:
     def set_volume(self, volume):
         self.volume = volume
 
-
 if __name__ == '__main__':
     pass

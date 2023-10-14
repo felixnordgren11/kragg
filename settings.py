@@ -99,8 +99,8 @@ class Settings:
                          'width' : 2,
                          'fill' : 'black'}
         }
-        #
         
+
         self.promptsettings = {
             'calibration_prompt': {'x1' : self.width*0.2,
                          'y1' : self.height*0.24,

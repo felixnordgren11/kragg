@@ -409,7 +409,6 @@ class GUI:
             return
 
 
-
         if (not self.rpi.pin_v.is_pressed and not self.rpi.pin_i.is_pressed):
             self.calibration_procedure()
             
