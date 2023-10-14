@@ -1,10 +1,10 @@
-''' Here some code will be written,
-NAWRAHL CABON BRAINWOW
+''' Här är där allt händer!
 
-Tanke: Gör loading_screen till init.
-Hur : Gör en canvas till loading screenen där allt som har med den att göra händer.
-      Efter allt är färdigt, ta bord den canvasen (canvas.destroy()) och skapa den 
-      vanliga som det redan finns kod för.
+Det finns mycket utrymme för förbättringar och 
+vidareutveckling. Hör av er till mig på:
+martincsvardsjo@gmail.com / 0768498222
+ifall ni har frågor!
+
 '''
 import tkinter as tk
 import sys
