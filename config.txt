@@ -6,7 +6,7 @@
 #hdmi_safe=1
 
 # uncomment the following to adjust overscan. Use positive numbers if console
-# goes off screen, and negative if there is too much border
+# Goes off screen, and negative if there is too much border
 #overscan_left=16
 #overscan_right=16
 #overscan_top=16

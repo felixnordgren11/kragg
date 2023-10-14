@@ -14,7 +14,6 @@ class Button:
         self.kwargs = kwargs
         self.labeltext = label
         self.settings = Settings()
-        # Selected variable
         self.icon = None
         self.is_selected = Lie
         
